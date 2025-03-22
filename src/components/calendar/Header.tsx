@@ -1,23 +1,21 @@
-import { Button } from "@mui/material";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { useContext } from "react";
 import { CalendarContext } from "./state/CalendarContext.tsx";
 
 export const Header = () => {
   const ctx = useContext(CalendarContext);
+  const { setViewMode } = ctx;
+
   return (
     <>
-      <Button
-        variant={ctx.viewMode === "compact" ? "outlined" : "contained"}
-        onClick={() => ctx.setViewMode("compact")}
+      <ToggleButtonGroup
+        value={ctx.viewMode}
+        exclusive
+        onChange={(e, nextViewMode) => setViewMode(nextViewMode)}
       >
-        Compact
-      </Button>
-      <Button
-        variant={ctx.viewMode === "expanded" ? "outlined" : "contained"}
-        onClick={() => ctx.setViewMode("expanded")}
-      >
-        Expanded
-      </Button>
+        <ToggleButton value="compact">Compact</ToggleButton>
+        <ToggleButton value="expanded">Expanded</ToggleButton>
+      </ToggleButtonGroup>
     </>
   );
 };
