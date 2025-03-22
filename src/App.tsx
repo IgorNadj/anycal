@@ -5,10 +5,26 @@ import { Thing } from "./types/types.ts";
 import { Calendar } from "./components/calendar/Calendar.tsx";
 
 const FAKE_DATA = [
-  {"name":"Something","date": new Date("2025-05-29T08:37:07.448Z")},
-  {"name":"Something Else","date":new Date("2025-09-18T08:37:07.448Z")},
-  {"name":"Something Something Else","date":new Date("2027-09-02T08:37:07.448Z")},
-  {"name":"Something Something Else 2","date":new Date("2028-10-08T07:37:07.448Z")}
+  {
+    uuid: "1123",
+    name: "Something",
+    date: new Date("2025-05-29T08:37:07.448Z"),
+  },
+  {
+    uuid: "1124",
+    name: "Something Else",
+    date: new Date("2025-09-18T08:37:07.448Z"),
+  },
+  {
+    uuid: "1125",
+    name: "Something Something Else",
+    date: new Date("2027-09-02T08:37:07.448Z"),
+  },
+  {
+    uuid: "1126",
+    name: "Something Something Else 2",
+    date: new Date("2028-10-08T07:37:07.448Z"),
+  },
 ];
 
 export const App = () => {
