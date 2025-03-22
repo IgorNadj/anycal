@@ -1,6 +1,6 @@
 import { createContext } from "react";
-import { ViewMode } from "../../../types/types.ts";
-import { DEFAULT_VIEW_MODE } from "../../../constants.ts";
+import { ViewMode } from "../types/types.ts";
+import { DEFAULT_VIEW_MODE } from "../constants.ts";
 
 type Ctx = {
   viewMode: ViewMode;

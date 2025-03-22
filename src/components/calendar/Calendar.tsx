@@ -2,7 +2,7 @@ import { Thing } from "../../types/types.ts";
 import { thingsInYear } from "../../utils.ts";
 import { Year } from "./Year.tsx";
 import { Header } from "./Header.tsx";
-import { CalendarProvider } from "./state/CalendarProvider.tsx";
+import { CalendarProvider } from "../../state/CalendarProvider.tsx";
 
 export const Calendar = ({ things }: { things: Thing[] }) => {
   const earliestYear = new Date().getFullYear();

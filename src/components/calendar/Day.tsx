@@ -2,7 +2,7 @@ import { Thing } from "../../types/types.ts";
 import { ThingInCal } from "./ThingInCal.tsx";
 import { Typography } from "@mui/material";
 import styled from "styled-components";
-import { CalendarContext } from "./state/CalendarContext.tsx";
+import { CalendarContext } from "../../state/CalendarContext.tsx";
 import { useContext } from "react";
 
 const DayContainer = styled.div`
