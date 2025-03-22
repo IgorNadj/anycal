@@ -1,8 +1,16 @@
-import { Box, Container, Grid2 as Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Grid2 as Grid,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 import { AddForm } from "./components/AddForm.tsx";
 import { Thing } from "./types/types.ts";
 import { Calendar } from "./components/calendar/Calendar.tsx";
+import { useLocalStorage } from "./hooks/useLocalStorage.ts";
+import { usePersistedThings } from "./hooks/usePersistedThings.ts";
 
 const FAKE_DATA = [
   {
@@ -28,7 +36,9 @@ const FAKE_DATA = [
 ];
 
 export const App = () => {
-  const [things, setThings] = useState<Thing[]>(FAKE_DATA);
+  const { things, setThings } = usePersistedThings();
+
+  console.log("things", things);
 
   const onAddNewThingToCalendar = (thing: Thing) => {
     console.log("adding", thing);
@@ -38,6 +48,7 @@ export const App = () => {
 
   return (
     <Container sx={{ py: { xs: 8, sm: 10 } }}>
+      <Button onClick={() => setThings(FAKE_DATA)}>Add defaults</Button>
       <Box>
         <Typography
           component="h2"

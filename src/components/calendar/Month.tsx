@@ -52,10 +52,6 @@ export const Month = ({
     thingsByDay[day] = thingsInDay(things, day);
   }
 
-  if (things.length > 0) {
-    console.log("cal ", year, month, thingsByDay);
-  }
-
   return (
     <MonthContainer>
       <MonthTitleContainer>
