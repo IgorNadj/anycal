@@ -1,4 +1,4 @@
-import { Thing } from "../types/types.ts";
+import { Thing } from "../../types/types.ts";
 
 export const Calendar = ({ things }: { things: Thing[] }) => {
   if (things.length === 0)
@@ -20,7 +20,7 @@ export const Calendar = ({ things }: { things: Thing[] }) => {
   return (
     <>
       {years.map((year) => (
-        <div>{year}</div>
+        <div key={year}>{year}</div>
       ))}
     </>
   );

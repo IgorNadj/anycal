@@ -2,14 +2,22 @@ import { Box, Container, Grid2 as Grid, Typography } from "@mui/material";
 import { useState } from "react";
 import { AddForm } from "./components/AddForm.tsx";
 import { Thing } from "./types/types.ts";
-import { Calendar } from "./components/Calendar.tsx";
+import { Calendar } from "./components/calendar/Calendar.tsx";
+
+const FAKE_DATA = [
+  {"name":"Something","date": new Date("2025-05-29T08:37:07.448Z")},
+  {"name":"Something Else","date":new Date("2025-09-18T08:37:07.448Z")},
+  {"name":"Something Something Else","date":new Date("2027-09-02T08:37:07.448Z")},
+  {"name":"Something Something Else 2","date":new Date("2028-10-08T07:37:07.448Z")}
+];
 
 export const App = () => {
-  const [things, setThings] = useState<Thing[]>([]);
+  const [things, setThings] = useState<Thing[]>(FAKE_DATA);
 
   const onAddNewThingToCalendar = (thing: Thing) => {
     console.log("adding", thing);
     setThings([...things, thing]);
+    console.log("things", JSON.stringify(things));
   };
 
   return (
