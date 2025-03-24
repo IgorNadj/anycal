@@ -23,6 +23,7 @@ export const AddForm = () => {
       name,
       uuid: uuidv4(),
       colour: getFirstUnusedColour(things),
+      visible: true,
     };
     const newEvent = { name, date, uuid: uuidv4(), thingUuid: newThing.uuid };
     addNewThingToCalendar(newThing, newEvent);

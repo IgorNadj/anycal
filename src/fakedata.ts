@@ -3,11 +3,13 @@ export const FAKE_THINGS = [
     name: "thing1",
     uuid: "thing1",
     colour: "mediumBlue",
+    visible: true,
   },
   {
     name: "thing2",
     uuid: "thing2",
     colour: "mediumGreen",
+    visible: true,
   },
 ];
 

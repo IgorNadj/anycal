@@ -4,33 +4,35 @@ import {
   Checkbox,
   List,
   ListItem,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
 import { CALENDAR_COLOURS } from "../constants.ts";
+import { Thing } from "../types/types.ts";
 
 export const ThingsList = () => {
   const ctx = useContext(AppContext);
-  const { things } = ctx;
+  const { things, saveThing } = ctx;
+
+  const setThingVisible = (thing: Thing, visible: boolean) => {
+    saveThing({ ...thing, visible });
+  };
 
   return (
     <>
       <List>
         {things.map((thing) => (
           <ListItem key={thing.uuid} disablePadding>
-            <ListItemButton dense disableRipple>
-              <ListItemIcon>
-                <Checkbox
-                  checked={true}
-                  disableRipple
-                  style={{
-                    color: CALENDAR_COLOURS[thing.colour],
-                  }}
-                />
-              </ListItemIcon>
-              <ListItemText>{thing.name}</ListItemText>
-            </ListItemButton>
+            <ListItemIcon>
+              <Checkbox
+                checked={thing.visible}
+                style={{
+                  color: CALENDAR_COLOURS[thing.colour],
+                }}
+                onChange={(e) => setThingVisible(thing, e.target.checked)}
+              />
+            </ListItemIcon>
+            <ListItemText>{thing.name}</ListItemText>
           </ListItem>
         ))}
       </List>

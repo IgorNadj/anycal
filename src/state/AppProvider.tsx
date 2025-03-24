@@ -16,6 +16,8 @@ export type AppContextType = {
   saveEvent: (event: Event) => void;
   deleteEvent: (event: Event) => void;
   resetWithFakeData: () => void;
+  saveThing: (thing: Thing) => void;
+  deleteThing: (thing: Thing) => void;
 };
 
 type Props = {
@@ -54,6 +56,20 @@ export const AppProvider = ({ children }: Props) => {
     console.log("newEvents", newEvents);
   };
 
+  const saveThing = (thing: Thing) => {
+    console.log("saveThing", thing);
+    const newThings = things.map((t) => (t.uuid === thing.uuid ? thing : t));
+    setData({ ...data, things: newThings });
+    console.log("newThings", newThings);
+  };
+
+  const deleteThing = (thing: Thing) => {
+    console.log("deleteThing", thing);
+    const newThings = things.filter((t) => t.uuid !== thing.uuid);
+    setData({ ...data, things: newThings });
+    console.log("newThings", newThings);
+  };
+
   const resetWithFakeData = () => {
     setData({ ...data, events: FAKE_EVENTS, things: FAKE_THINGS });
   };
@@ -68,6 +84,8 @@ export const AppProvider = ({ children }: Props) => {
     addNewThingToCalendar,
     saveEvent,
     deleteEvent,
+    saveThing,
+    deleteThing,
     resetWithFakeData,
   };
 

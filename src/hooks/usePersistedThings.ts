@@ -24,7 +24,7 @@ export const usePersistedThings = () => {
 
   return {
     data: {
-      things: value.things,
+      ...value,
       events: hydratedEvents,
     },
     setData: setValue,

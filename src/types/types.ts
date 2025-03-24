@@ -2,6 +2,7 @@ export type Thing = {
   uuid: string;
   name: string;
   colour: string;
+  visible: boolean;
 };
 
 export type Event = {
