@@ -13,6 +13,7 @@ export type AppContextType = {
   setCurrentlyEditingThing: (thing: Thing | null) => void;
   addNewThingToCalendar: (thing: Thing) => void;
   saveThing: (thing: Thing) => void;
+  deleteThing: (thing: Thing) => void;
 };
 
 type Props = {
@@ -38,6 +39,12 @@ export const AppProvider = ({ children }: Props) => {
     console.log("things", JSON.stringify(things));
   };
 
+  const deleteThing = (thing: Thing) => {
+    console.log("deleting", thing);
+    setThings(things.filter((t) => t.uuid !== thing.uuid));
+    console.log("things", JSON.stringify(things));
+  };
+
   const value: AppContextType = {
     things,
     setThings,
@@ -47,6 +54,7 @@ export const AppProvider = ({ children }: Props) => {
     setCurrentlyEditingThing,
     addNewThingToCalendar,
     saveThing,
+    deleteThing,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
