@@ -5,13 +5,13 @@ import {
   Grid2 as Grid,
   Typography,
 } from "@mui/material";
-import { AddThingForm } from "./AddThingForm.tsx";
+import { AddThingForm } from "./form/AddThingForm.tsx";
 import { Calendar } from "./calendar/Calendar.tsx";
 import { useContext } from "react";
-import { EditEventDialog } from "./EditEventDialog.tsx";
+import { EditEventDialog } from "./form/EditEventDialog.tsx";
 import { AppContext } from "../state/AppContext.tsx";
 import { ThingsList } from "./ThingsList.tsx";
-import { EditThingDialog } from "./EditThingDialog.tsx";
+import { EditThingDialog } from "./form/EditThingDialog.tsx";
 
 export const Main = () => {
   const ctx = useContext(AppContext);

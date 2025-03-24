@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { useContext, useState } from "react";
-import { AppContext } from "../state/AppContext.tsx";
+import { AppContext } from "../../state/AppContext.tsx";
 
 export const EditEventDialog = () => {
   const ctx = useContext(AppContext);

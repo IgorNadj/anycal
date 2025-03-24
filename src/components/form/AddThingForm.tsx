@@ -8,8 +8,8 @@ import {
 import { DatePicker } from "@mui/x-date-pickers";
 import { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { AppContext } from "../state/AppContext.tsx";
-import { getFirstUnusedColour } from "../utils.ts";
+import { AppContext } from "../../state/AppContext.tsx";
+import { getFirstUnusedColour } from "../../utils.ts";
 
 export const AddThingForm = () => {
   const ctx = useContext(AppContext);

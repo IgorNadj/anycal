@@ -7,9 +7,9 @@ import {
   TextField,
 } from "@mui/material";
 import { useContext, useState } from "react";
-import { AppContext } from "../state/AppContext.tsx";
-import { CalendarColourPicker } from "./form/CalendarColourPicker.tsx";
-import { CalendarColour } from "../types/types.ts";
+import { AppContext } from "../../state/AppContext.tsx";
+import { CalendarColourPicker } from "./CalendarColourPicker.tsx";
+import { CalendarColour } from "../../types/types.ts";
 
 export const EditThingDialog = () => {
   const ctx = useContext(AppContext);
