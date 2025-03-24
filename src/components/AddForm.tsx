@@ -1,14 +1,13 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { DateCalendar } from "@mui/x-date-pickers";
-import { useState } from "react";
-import { Thing } from "../types/types.ts";
+import { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { AppContext } from "../state/AppContext.tsx";
 
-type AddFormProps = {
-  onSubmit: (thing: Thing) => void;
-};
+export const AddForm = () => {
+  const ctx = useContext(AppContext);
+  const { addNewThingToCalendar } = ctx;
 
-export const AddForm = ({ onSubmit }: AddFormProps) => {
   const [date, setDate] = useState<Date>(new Date());
   const [name, setName] = useState<string>("");
 
@@ -27,7 +26,7 @@ export const AddForm = ({ onSubmit }: AddFormProps) => {
 
       <Button
         variant="contained"
-        onClick={() => onSubmit({ name, date, uuid: uuidv4() })}
+        onClick={() => addNewThingToCalendar({ name, date, uuid: uuidv4() })}
       >
         Add
       </Button>

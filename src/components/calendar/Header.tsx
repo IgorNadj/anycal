@@ -1,9 +1,9 @@
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { useContext } from "react";
-import { CalendarContext } from "../../state/CalendarContext.tsx";
+import { AppContext } from "../../state/AppContext.tsx";
 
 export const Header = () => {
-  const ctx = useContext(CalendarContext);
+  const ctx = useContext(AppContext);
   const { setViewMode } = ctx;
 
   return (

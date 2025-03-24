@@ -2,7 +2,7 @@ import { Thing } from "../../types/types.ts";
 import { ThingInCal } from "./ThingInCal.tsx";
 import { Typography } from "@mui/material";
 import styled from "styled-components";
-import { CalendarContext } from "../../state/CalendarContext.tsx";
+import { AppContext } from "../../state/AppContext.tsx";
 import { useContext } from "react";
 
 const DayContainer = styled.div`
@@ -26,7 +26,7 @@ const ThingsContainer = styled.div`
 `;
 
 export const Day = ({ day, things }: { day: number; things: Thing[] }) => {
-  const ctx = useContext(CalendarContext);
+  const ctx = useContext(AppContext);
 
   return (
     <DayContainer

@@ -1,10 +1,13 @@
-import { Thing } from "../../types/types.ts";
 import { thingsInYear } from "../../utils.ts";
 import { Year } from "./Year.tsx";
 import { Header } from "./Header.tsx";
-import { CalendarProvider } from "../../state/CalendarProvider.tsx";
+import { useContext } from "react";
+import { AppContext } from "../../state/AppContext.tsx";
 
-export const Calendar = ({ things }: { things: Thing[] }) => {
+export const Calendar = () => {
+  const ctx = useContext(AppContext);
+  const { things } = ctx;
+
   const earliestYear = new Date().getFullYear();
   const latestYear =
     things.length === 0
@@ -17,15 +20,13 @@ export const Calendar = ({ things }: { things: Thing[] }) => {
 
   return (
     <>
-      <CalendarProvider>
-        <Header />
-        {years.map((year) => (
-          <div key={year}>
-            <h5>{year}</h5>
-            <Year year={year} things={thingsInYear(things, year)} />
-          </div>
-        ))}
-      </CalendarProvider>
+      <Header />
+      {years.map((year) => (
+        <div key={year}>
+          <h5>{year}</h5>
+          <Year year={year} things={thingsInYear(things, year)} />
+        </div>
+      ))}
     </>
   );
 };
