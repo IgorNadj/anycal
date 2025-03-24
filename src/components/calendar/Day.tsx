@@ -1,9 +1,9 @@
-import { Thing } from "../../types/types.ts";
-import { ThingInCal } from "./ThingInCal.tsx";
+import { EventChip } from "./EventChip.tsx";
 import { Typography } from "@mui/material";
 import styled from "styled-components";
 import { AppContext } from "../../state/AppContext.tsx";
 import { useContext } from "react";
+import { eventsOnDate } from "../../utils.ts";
 
 const DayContainer = styled.div`
   outline: 1px solid gray;
@@ -25,12 +25,22 @@ const ThingsContainer = styled.div`
   flex: 1;
 `;
 
-export const Day = ({ day, things }: { day: number; things: Thing[] }) => {
+export const Day = ({
+  year,
+  month,
+  day,
+}: {
+  year: number;
+  month: number;
+  day: number;
+}) => {
   const ctx = useContext(AppContext);
+  const { events, viewMode } = ctx;
+  const eventsThisDate = eventsOnDate(events, year, month, day);
 
   return (
     <DayContainer
-      className={`${things.length > 0 ? "" : "empty"} view-mode-${ctx.viewMode}`}
+      className={`${eventsThisDate.length > 0 ? "" : "empty"} view-mode-${viewMode}`}
     >
       <DayTitleContainer>
         <Typography
@@ -41,8 +51,8 @@ export const Day = ({ day, things }: { day: number; things: Thing[] }) => {
         </Typography>
       </DayTitleContainer>
       <ThingsContainer>
-        {things.map((thing) => (
-          <ThingInCal key={thing.uuid} thing={thing} />
+        {eventsThisDate.map((event) => (
+          <EventChip key={event.uuid} event={event} />
         ))}
       </ThingsContainer>
     </DayContainer>

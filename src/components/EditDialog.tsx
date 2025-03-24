@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogTitle,
   TextField,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -12,39 +13,40 @@ import { AppContext } from "../state/AppContext.tsx";
 export const EditDialog = () => {
   const ctx = useContext(AppContext);
   const {
-    currentlyEditingThing,
-    setCurrentlyEditingThing,
-    saveThing,
-    deleteThing,
+    currentlyEditingEvent,
+    setCurrentlyEditingEvent,
+    saveEvent,
+    deleteEvent,
   } = ctx;
 
   const [date, setDate] = useState<Date>(
-    currentlyEditingThing?.date ?? new Date(),
+    currentlyEditingEvent?.date ?? new Date(),
   );
 
-  const [name, setName] = useState<string>(currentlyEditingThing?.name ?? "");
+  const [name, setName] = useState<string>(currentlyEditingEvent?.name ?? "");
 
   const onSave = () => {
-    if (currentlyEditingThing) {
-      saveThing({ ...currentlyEditingThing, name, date });
-      setCurrentlyEditingThing(null);
+    if (currentlyEditingEvent) {
+      saveEvent({ ...currentlyEditingEvent, name, date });
+      setCurrentlyEditingEvent(null);
     }
   };
 
   const onDelete = () => {
-    if (currentlyEditingThing) {
-      setCurrentlyEditingThing(null);
-      deleteThing({ ...currentlyEditingThing, name, date });
+    if (currentlyEditingEvent) {
+      setCurrentlyEditingEvent(null);
+      deleteEvent({ ...currentlyEditingEvent, name, date });
     }
   };
 
-  console.log("currentlyEditingThing", currentlyEditingThing);
+  console.log("currentlyEditingEvent", currentlyEditingEvent);
 
   return (
     <Dialog
-      open={currentlyEditingThing !== null}
-      onClose={() => setCurrentlyEditingThing(null)}
+      open={currentlyEditingEvent !== null}
+      onClose={() => setCurrentlyEditingEvent(null)}
     >
+      <DialogTitle>Edit</DialogTitle>
       <DialogContent>
         <TextField
           variant="outlined"

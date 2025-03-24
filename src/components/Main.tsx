@@ -10,40 +10,16 @@ import { Calendar } from "./calendar/Calendar.tsx";
 import { useContext } from "react";
 import { EditDialog } from "./EditDialog.tsx";
 import { AppContext } from "../state/AppContext.tsx";
-
-const FAKE_DATA = [
-  {
-    uuid: "1123",
-    name: "Something",
-    date: new Date("2025-05-29T08:37:07.448Z"),
-  },
-  {
-    uuid: "1124",
-    name: "Something Else",
-    date: new Date("2025-09-18T08:37:07.448Z"),
-  },
-  {
-    uuid: "1125",
-    name: "Something Something Else",
-    date: new Date("2027-09-02T08:37:07.448Z"),
-  },
-  {
-    uuid: "1126",
-    name: "Something Something Else 2",
-    date: new Date("2028-10-08T07:37:07.448Z"),
-  },
-];
+import { ThingsList } from "./ThingsList.tsx";
 
 export const Main = () => {
   const ctx = useContext(AppContext);
-  const { things, setThings, currentlyEditingThing } = ctx;
-
-  console.log("things", things);
+  const { currentlyEditingEvent, resetWithFakeData } = ctx;
 
   return (
     <Container sx={{ py: { xs: 8, sm: 10 } }}>
-      <EditDialog key={currentlyEditingThing?.uuid} />
-      <Button onClick={() => setThings(FAKE_DATA)}>Add defaults</Button>
+      <EditDialog key={currentlyEditingEvent?.uuid} />
+      <Button onClick={() => resetWithFakeData()}>Use fake data</Button>
       <Box>
         <Typography
           component="h2"
@@ -64,6 +40,7 @@ export const Main = () => {
         <Grid container spacing={10}>
           <Grid size={6}>
             <AddForm />
+            <ThingsList />
           </Grid>
           <Grid size={6}>
             <Calendar />

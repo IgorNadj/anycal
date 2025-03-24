@@ -1,22 +1,24 @@
-import { Thing } from "./types/types";
+import { Event, Thing } from "./types/types";
 import { enGB, enUS, Locale } from "date-fns/locale";
+import { CALENDAR_COLOURS } from "./constants.ts";
 
 const LOCALES: Record<string, Locale> = {
   "en-GB": enGB,
   "en-US": enUS,
 };
 
-export const thingsInYear = (things: Thing[], year: number) => {
-  return things.filter((thing) => thing.date.getFullYear() === year);
-};
-
-export const thingsInMonth = (things: Thing[], month: number) => {
-  return things.filter((thing) => thing.date.getMonth() === month);
-};
-
-export const thingsInDay = (things: Thing[], day: number) => {
-  return things.filter((thing) => thing.date.getDate() === day + 1);
-};
+export const eventsOnDate = (
+  events: Event[],
+  year: number,
+  month: number,
+  day: number,
+) =>
+  events.filter(
+    (event) =>
+      event.date.getFullYear() === year &&
+      event.date.getMonth() === month &&
+      event.date.getDate() === day,
+  );
 
 export const daysInMonth = (month: number, year: number) =>
   new Date(year, month, 0).getDate();
@@ -24,4 +26,14 @@ export const daysInMonth = (month: number, year: number) =>
 export const getUserLocale = (): Locale => {
   const [localeStr] = navigator.languages;
   return LOCALES[localeStr] ?? enGB;
+};
+
+export const getFirstUnusedColour = (things: Thing[]) => {
+  for (const colour of Object.keys(CALENDAR_COLOURS)) {
+    if (things.every((thing) => thing.colour !== colour)) {
+      return colour;
+    }
+  }
+  // ran out of colours
+  return "mediumBlue";
 };

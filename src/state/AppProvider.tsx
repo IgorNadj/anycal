@@ -1,19 +1,21 @@
 import { ReactNode, useState } from "react";
 import { DEFAULT_VIEW_MODE } from "../constants.ts";
-import { Thing, ViewMode } from "../types/types.ts";
+import { Thing, Event, ViewMode } from "../types/types.ts";
 import { usePersistedThings } from "../hooks/usePersistedThings.ts";
 import { AppContext } from "./AppContext.tsx";
+import { FAKE_EVENTS, FAKE_THINGS } from "../fakedata.ts";
 
 export type AppContextType = {
   things: Thing[];
-  setThings: (things: Thing[]) => void;
+  events: Event[];
   viewMode: ViewMode;
   setViewMode: (value: ViewMode) => void;
-  currentlyEditingThing: Thing | null;
-  setCurrentlyEditingThing: (thing: Thing | null) => void;
-  addNewThingToCalendar: (thing: Thing) => void;
-  saveThing: (thing: Thing) => void;
-  deleteThing: (thing: Thing) => void;
+  currentlyEditingEvent: Event | null;
+  setCurrentlyEditingEvent: (event: Event | null) => void;
+  addNewThingToCalendar: (thing: Thing, event: Event) => void;
+  saveEvent: (event: Event) => void;
+  deleteEvent: (event: Event) => void;
+  resetWithFakeData: () => void;
 };
 
 type Props = {
@@ -21,40 +23,52 @@ type Props = {
 };
 
 export const AppProvider = ({ children }: Props) => {
-  const { things, setThings } = usePersistedThings();
+  const { data, setData } = usePersistedThings();
+  const { things, events } = data;
+
   const [viewMode, setViewMode] = useState(DEFAULT_VIEW_MODE);
 
-  const [currentlyEditingThing, setCurrentlyEditingThing] =
-    useState<Thing | null>(null);
+  const [currentlyEditingEvent, setCurrentlyEditingEvent] =
+    useState<Event | null>(null);
 
-  const addNewThingToCalendar = (thing: Thing) => {
-    console.log("adding", thing);
-    setThings([...things, thing]);
-    console.log("things", JSON.stringify(things));
+  const addNewThingToCalendar = (thing: Thing, event: Event) => {
+    console.log("adding", thing, event);
+    const newThings = [...things, thing];
+    const newEvents = [...events, event];
+    setData({ ...data, things: newThings, events: newEvents });
+    console.log("newThings", newThings);
+    console.log("newEvents", newEvents);
   };
 
-  const saveThing = (thing: Thing) => {
-    console.log("saving", thing);
-    setThings([...things.filter((t) => t.uuid !== thing.uuid), thing]);
-    console.log("things", JSON.stringify(things));
+  const saveEvent = (event: Event) => {
+    console.log("saveEvent", event);
+    const newEvents = [...events.filter((e) => e.uuid !== event.uuid), event];
+    setData({ ...data, events: newEvents });
+    console.log("newEvents", newEvents);
   };
 
-  const deleteThing = (thing: Thing) => {
-    console.log("deleting", thing);
-    setThings(things.filter((t) => t.uuid !== thing.uuid));
-    console.log("things", JSON.stringify(things));
+  const deleteEvent = (event: Event) => {
+    console.log("deleteEvent", event);
+    const newEvents = events.filter((e) => e.uuid !== event.uuid);
+    setData({ ...data, events: newEvents });
+    console.log("newEvents", newEvents);
+  };
+
+  const resetWithFakeData = () => {
+    setData({ ...data, events: FAKE_EVENTS, things: FAKE_THINGS });
   };
 
   const value: AppContextType = {
     things,
-    setThings,
+    events,
     viewMode,
     setViewMode,
-    currentlyEditingThing,
-    setCurrentlyEditingThing,
+    currentlyEditingEvent,
+    setCurrentlyEditingEvent,
     addNewThingToCalendar,
-    saveThing,
-    deleteThing,
+    saveEvent,
+    deleteEvent,
+    resetWithFakeData,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

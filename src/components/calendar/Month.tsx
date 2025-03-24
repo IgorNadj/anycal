@@ -1,7 +1,6 @@
-import { Thing } from "../../types/types.ts";
 import styled from "styled-components";
 import { Typography } from "@mui/material";
-import { daysInMonth, thingsInDay } from "../../utils.ts";
+import { daysInMonth } from "../../utils.ts";
 import { Day } from "./Day.tsx";
 
 const MonthContainer = styled.div`
@@ -35,21 +34,11 @@ const MONTH_NAMES: Record<number, string> = {
   11: "Dec",
 };
 
-export const Month = ({
-  year,
-  month,
-  things,
-}: {
-  year: number;
-  month: number;
-  things: Thing[];
-}) => {
+export const Month = ({ year, month }: { year: number; month: number }) => {
   const days = [];
-  const thingsByDay: Record<number, Thing[]> = {};
 
   for (let day = 0; day < daysInMonth(month, year); day++) {
     days.push(day);
-    thingsByDay[day] = thingsInDay(things, day);
   }
 
   return (
@@ -65,7 +54,7 @@ export const Month = ({
 
       <DayContainer>
         {days.map((day) => (
-          <Day key={day} day={day} things={thingsByDay[day]} />
+          <Day key={day} year={year} month={month} day={day} />
         ))}
       </DayContainer>
     </MonthContainer>
