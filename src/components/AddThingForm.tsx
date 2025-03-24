@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from "uuid";
 import { AppContext } from "../state/AppContext.tsx";
 import { getFirstUnusedColour } from "../utils.ts";
 
-export const AddForm = () => {
+export const AddThingForm = () => {
   const ctx = useContext(AppContext);
   const { things, addNewThingToCalendar } = ctx;
 

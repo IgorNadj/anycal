@@ -10,7 +10,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { useContext, useState } from "react";
 import { AppContext } from "../state/AppContext.tsx";
 
-export const EditDialog = () => {
+export const EditEventDialog = () => {
   const ctx = useContext(AppContext);
   const {
     currentlyEditingEvent,

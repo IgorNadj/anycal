@@ -5,10 +5,10 @@ import {
   Grid2 as Grid,
   Typography,
 } from "@mui/material";
-import { AddForm } from "./AddForm.tsx";
+import { AddThingForm } from "./AddThingForm.tsx";
 import { Calendar } from "./calendar/Calendar.tsx";
 import { useContext } from "react";
-import { EditDialog } from "./EditDialog.tsx";
+import { EditEventDialog } from "./EditEventDialog.tsx";
 import { AppContext } from "../state/AppContext.tsx";
 import { ThingsList } from "./ThingsList.tsx";
 
@@ -18,7 +18,7 @@ export const Main = () => {
 
   return (
     <Container sx={{ py: { xs: 8, sm: 10 } }}>
-      <EditDialog key={currentlyEditingEvent?.uuid} />
+      <EditEventDialog key={currentlyEditingEvent?.uuid} />
       <Button onClick={() => resetWithFakeData()}>Use fake data</Button>
       <Box>
         <Typography
@@ -39,7 +39,7 @@ export const Main = () => {
       <Box>
         <Grid container spacing={10}>
           <Grid size={6}>
-            <AddForm />
+            <AddThingForm />
             <ThingsList />
           </Grid>
           <Grid size={6}>
