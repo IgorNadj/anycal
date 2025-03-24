@@ -16,6 +16,8 @@ export type AppContextType = {
   saveEvent: (event: Event) => void;
   deleteEvent: (event: Event) => void;
   resetWithFakeData: () => void;
+  currentlyEditingThing: Thing | null;
+  setCurrentlyEditingThing: (thing: Thing | null) => void;
   saveThing: (thing: Thing) => void;
   deleteThing: (thing: Thing) => void;
 };
@@ -32,6 +34,9 @@ export const AppProvider = ({ children }: Props) => {
 
   const [currentlyEditingEvent, setCurrentlyEditingEvent] =
     useState<Event | null>(null);
+
+  const [currentlyEditingThing, setCurrentlyEditingThing] =
+    useState<Thing | null>(null);
 
   const addNewThingToCalendar = (thing: Thing, event: Event) => {
     console.log("adding", thing, event);
@@ -84,6 +89,8 @@ export const AppProvider = ({ children }: Props) => {
     addNewThingToCalendar,
     saveEvent,
     deleteEvent,
+    currentlyEditingThing,
+    setCurrentlyEditingThing,
     saveThing,
     deleteThing,
     resetWithFakeData,

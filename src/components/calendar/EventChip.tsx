@@ -15,7 +15,7 @@ export const EventChip = ({ event }: { event: Event }) => {
 
   return (
     <Chip
-      style={{ backgroundColor: CALENDAR_COLOURS[thing.colour] }}
+      sx={{ backgroundColor: CALENDAR_COLOURS[thing.colour] }}
       label={event.name}
       onClick={() => setCurrentlyEditingEvent(event)}
     />

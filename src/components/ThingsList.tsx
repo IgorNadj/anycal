@@ -12,7 +12,7 @@ import { Thing } from "../types/types.ts";
 
 export const ThingsList = () => {
   const ctx = useContext(AppContext);
-  const { things, saveThing } = ctx;
+  const { things, saveThing, setCurrentlyEditingThing } = ctx;
 
   const setThingVisible = (thing: Thing, visible: boolean) => {
     saveThing({ ...thing, visible });
@@ -26,13 +26,18 @@ export const ThingsList = () => {
             <ListItemIcon>
               <Checkbox
                 checked={thing.visible}
-                style={{
+                sx={{
                   color: CALENDAR_COLOURS[thing.colour],
+                  "&.Mui-checked": {
+                    color: CALENDAR_COLOURS[thing.colour],
+                  },
                 }}
                 onChange={(e) => setThingVisible(thing, e.target.checked)}
               />
             </ListItemIcon>
-            <ListItemText>{thing.name}</ListItemText>
+            <ListItemText onClick={() => setCurrentlyEditingThing(thing)}>
+              {thing.name}
+            </ListItemText>
           </ListItem>
         ))}
       </List>

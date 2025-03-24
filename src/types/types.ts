@@ -1,3 +1,5 @@
+import { CALENDAR_COLOURS } from "../constants.ts";
+
 export type Thing = {
   uuid: string;
   name: string;
@@ -13,3 +15,5 @@ export type Event = {
 };
 
 export type ViewMode = "compact" | "expanded";
+
+export type CalendarColour = keyof typeof CALENDAR_COLOURS;

@@ -46,7 +46,7 @@ export const EditEventDialog = () => {
       open={currentlyEditingEvent !== null}
       onClose={() => setCurrentlyEditingEvent(null)}
     >
-      <DialogTitle>Edit</DialogTitle>
+      <DialogTitle>Edit Event</DialogTitle>
       <DialogContent>
         <TextField
           variant="outlined"

@@ -11,14 +11,17 @@ import { useContext } from "react";
 import { EditEventDialog } from "./EditEventDialog.tsx";
 import { AppContext } from "../state/AppContext.tsx";
 import { ThingsList } from "./ThingsList.tsx";
+import { EditThingDialog } from "./EditThingDialog.tsx";
 
 export const Main = () => {
   const ctx = useContext(AppContext);
-  const { currentlyEditingEvent, resetWithFakeData } = ctx;
+  const { currentlyEditingEvent, currentlyEditingThing, resetWithFakeData } =
+    ctx;
 
   return (
     <Container sx={{ py: { xs: 8, sm: 10 } }}>
       <EditEventDialog key={currentlyEditingEvent?.uuid} />
+      <EditThingDialog key={currentlyEditingThing?.uuid} />
       <Button onClick={() => resetWithFakeData()}>Use fake data</Button>
       <Box>
         <Typography
