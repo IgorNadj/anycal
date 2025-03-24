@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 import styled from "styled-components";
 import { AppContext } from "../../state/AppContext.tsx";
 import { useContext } from "react";
-import { eventsOnDate } from "../../utils.ts";
+import { eventsOnDate, getThingForEvent } from "../../utils.ts";
 
 const DayContainer = styled.div`
   outline: 1px solid gray;
@@ -35,7 +35,7 @@ export const Day = ({
   day: number;
 }) => {
   const ctx = useContext(AppContext);
-  const { events, viewMode } = ctx;
+  const { events, things, viewMode } = ctx;
   const eventsThisDate = eventsOnDate(events, year, month, day);
 
   return (
@@ -51,9 +51,12 @@ export const Day = ({
         </Typography>
       </DayTitleContainer>
       <ThingsContainer>
-        {eventsThisDate.map((event) => (
-          <EventChip key={event.uuid} event={event} />
-        ))}
+        {eventsThisDate.map(
+          (event) =>
+            getThingForEvent(event, things)?.visible && (
+              <EventChip key={event.uuid} event={event} />
+            ),
+        )}
       </ThingsContainer>
     </DayContainer>
   );

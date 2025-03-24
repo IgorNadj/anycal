@@ -37,3 +37,6 @@ export const getFirstUnusedColour = (things: Thing[]) => {
   // ran out of colours
   return "mediumBlue";
 };
+
+export const getThingForEvent = (event: Event, allThings: Thing[]) =>
+  allThings.find((thing) => thing.uuid === event.thingUuid) ?? null;
