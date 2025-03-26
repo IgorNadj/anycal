@@ -11,7 +11,6 @@ type SerialisedEvent = Omit<Event, "date"> & {
 };
 
 export const routes = (app: Express) => {
-  // Create a new note
   app.post("/thing", (req: Request<{}, {}, Thing, {}>, res: any) => {
     const { uuid, name, colour, visible } = req.body;
     createThing.run(uuid, name, colour, visible ? 1 : 0);
