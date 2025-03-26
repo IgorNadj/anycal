@@ -17,7 +17,7 @@ export const eventsOnDate = (
     (event) =>
       event.date.getFullYear() === year &&
       event.date.getMonth() === month &&
-      event.date.getDate() === day,
+      event.date.getDate() === day + 1,
   );
 
 export const daysInMonth = (month: number, year: number) =>
