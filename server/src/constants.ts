@@ -16,7 +16,7 @@ import {
   teal,
 } from "@mui/material/colors";
 
-export const CALENDAR_COLOURS: Record<string, string> = {
+export const CALENDAR_COLOURS = {
   blue_400: blue[400],
   green_400: green[400],
   orange_400: orange[400],

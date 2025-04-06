@@ -18,6 +18,10 @@ export const Main = () => {
   const { currentlyEditingEvent, currentlyEditingThing, resetWithFakeData } =
     ctx;
 
+  const { things, events } = ctx;
+  console.log("things", things);
+  console.log("events", events);
+
   return (
     <Container sx={{ py: { xs: 8, sm: 10 } }}>
       <EditEventDialog key={currentlyEditingEvent?.uuid} />

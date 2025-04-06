@@ -2,7 +2,11 @@ import { ReactNode, useState } from "react";
 import { DEFAULT_VIEW_MODE } from "../constants.ts";
 import { Thing, Event, ViewMode } from "../types/types.ts";
 import { AppContext } from "./AppContext.tsx";
-import { useQuery } from "@tanstack/react-query";
+import { useAnycalLocalStorage } from "../hooks/useAnycalLocalStorage.ts";
+import { useThings } from "../data/useThings.ts";
+import { useEvents } from "../data/useEvents.ts";
+import { useCreateThing } from "../data/useCreateThing.ts";
+import { useCreateEvent } from "../data/useCreateEvent.ts";
 
 export type AppContextType = {
   things: Thing[];
@@ -26,43 +30,21 @@ type Props = {
 };
 
 export const AppProvider = ({ children }: Props) => {
-  // const { data, setData } = usePersistedThings();
-  // const { things, events } = data;
+  const { data: localStorageData, setData: setLocalStorageData } =
+    useAnycalLocalStorage();
 
-  const { data: data1, isFetched: isFetched1 } = useQuery({
-    queryKey: ["things"],
-    queryFn: async () => {
-      const response = await fetch("http://localhost:3000/things");
-      return await response.json();
-    },
-  });
-  const things: Thing[] = data1;
+  const { data: allThings } = useThings();
+  const things = allThings.filter(
+    (thing) => localStorageData.thingRefUuids.indexOf(thing.uuid) !== -1,
+  );
 
-  const { data: data2, isFetched: isFetched2 } = useQuery({
-    queryKey: ["events"],
-    queryFn: async () => {
-      const response = await fetch("http://localhost:3000/events");
-      const asJson = await response.json();
+  const { data: allEvents } = useEvents();
+  const events = allEvents.filter((event) =>
+    things.find((thing) => thing.uuid === event.thingUuid),
+  );
 
-      type SerializedEvent = Omit<Event, "date"> & {
-        date: string;
-      };
-
-      return asJson.map((event: SerializedEvent) => ({
-        ...event,
-        date: new Date(event.date),
-      }));
-    },
-  });
-  const events: Event[] = data2;
-
-  // const { date: things } = useQuery("things", () =>
-  // const response = await fetch({
-  //     method: "get",
-  //     url: "http://localhost:3000/things",
-  //     responseType: 'json'
-  //   }),
-  //   );)
+  const { mutate: createThing } = useCreateThing();
+  const { mutate: createEvent } = useCreateEvent();
 
   const [viewMode, setViewMode] = useState(DEFAULT_VIEW_MODE);
 
@@ -76,9 +58,16 @@ export const AppProvider = ({ children }: Props) => {
     console.log("adding", thing, event);
     const newThings = [...things, thing];
     const newEvents = [...events, event];
-    // setData({ ...data, things: newThings, events: newEvents });
+    createThing(thing);
+    createEvent(event);
+    const newLocalStorageData = {
+      ...localStorageData,
+      thingRefUuids: [...localStorageData.thingRefUuids, thing.uuid],
+    };
+    setLocalStorageData(newLocalStorageData);
     console.log("newThings", newThings);
     console.log("newEvents", newEvents);
+    console.log("newLocalStorageData", newLocalStorageData);
   };
 
   const saveEvent = (event: Event) => {
@@ -114,8 +103,8 @@ export const AppProvider = ({ children }: Props) => {
   };
 
   const value: AppContextType = {
-    things: isFetched1 ? things : [],
-    events: isFetched2 ? events : [],
+    things,
+    events,
     viewMode,
     setViewMode,
     currentlyEditingEvent,

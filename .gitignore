@@ -25,3 +25,6 @@ dist-ssr
 
 # Temp local db
 server/db.sqlite3
+
+# Test files
+server/coverage/

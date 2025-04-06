@@ -20,8 +20,9 @@ export const eventsOnDate = (
       event.date.getDate() === day + 1,
   );
 
+// TODO: use var names like monthIndex to avoid confusion
 export const daysInMonth = (month: number, year: number) =>
-  new Date(year, month, 0).getDate();
+  new Date(year, month + 1, 0).getDate();
 
 export const getUserLocale = (): Locale => {
   const [localeStr] = navigator.languages;

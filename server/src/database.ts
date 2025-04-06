@@ -1,13 +1,8 @@
-import { DatabaseSync } from 'node:sqlite';
+import { DatabaseSync } from "node:sqlite";
 
-const database = new DatabaseSync('db.sqlite3');
+const database = new DatabaseSync("db.sqlite3");
 
 const initDatabase = `
-    CREATE TABLE IF NOT EXISTS user (
-        uuid TEXT PRIMARY KEY,
-        email TEXT NOT NULL UNIQUE
-    );
-    
     CREATE TABLE IF NOT EXISTS thing (
         uuid TEXT PRIMARY KEY,
         name TEXT NOT NULL, 
@@ -44,11 +39,4 @@ const getEvents = database.prepare(`
   SELECT * FROM event
 `);
 
-export {
-    database,
-    createThing,
-    createEvent,
-    getThings,
-    getEvents,
-}
-
+export { database, createThing, createEvent, getThings, getEvents };

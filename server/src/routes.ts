@@ -1,23 +1,21 @@
-import { Express, Request, Response } from "express";
-import { Thing, Event } from "./types/types";
+import { Request, Response, Router } from "express";
+import { Thing, SerialisedEvent } from "./types/types";
 import { createEvent, createThing, getEvents, getThings } from "./database";
 
 type DbThing = Omit<Thing, "visible"> & {
   visible: number;
 };
 
-type SerialisedEvent = Omit<Event, "date"> & {
-  date: string;
-};
+const router = Router();
 
-export const routes = (app: Express) => {
-  app.post("/thing", (req: Request<{}, {}, Thing, {}>, res: any) => {
+export const routes = () => {
+  router.post("/thing", (req: Request<{}, {}, Thing, {}>, res: any) => {
     const { uuid, name, colour, visible } = req.body;
     createThing.run(uuid, name, colour, visible ? 1 : 0);
-    res.status(200);
+    res.status(200).send("");
   });
 
-  app.get("/things", (req: Request, res: Response<Thing[]>) => {
+  router.get("/things", (req: Request, res: Response<Thing[]>) => {
     const thingsRaw = getThings.all() as DbThing[];
 
     const thingsHydrated = thingsRaw.map((thing) => ({
@@ -27,14 +25,19 @@ export const routes = (app: Express) => {
     res.json(thingsHydrated);
   });
 
-  app.post("/event", (req: Request<{}, {}, SerialisedEvent, {}>, res: any) => {
-    const { uuid, name, date, thingUuid } = req.body;
-    createEvent.run(uuid, name, date, thingUuid);
-    res.status(200);
-  });
+  router.post(
+    "/event",
+    (req: Request<{}, {}, SerialisedEvent, {}>, res: any) => {
+      const { uuid, name, date, thingUuid } = req.body;
+      createEvent.run(uuid, name, date, thingUuid);
+      res.status(200).send("");
+    },
+  );
 
-  app.get("/events", (req: Request, res: Response<SerialisedEvent[]>) => {
+  router.get("/events", (req: Request, res: Response<SerialisedEvent[]>) => {
     const events = getEvents.all() as SerialisedEvent[];
     res.json(events);
   });
+
+  return router;
 };
