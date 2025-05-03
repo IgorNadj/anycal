@@ -12,10 +12,10 @@ import { Thing } from "../types/types.ts";
 
 export const ThingsList = () => {
   const ctx = useContext(AppContext);
-  const { things, saveThing, setCurrentlyEditingThing } = ctx;
+  const { things, updateThing, setCurrentlyEditingThing } = ctx;
 
   const setThingVisible = (thing: Thing, visible: boolean) => {
-    saveThing({ ...thing, visible });
+    updateThing({ ...thing, visible });
   };
 
   return (

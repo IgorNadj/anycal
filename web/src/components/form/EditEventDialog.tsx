@@ -15,7 +15,7 @@ export const EditEventDialog = () => {
   const {
     currentlyEditingEvent,
     setCurrentlyEditingEvent,
-    saveEvent,
+    updateEvent,
     deleteEvent,
   } = ctx;
 
@@ -27,7 +27,7 @@ export const EditEventDialog = () => {
 
   const onSave = () => {
     if (currentlyEditingEvent) {
-      saveEvent({ ...currentlyEditingEvent, name, date });
+      updateEvent({ ...currentlyEditingEvent, name, date });
       setCurrentlyEditingEvent(null);
     }
   };

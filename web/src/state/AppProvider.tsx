@@ -7,6 +7,10 @@ import { useThings } from "../data/useThings.ts";
 import { useEvents } from "../data/useEvents.ts";
 import { useCreateThing } from "../data/useCreateThing.ts";
 import { useCreateEvent } from "../data/useCreateEvent.ts";
+import { useUpdateEvent } from "../data/useUpdateEvent.ts";
+import { useUpdateThing } from "../data/useUpdateThing.ts";
+import { useDeleteThing } from "../data/useDeleteThing.ts";
+import { useDeleteEvent } from "../data/useDeleteEvent.ts";
 
 export type AppContextType = {
   things: Thing[];
@@ -16,12 +20,12 @@ export type AppContextType = {
   currentlyEditingEvent: Event | null;
   setCurrentlyEditingEvent: (event: Event | null) => void;
   addNewThingToCalendar: (thing: Thing, event: Event) => void;
-  saveEvent: (event: Event) => void;
+  updateEvent: (event: Event) => void;
   deleteEvent: (event: Event) => void;
   resetWithFakeData: () => void;
   currentlyEditingThing: Thing | null;
   setCurrentlyEditingThing: (thing: Thing | null) => void;
-  saveThing: (thing: Thing) => void;
+  updateThing: (thing: Thing) => void;
   deleteThing: (thing: Thing) => void;
 };
 
@@ -45,6 +49,10 @@ export const AppProvider = ({ children }: Props) => {
 
   const { mutate: createThing } = useCreateThing();
   const { mutate: createEvent } = useCreateEvent();
+  const { mutate: updateThing } = useUpdateThing();
+  const { mutate: updateEvent } = useUpdateEvent();
+  const { mutate: deleteThing } = useDeleteThing();
+  const { mutate: deleteEvent } = useDeleteEvent();
 
   const [viewMode, setViewMode] = useState(DEFAULT_VIEW_MODE);
 
@@ -55,9 +63,6 @@ export const AppProvider = ({ children }: Props) => {
     useState<Thing | null>(null);
 
   const addNewThingToCalendar = (thing: Thing, event: Event) => {
-    console.log("adding", thing, event);
-    const newThings = [...things, thing];
-    const newEvents = [...events, event];
     createThing(thing);
     createEvent(event);
     const newLocalStorageData = {
@@ -65,37 +70,7 @@ export const AppProvider = ({ children }: Props) => {
       thingRefUuids: [...localStorageData.thingRefUuids, thing.uuid],
     };
     setLocalStorageData(newLocalStorageData);
-    console.log("newThings", newThings);
-    console.log("newEvents", newEvents);
     console.log("newLocalStorageData", newLocalStorageData);
-  };
-
-  const saveEvent = (event: Event) => {
-    console.log("saveEvent", event);
-    const newEvents = [...events.filter((e) => e.uuid !== event.uuid), event];
-    // setData({ ...data, events: newEvents });
-    console.log("newEvents", newEvents);
-  };
-
-  const deleteEvent = (event: Event) => {
-    console.log("deleteEvent", event);
-    const newEvents = events.filter((e) => e.uuid !== event.uuid);
-    // setData({ ...data, events: newEvents });
-    console.log("newEvents", newEvents);
-  };
-
-  const saveThing = (thing: Thing) => {
-    console.log("saveThing", thing);
-    const newThings = things.map((t) => (t.uuid === thing.uuid ? thing : t));
-    // setData({ ...data, things: newThings });
-    console.log("newThings", newThings);
-  };
-
-  const deleteThing = (thing: Thing) => {
-    console.log("deleteThing", thing);
-    const newThings = things.filter((t) => t.uuid !== thing.uuid);
-    // setData({ ...data, things: newThings });
-    console.log("newThings", newThings);
   };
 
   const resetWithFakeData = () => {
@@ -110,11 +85,11 @@ export const AppProvider = ({ children }: Props) => {
     currentlyEditingEvent,
     setCurrentlyEditingEvent,
     addNewThingToCalendar,
-    saveEvent,
+    updateEvent,
     deleteEvent,
     currentlyEditingThing,
     setCurrentlyEditingThing,
-    saveThing,
+    updateThing,
     deleteThing,
     resetWithFakeData,
   };

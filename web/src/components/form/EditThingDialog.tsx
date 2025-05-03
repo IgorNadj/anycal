@@ -16,7 +16,7 @@ export const EditThingDialog = () => {
   const {
     currentlyEditingThing,
     setCurrentlyEditingThing,
-    saveThing,
+    updateThing,
     deleteThing,
   } = ctx;
 
@@ -27,7 +27,7 @@ export const EditThingDialog = () => {
 
   const onSave = () => {
     if (currentlyEditingThing) {
-      saveThing({ ...currentlyEditingThing, name, colour });
+      updateThing({ ...currentlyEditingThing, name, colour });
       setCurrentlyEditingThing(null);
     }
   };
