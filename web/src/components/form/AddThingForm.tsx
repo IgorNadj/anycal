@@ -13,12 +13,12 @@ import { getFirstUnusedColour } from "../../utils.ts";
 
 export const AddThingForm = () => {
   const ctx = useContext(AppContext);
-  const { things, addNewThingToCalendar } = ctx;
+  const { things, createThing, createEvent } = ctx;
 
   const [date, setDate] = useState<Date>(new Date());
   const [name, setName] = useState<string>("");
 
-  const onCreateNewThing = () => {
+  const onSubmit = () => {
     const newThing = {
       name,
       uuid: uuidv4(),
@@ -26,7 +26,8 @@ export const AddThingForm = () => {
       visible: true,
     };
     const newEvent = { name, date, uuid: uuidv4(), thingUuid: newThing.uuid };
-    addNewThingToCalendar(newThing, newEvent);
+    createThing(newThing);
+    createEvent(newEvent);
   };
 
   return (
@@ -44,7 +45,7 @@ export const AddThingForm = () => {
         <DatePicker value={date} onChange={(date) => date && setDate(date)} />
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" onClick={() => onCreateNewThing()}>
+        <Button variant="contained" onClick={() => onSubmit()}>
           Add
         </Button>
       </DialogActions>

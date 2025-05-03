@@ -11,9 +11,9 @@ import {
 } from "@mui/material";
 import { useContext, useState, useEffect } from "react";
 import { AppContext } from "../../state/AppContext.tsx";
-import { CalendarColourPicker } from "./CalendarColourPicker.tsx";
+import { CalendarColourPicker } from "../form/CalendarColourPicker.tsx";
 import { CalendarColour } from "../../types/types.ts";
-import { EventsTable } from "../table/EventsTable.tsx";
+import { EventsTable } from "./EventsTable.tsx";
 
 export const EditThingDialog = () => {
   const ctx = useContext(AppContext);

@@ -1,10 +1,4 @@
-import {
-  Box,
-  Button,
-  Container,
-  Grid2 as Grid,
-  Typography,
-} from "@mui/material";
+import { Box, Container, Grid2 as Grid, Typography } from "@mui/material";
 import { AddThingForm } from "./form/AddThingForm.tsx";
 import { Calendar } from "./calendar/Calendar.tsx";
 import { useContext } from "react";
@@ -15,8 +9,7 @@ import { EditThingDialog } from "./form/EditThingDialog.tsx";
 
 export const Main = () => {
   const ctx = useContext(AppContext);
-  const { currentlyEditingEvent, currentlyEditingThing, resetWithFakeData } =
-    ctx;
+  const { currentlyEditingEvent, currentlyEditingThing } = ctx;
 
   const { things, events } = ctx;
   console.log("things", things);
@@ -26,7 +19,6 @@ export const Main = () => {
     <Container sx={{ py: { xs: 8, sm: 10 } }}>
       <EditEventDialog key={currentlyEditingEvent?.uuid} />
       <EditThingDialog key={currentlyEditingThing?.uuid} />
-      <Button onClick={() => resetWithFakeData()}>Use fake data</Button>
       <Box>
         <Typography
           component="h2"

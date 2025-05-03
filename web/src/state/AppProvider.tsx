@@ -19,10 +19,10 @@ export type AppContextType = {
   setViewMode: (value: ViewMode) => void;
   currentlyEditingEvent: Event | null;
   setCurrentlyEditingEvent: (event: Event | null) => void;
-  addNewThingToCalendar: (thing: Thing, event: Event) => void;
+  createThing: (thing: Thing) => void;
+  createEvent: (event: Event) => void;
   updateEvent: (event: Event) => void;
   deleteEvent: (event: Event) => void;
-  resetWithFakeData: () => void;
   currentlyEditingThing: Thing | null;
   setCurrentlyEditingThing: (thing: Thing | null) => void;
   updateThing: (thing: Thing) => void;
@@ -62,19 +62,12 @@ export const AppProvider = ({ children }: Props) => {
   const [currentlyEditingThing, setCurrentlyEditingThing] =
     useState<Thing | null>(null);
 
-  const addNewThingToCalendar = (thing: Thing, event: Event) => {
+  const createThingAndRememberIMadeIt = (thing: Thing) => {
     createThing(thing);
-    createEvent(event);
-    const newLocalStorageData = {
+    setLocalStorageData({
       ...localStorageData,
       thingRefUuids: [...localStorageData.thingRefUuids, thing.uuid],
-    };
-    setLocalStorageData(newLocalStorageData);
-    console.log("newLocalStorageData", newLocalStorageData);
-  };
-
-  const resetWithFakeData = () => {
-    // setData({ ...data, events: FAKE_EVENTS, things: FAKE_THINGS });
+    });
   };
 
   const value: AppContextType = {
@@ -84,14 +77,14 @@ export const AppProvider = ({ children }: Props) => {
     setViewMode,
     currentlyEditingEvent,
     setCurrentlyEditingEvent,
-    addNewThingToCalendar,
+    createThing: createThingAndRememberIMadeIt,
+    createEvent,
     updateEvent,
     deleteEvent,
     currentlyEditingThing,
     setCurrentlyEditingThing,
     updateThing,
     deleteThing,
-    resetWithFakeData,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
