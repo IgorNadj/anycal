@@ -14,6 +14,11 @@ export type Event = {
   thingUuid: string;
 };
 
+export type Suggestion = {
+  title: string;
+  date: Date;
+};
+
 export type ViewMode = "compact" | "expanded";
 
 export type CalendarColour = keyof typeof CALENDAR_COLOURS;
