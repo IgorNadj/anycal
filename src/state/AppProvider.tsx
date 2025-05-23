@@ -7,12 +7,12 @@ import { AppContext } from "./AppContext.tsx";
 import { useAnycalLocalStorage } from "../hooks/useAnycalLocalStorage.ts";
 import { useThings } from "../data/useThings.ts";
 import { useEvents } from "../data/useEvents.ts";
-import { useCreateThing } from "../data/useCreateThing.ts";
-import { useCreateEvent } from "../data/useCreateEvent.ts";
-import { useUpdateEvent } from "../data/useUpdateEvent.ts";
-import { useUpdateThing } from "../data/useUpdateThing.ts";
-import { useDeleteThing } from "../data/useDeleteThing.ts";
-import { useDeleteEvent } from "../data/useDeleteEvent.ts";
+import { createThing } from "../data/createThing.ts";
+import { createEvent } from "../data/useCreateEvent.ts";
+import { updateEvent } from "../data/useUpdateEvent.ts";
+import { updateThing } from "../data/updateThing.ts";
+import { deleteThing } from "../data/deleteThing.ts";
+import { deleteEvent } from "../data/useDeleteEvent.ts";
 
 export type AppContextType = {
   things: Thing[];
@@ -31,30 +31,23 @@ export type AppContextType = {
   deleteThing: (thing: Thing) => void;
 };
 
-type Props = {
+interface Props {
   children: ReactNode;
-};
+}
 
 export const AppProvider = ({ children }: Props) => {
   const { data: localStorageData, setData: setLocalStorageData } =
     useAnycalLocalStorage();
 
-  const { data: allThings } = useThings();
+  const { data: allThings, refetch: refetchThings } = useThings();
   const things = allThings.filter(
     (thing) => localStorageData.thingRefUuids.indexOf(thing.uuid) !== -1,
   );
 
-  const { data: allEvents } = useEvents();
+  const { data: allEvents, refetch: refetchEvents } = useEvents();
   const events = allEvents.filter((event) =>
     things.find((thing) => thing.uuid === event.thingUuid),
   );
-
-  const { mutate: createThing } = useCreateThing();
-  const { mutate: createEvent } = useCreateEvent();
-  const { mutate: updateThing } = useUpdateThing();
-  const { mutate: updateEvent } = useUpdateEvent();
-  const { mutate: deleteThing } = useDeleteThing();
-  const { mutate: deleteEvent } = useDeleteEvent();
 
   const [viewMode, setViewMode] = useState(DEFAULT_VIEW_MODE);
 
@@ -64,12 +57,48 @@ export const AppProvider = ({ children }: Props) => {
   const [currentlyEditingThing, setCurrentlyEditingThing] =
     useState<Thing | null>(null);
 
-  const createThingAndRememberIMadeIt = (thing: Thing) => {
-    createThing(thing);
-    setLocalStorageData({
+  const createThingAndRememberIMadeIt = async (thing: Thing) => {
+    console.log("[AppProvider] createThingAndRememberIMadeIt called with thing:", thing);
+    console.log("[AppProvider] localStorageData before update:", localStorageData);
+    
+    await createThing(thing);
+    
+    const newLocalStorageData = {
       ...localStorageData,
       thingRefUuids: [...localStorageData.thingRefUuids, thing.uuid],
-    });
+    };
+    console.log("[AppProvider] newLocalStorageData to be set:", newLocalStorageData);
+    
+    setLocalStorageData(newLocalStorageData);
+    
+    refetchThings();
+    refetchEvents();
+  };
+
+  const handleCreateEvent = async (event: Event) => {
+    await createEvent(event);
+    refetchEvents();
+  };
+
+  const handleUpdateEvent = async (event: Event) => {
+    await updateEvent(event);
+    refetchEvents();
+  };
+
+  const handleDeleteEvent = async (event: Event) => {
+    await deleteEvent(event);
+    refetchEvents();
+  };
+
+  const handleUpdateThing = async (thing: Thing) => {
+    await updateThing(thing);
+    refetchThings();
+  };
+
+  const handleDeleteThing = async (thing: Thing) => {
+    await deleteThing(thing);
+    refetchThings();
+    refetchEvents();
   };
 
   const value: AppContextType = {
@@ -80,13 +109,13 @@ export const AppProvider = ({ children }: Props) => {
     currentlyEditingEvent,
     setCurrentlyEditingEvent,
     createThing: createThingAndRememberIMadeIt,
-    createEvent,
-    updateEvent,
-    deleteEvent,
+    createEvent: handleCreateEvent,
+    updateEvent: handleUpdateEvent,
+    deleteEvent: handleDeleteEvent,
     currentlyEditingThing,
     setCurrentlyEditingThing,
-    updateThing,
-    deleteThing,
+    updateThing: handleUpdateThing,
+    deleteThing: handleDeleteThing,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

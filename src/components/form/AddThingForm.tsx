@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Button,
@@ -20,9 +20,9 @@ import { getFirstUnusedColour } from "../../utils.ts";
 // import { useDebounce } from "../../hooks/useDebounce.ts";
 import { format } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
-import { fetchSuggestions } from "../../api/fetchSuggestions.ts";
 import { useDebounce } from "../../hooks/useDebounce.ts";
 import { Suggestion } from "../../types/types.ts";
+import { fetchSuggestions } from "../../data/fetchSuggestions.ts";
 
 export const AddThingForm = () => {
   const ctx = useContext(AppContext);

@@ -23,6 +23,7 @@ export const useLocalStorage = <T>(key: string, initialValue: T) => {
   const updateStoredValue = async (value: T) => {
     try {
       localStorage.setItem(key, JSON.stringify(value));
+      console.log("setItem success:", value);
       setValue(value);
     } catch (error) {
       console.error("setItem error:", error);

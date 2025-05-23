@@ -1,20 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+"use server";
+
 import { Event } from "../types/types.ts";
+import { deleteEvent as dbDeleteEvent } from "../database/database.ts";
 
-export const useDeleteEvent = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation<any, Error, Event, unknown>({
-    mutationFn: (event: Event) => {
-      return fetch(`http://localhost:3000/api/event/${event.uuid}`, {
-        method: "delete",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["events"] });
-    },
-  });
+export const deleteEvent = async (event: Event) => {
+  dbDeleteEvent.run(event.uuid);
+  // We might need to revalidate the cache or refetch data here
+  // For now, we'll just perform the database operation.
 };
