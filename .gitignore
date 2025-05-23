@@ -24,8 +24,6 @@ dist-ssr
 *.sw?
 
 # Temp local db
-server/db.sqlite3
+db.sqlite3
 
-# Test files
-server/coverage/
-/server/.env
+.env

@@ -1,11 +1,5 @@
 import { Event, Thing } from "./types/types";
-import { enGB, enUS, Locale } from "date-fns/locale";
 import { CALENDAR_COLOURS } from "./constants.ts";
-
-const LOCALES: Record<string, Locale> = {
-  "en-GB": enGB,
-  "en-US": enUS,
-};
 
 export const eventsOnDate = (
   events: Event[],
@@ -23,11 +17,6 @@ export const eventsOnDate = (
 // TODO: use var names like monthIndex to avoid confusion
 export const daysInMonth = (month: number, year: number) =>
   new Date(year, month + 1, 0).getDate();
-
-export const getUserLocale = (): Locale => {
-  const [localeStr] = navigator.languages;
-  return LOCALES[localeStr] ?? enGB;
-};
 
 export const getFirstUnusedColour = (things: Thing[]) => {
   for (const colour of Object.keys(CALENDAR_COLOURS)) {

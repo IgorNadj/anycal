@@ -1,3 +1,5 @@
+'use client';
+
 import { Event } from "../../types/types.ts";
 import { Chip } from "@mui/material";
 import { useContext } from "react";

@@ -1,6 +1,8 @@
+'use client';
+
 import { EventChip } from "./EventChip.tsx";
 import { Typography } from "@mui/material";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { AppContext } from "../../state/AppContext.tsx";
 import { useContext } from "react";
 import { eventsOnDate, getThingForEvent } from "../../utils.ts";

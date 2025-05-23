@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { Typography } from "@mui/material";
 import { daysInMonth } from "../../utils.ts";
 import { Day } from "./Day.tsx";

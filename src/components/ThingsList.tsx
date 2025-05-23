@@ -1,3 +1,5 @@
+'use client';
+
 import { AppContext } from "../state/AppContext.tsx";
 import { useContext } from "react";
 import {

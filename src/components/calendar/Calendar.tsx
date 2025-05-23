@@ -1,3 +1,5 @@
+'use client';
+
 import { Year } from "./Year.tsx";
 import { Header } from "./Header.tsx";
 import { useContext } from "react";

@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactNode, useState } from "react";
 import { DEFAULT_VIEW_MODE } from "../constants.ts";
 import { Thing, Event, ViewMode } from "../types/types.ts";

@@ -1,3 +1,5 @@
+'use client';
+
 // src/components/form/EditThingDialog.tsx
 import {
   Button,

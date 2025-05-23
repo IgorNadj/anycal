@@ -1,3 +1,5 @@
+'use client';
+
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 import { CalendarColour } from "../../types/types.ts";

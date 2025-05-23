@@ -1,3 +1,5 @@
+'use client';
+
 // src/components/form/EventsTable.tsx
 import {
   Table,

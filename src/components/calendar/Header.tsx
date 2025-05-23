@@ -1,3 +1,5 @@
+'use client';
+
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { useContext } from "react";
 import { AppContext } from "../../state/AppContext.tsx";

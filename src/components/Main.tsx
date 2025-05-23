@@ -1,4 +1,6 @@
-import { Box, Container, Grid2 as Grid, Typography } from "@mui/material";
+"use client";
+
+import { Box, Container, Grid, Typography } from "@mui/material";
 import { AddThingForm } from "./form/AddThingForm.tsx";
 import { Calendar } from "./calendar/Calendar.tsx";
 import { useContext } from "react";
