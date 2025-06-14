@@ -41,3 +41,6 @@ export const getFirstUnusedColour = (things: Thing[]) => {
 
 export const getThingForEvent = (event: Event, allThings: Thing[]) =>
   allThings.find((thing) => thing.uuid === event.thingUuid) ?? null;
+
+
+export const objectKeys = Object.keys as <T extends object>(obj: T) => Array<keyof T>

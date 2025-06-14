@@ -3,7 +3,7 @@ import { CALENDAR_COLOURS } from "../constants.ts";
 export type Thing = {
   uuid: string;
   name: string;
-  colour: string;
+  colour: CalendarColour;
   visible: boolean;
 };
 
