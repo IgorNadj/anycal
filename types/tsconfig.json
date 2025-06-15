@@ -1,8 +1,0 @@
-{
-  "compilerOptions": {
-    "allowJs": false,
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true
-  },
-}

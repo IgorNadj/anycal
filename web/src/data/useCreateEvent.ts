@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Event } from "@anycal/types";
+import { Event } from "../types.ts";
 
 export const useCreateEvent = () => {
   const queryClient = useQueryClient();

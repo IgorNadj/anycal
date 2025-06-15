@@ -16,7 +16,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useContext, useMemo } from "react";
 import { AppContext } from "../../state/AppContext.tsx";
 import { v4 as uuidv4 } from "uuid";
-import { Event } from "@anycal/types";
+import { Event } from "../../types.ts";
 
 export const EventsTable = () => {
   const { events, createEvent, currentlyEditingThing } = useContext(AppContext);

@@ -11,7 +11,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState, useContext } from "react";
 import { AppContext } from "../../state/AppContext.tsx";
-import { Event } from "@anycal/types";
+import { Event } from "../../types.ts";
 
 // Styled components for the editable cells
 const EditableCell = styled(TableCell)(({ theme }) => ({

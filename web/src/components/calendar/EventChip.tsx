@@ -1,8 +1,8 @@
-import { Event } from "@anycal/types";
+import { Event } from "../../types.ts";
 import { Chip } from "@mui/material";
 import { useContext } from "react";
 import { AppContext } from "../../state/AppContext.tsx";
-import { CALENDAR_COLOURS } from "@anycal/types";
+import { CALENDAR_COLOURS } from "../../constants.ts";
 
 export const EventChip = ({ event }: { event: Event }) => {
   const ctx = useContext(AppContext);

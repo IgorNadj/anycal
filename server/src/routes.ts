@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { Thing } from "@anycal/types";
+import { Thing } from "../../web/src/types.ts";
 import {
   createThing,
   getThings,

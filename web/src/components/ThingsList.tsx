@@ -7,8 +7,8 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { CALENDAR_COLOURS } from "@anycal/types";
-import { Thing } from "@anycal/types";
+import { CALENDAR_COLOURS } from "../constants.ts";
+import { Thing } from "../types.ts";
 
 export const ThingsList = () => {
   const ctx = useContext(AppContext);

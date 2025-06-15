@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Event } from "@anycal/types";
+import { Event } from "../types.ts";
 
 type SerializedEvent = Omit<Event, "date"> & {
   date: string;

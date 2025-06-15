@@ -1,6 +1,6 @@
 import { ReactNode, useState } from "react";
-import { Thing, Event } from "@anycal/types";
-import {AppContext, AppContextType} from "./AppContext.tsx";
+import { Thing, Event } from "../types.ts";
+import { AppContext, AppContextType } from "./AppContext.tsx";
 import { useAnycalLocalStorage } from "../hooks/useAnycalLocalStorage.ts";
 import { useThings } from "../data/useThings.ts";
 import { useEvents } from "../data/useEvents.ts";
@@ -12,8 +12,7 @@ import { useDeleteThing } from "../data/useDeleteThing.ts";
 import { useDeleteEvent } from "../data/useDeleteEvent.ts";
 import { ViewMode } from "../types.ts";
 
-
-const DEFAULT_VIEW_MODE: ViewMode = 'compact';
+const DEFAULT_VIEW_MODE: ViewMode = "compact";
 
 type Props = {
   children: ReactNode;
