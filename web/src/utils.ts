@@ -1,6 +1,7 @@
-import { CalendarColour, Event, Thing } from "./types/types";
+import { CalendarColour, Event, Thing } from "@anycal/types";
 import { enGB, enUS, Locale } from "date-fns/locale";
-import { CALENDAR_COLOURS } from "./constants.ts";
+import { objectKeys } from "@anycal/types";
+import { CALENDAR_COLOURS } from "@anycal/types";
 
 const LOCALES: Record<string, Locale> = {
   "en-GB": enGB,
@@ -42,5 +43,3 @@ export const getFirstUnusedColour = (things: Thing[]): CalendarColour => {
 export const getThingForEvent = (event: Event, allThings: Thing[]) =>
   allThings.find((thing) => thing.uuid === event.thingUuid) ?? null;
 
-
-export const objectKeys = Object.keys as <T extends object>(obj: T) => Array<keyof T>

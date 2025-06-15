@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { Thing, SerialisedEvent } from "./types/types";
+import { Thing } from "@anycal/types";
 import {
   createThing,
   getThings,
@@ -11,13 +11,10 @@ import {
   deleteEvent,
   getEventCountByThingUuid,
   deleteEventsByThingUuid,
-} from "./database";
+} from "./database.ts";
 import { GoogleGenAI } from "@google/genai";
 import { add, format } from "date-fns";
-
-type DbThing = Omit<Thing, "visible"> & {
-  visible: number;
-};
+import { DbThing, SerialisedEvent } from "./types.ts";
 
 const router = Router();
 

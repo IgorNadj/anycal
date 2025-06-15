@@ -5,6 +5,9 @@
       "persistent": true,
       "cache": false
     },
+    "check-types": {
+      "dependsOn": []
+    },
     "build": {
       "dependsOn": []
     },

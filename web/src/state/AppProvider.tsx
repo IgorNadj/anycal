@@ -1,6 +1,5 @@
 import { ReactNode, useState } from "react";
-import { DEFAULT_VIEW_MODE } from "../constants.ts";
-import { Thing, Event } from "../types/types.ts";
+import { Thing, Event } from "@anycal/types";
 import {AppContext, AppContextType} from "./AppContext.tsx";
 import { useAnycalLocalStorage } from "../hooks/useAnycalLocalStorage.ts";
 import { useThings } from "../data/useThings.ts";
@@ -11,7 +10,10 @@ import { useUpdateEvent } from "../data/useUpdateEvent.ts";
 import { useUpdateThing } from "../data/useUpdateThing.ts";
 import { useDeleteThing } from "../data/useDeleteThing.ts";
 import { useDeleteEvent } from "../data/useDeleteEvent.ts";
+import { ViewMode } from "../types.ts";
 
+
+const DEFAULT_VIEW_MODE: ViewMode = 'compact';
 
 type Props = {
   children: ReactNode;
@@ -38,7 +40,7 @@ export const AppProvider = ({ children }: Props) => {
   const { mutate: deleteThing } = useDeleteThing();
   const { mutate: deleteEvent } = useDeleteEvent();
 
-  const [viewMode, setViewMode] = useState(DEFAULT_VIEW_MODE);
+  const [viewMode, setViewMode] = useState<ViewMode>(DEFAULT_VIEW_MODE);
 
   const [currentlyEditingEvent, setCurrentlyEditingEvent] =
     useState<Event | null>(null);

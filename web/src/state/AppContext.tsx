@@ -1,5 +1,6 @@
 import { createContext } from "react";
-import {Event, Thing, ViewMode} from "../types/types.ts";
+import {Event, Thing } from "@anycal/types";
+import { ViewMode } from "../types.ts";
 
 export type AppContextType = {
     things: Thing[];

@@ -1,4 +1,4 @@
-import { Suggestion } from "../types/types.ts";
+import { Suggestion } from "@anycal/types";
 
 type SerializedSuggestion = {
   title: string;

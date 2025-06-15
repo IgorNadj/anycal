@@ -22,7 +22,8 @@
   },
   "workspaces": [
     "server",
-    "web"
+    "web",
+    "types"
   ],
   "engines": {
     "node": ">=22"

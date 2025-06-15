@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Thing } from "../types/types.ts";
+import { Thing } from "@anycal/types";
 
 export const useCreateThing = () => {
   const queryClient = useQueryClient();

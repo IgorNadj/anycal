@@ -3,5 +3,11 @@
     "allowJs": false,
     "strict": true,
     "esModuleInterop": true,
+    "skipLibCheck": true,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "allowImportingTsExtensions": true,
+    "allowArbitraryExtensions": false,
+    "noEmit": true
   },
 }

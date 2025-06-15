@@ -12,7 +12,7 @@ import {
 import { useContext, useState, useEffect } from "react";
 import { AppContext } from "../../state/AppContext.tsx";
 import { CalendarColourPicker } from "../form/CalendarColourPicker.tsx";
-import { CalendarColour } from "../../types/types.ts";
+import { CalendarColour } from "@anycal/types";
 import { EventsTable } from "./EventsTable.tsx";
 
 export const EditThingDialog = () => {

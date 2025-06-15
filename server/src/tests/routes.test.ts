@@ -1,9 +1,10 @@
 import request from "supertest";
 import express from "express";
-import { routes } from "../routes";
+import { routes } from "../routes.ts";
 import { expect, jest, describe, it } from "@jest/globals";
-import { createEvent, createThing, getEvents, getThings } from "../database";
-import { Thing, SerialisedEvent } from "../types/types";
+import { createEvent, createThing, getEvents, getThings } from "../database.ts";
+import { Thing } from "@anycal/types"
+import { SerialisedEvent } from "../types.ts";
 
 const app = express();
 app.use(express.json());

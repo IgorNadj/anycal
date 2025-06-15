@@ -6,12 +6,14 @@
   "scripts": {
     "test": "NODE_OPTIONS=\"--import=tsx\" jest",
     "dev": "tsx watch src/index.ts",
-    "start": "tsx src/index.ts"
+    "start": "tsx src/index.ts",
+    "check-types": "tsc --noEmit"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@anycal/types": "workspace:^",
     "@google/genai": "^0.12.0",
     "cors": "^2.8.5",
     "date-fns": "^4.1.0",

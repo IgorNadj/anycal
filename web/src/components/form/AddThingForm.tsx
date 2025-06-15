@@ -19,7 +19,7 @@ import { format } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
 import { fetchSuggestions } from "../../api/fetchSuggestions.ts";
 import { useDebounce } from "../../hooks/useDebounce.ts";
-import { Suggestion } from "../../types/types.ts";
+import { Suggestion } from "@anycal/types";
 
 export const AddThingForm = () => {
   const ctx = useContext(AppContext);

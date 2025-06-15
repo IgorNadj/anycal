@@ -1,6 +1,6 @@
 import express from "express";
 import { Express, Request, Response } from "express";
-import { routes } from "./routes";
+import { routes } from "./routes.ts";
 import cors from "cors";
 import morgan from "morgan";
 import "dotenv/config";

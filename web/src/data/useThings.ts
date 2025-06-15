@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Thing } from "../types/types.ts";
+import { Thing } from "@anycal/types";
 
 export const useThings = () => {
   return useQuery<Thing[]>({

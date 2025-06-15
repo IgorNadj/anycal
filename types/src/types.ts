@@ -1,4 +1,4 @@
-import { CALENDAR_COLOURS } from "../constants";
+import { CALENDAR_COLOURS } from "./constants";
 
 export type Thing = {
   uuid: string;
@@ -14,8 +14,9 @@ export type Event = {
   thingUuid: string;
 };
 
-export type SerialisedEvent = Omit<Event, "date"> & {
-  date: string;
+export type Suggestion = {
+  title: string;
+  date: Date;
 };
 
 export type CalendarColour = keyof typeof CALENDAR_COLOURS;

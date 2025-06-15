@@ -1,9 +1,9 @@
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
-import { CalendarColour } from "../../types/types.ts";
-import { CALENDAR_COLOURS } from "../../constants.ts";
+import { CalendarColour } from "@anycal/types";
+import { CALENDAR_COLOURS } from "@anycal/types";
 import { useState } from "react";
-import { objectKeys } from "../../utils.ts";
+import { objectKeys } from "@anycal/types";
 
 type Props = {
   colour: CalendarColour;
