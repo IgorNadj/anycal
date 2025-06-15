@@ -1,0 +1,31 @@
+{
+  "name": "@anycal/anycal",
+  "version": "1.0.0",
+  "description": "Anycal",
+  "type": "module",
+  "repository": "git@github.com:IgorNadj/anycal.git",
+  "author": "Igor Nadj <igor.nadj@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "clean": "turbo run clean",
+    "dev": "turbo run dev",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "check-types": "turbo run check-types"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3",
+    "turbo": "^2.5.0"
+  },
+  "workspaces": [
+    "server",
+    "web"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "yarn@4.9.2"
+}

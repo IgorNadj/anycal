@@ -29,3 +29,6 @@ server/db.sqlite3
 # Test files
 server/coverage/
 /server/.env
+
+# Turbo
+.turbo
