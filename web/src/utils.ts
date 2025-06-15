@@ -1,4 +1,4 @@
-import { Event, Thing } from "./types/types";
+import { CalendarColour, Event, Thing } from "./types/types";
 import { enGB, enUS, Locale } from "date-fns/locale";
 import { CALENDAR_COLOURS } from "./constants.ts";
 
@@ -29,14 +29,14 @@ export const getUserLocale = (): Locale => {
   return LOCALES[localeStr] ?? enGB;
 };
 
-export const getFirstUnusedColour = (things: Thing[]) => {
-  for (const colour of Object.keys(CALENDAR_COLOURS)) {
+export const getFirstUnusedColour = (things: Thing[]): CalendarColour => {
+  for (const colour of objectKeys(CALENDAR_COLOURS)) {
     if (things.every((thing) => thing.colour !== colour)) {
       return colour;
     }
   }
   // ran out of colours
-  return "mediumBlue";
+  return "blue_400";
 };
 
 export const getThingForEvent = (event: Event, allThings: Thing[]) =>

@@ -3,6 +3,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 import { CalendarColour } from "../../types/types.ts";
 import { CALENDAR_COLOURS } from "../../constants.ts";
 import { useState } from "react";
+import { objectKeys } from "../../utils.ts";
 
 type Props = {
   colour: CalendarColour;
@@ -20,7 +21,7 @@ export const CalendarColourPicker = ({ colour, onChange }: Props) => {
         <CircleIcon sx={{ color: CALENDAR_COLOURS[colour] }} />
       </IconButton>
       <Menu open={open} anchorEl={anchorEl} onClose={() => setAnchorEl(null)}>
-        {Object.keys(CALENDAR_COLOURS).map((key) => (
+        {objectKeys(CALENDAR_COLOURS).map((key) => (
           <MenuItem
             key={key}
             onClick={() => {

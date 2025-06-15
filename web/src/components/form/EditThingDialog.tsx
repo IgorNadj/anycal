@@ -26,7 +26,7 @@ export const EditThingDialog = () => {
 
   const [name, setName] = useState<string>(currentlyEditingThing?.name ?? "");
   const [colour, setColour] = useState<CalendarColour>(
-    currentlyEditingThing?.colour ?? "mediumBlue",
+    currentlyEditingThing?.colour ?? "blue_400",
   );
 
   // Update local state when currentlyEditingThing changes
