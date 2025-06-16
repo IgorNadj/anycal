@@ -14,7 +14,8 @@ export const addVite = async (app: Express) => {
   app.use(vite.middlewares);
 
   // All other routes should be handled by Vite
-  app.get("/", async (req, res, next) => {
+  // /{*splat} matches all routes including /
+  app.get("/{*splat}", async (req, res, next) => {
     const templatePath = process.cwd() + "/web/index.html";
 
     // 1. Read index.html

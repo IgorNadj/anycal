@@ -15,8 +15,12 @@ import {
 import { GoogleGenAI } from "@google/genai";
 import { add, format } from "date-fns";
 import { DbThing, SerialisedEvent } from "./types.ts";
+import { createActionHandler } from "./action-utils/createActionHandler.js";
+import { getThingsAction } from "./action-specs/getThingsAction.js";
 
 const router = Router();
+
+router.use(createActionHandler(getThingsAction));
 
 export const routes = () => {
   // CREATE THING
@@ -26,16 +30,16 @@ export const routes = () => {
     res.status(200).send("");
   });
 
-  // GET THINGS
-  router.get("/things", (req: Request, res: Response<Thing[]>) => {
-    const thingsRaw = getThings.all() as DbThing[];
-
-    const thingsHydrated = thingsRaw.map((thing) => ({
-      ...thing,
-      visible: thing.visible === 1,
-    }));
-    res.json(thingsHydrated);
-  });
+  // // GET THINGS
+  // router.get("/things", (req: Request, res: Response<Thing[]>) => {
+  //   const thingsRaw = getThings.all() as DbThing[];
+  //
+  //   const thingsHydrated = thingsRaw.map((thing) => ({
+  //     ...thing,
+  //     visible: thing.visible === 1,
+  //   }));
+  //   res.json(thingsHydrated);
+  // });
 
   // UPDATE THING
   router.put(

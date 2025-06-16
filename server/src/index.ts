@@ -4,7 +4,7 @@ import { routes } from "./routes.ts";
 import cors from "cors";
 import morgan from "morgan";
 import "dotenv/config";
-import { addVite } from "./vite.js";
+import { addVite } from "./vite.ts";
 
 const app: Express = express();
 const port = 3000;

@@ -1,4 +1,4 @@
-import { Event, Thing } from "@anycal/types";
+import { Event, Thing } from "../../web/src/types.ts";
 
 export type SerialisedEvent = Omit<Event, "date"> & {
   date: string;
