@@ -14,15 +14,15 @@ import { AppContext } from "../../state/AppContext.tsx";
 import { CalendarColourPicker } from "./CalendarColourPicker.tsx";
 import { CalendarColour } from "../../types.ts";
 import { EventsTable } from "../table/EventsTable.tsx";
+import { useUpdateThing } from "../../data/useUpdateThing.ts";
+import { useDeleteThing } from "../../data/useDeleteThing.ts";
 
 export const EditThingDialog = () => {
   const ctx = useContext(AppContext);
-  const {
-    currentlyEditingThing,
-    setCurrentlyEditingThing,
-    updateThing,
-    deleteThing,
-  } = ctx;
+  const { currentlyEditingThing, setCurrentlyEditingThing } = ctx;
+
+  const { mutate: updateThing } = useUpdateThing();
+  const { mutate: deleteThing } = useDeleteThing();
 
   const [name, setName] = useState<string>(currentlyEditingThing?.name ?? "");
   const [colour, setColour] = useState<CalendarColour>(

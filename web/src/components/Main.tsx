@@ -6,12 +6,17 @@ import { EditEventDialog } from "./form/EditEventDialog.tsx";
 import { AppContext } from "../state/AppContext.tsx";
 import { ThingsList } from "./ThingsList.tsx";
 import { EditThingDialog } from "./form/EditThingDialog.tsx";
+import { useUser } from "../hooks/useUser.ts";
+import { useThings } from "../data/useThings.ts";
+import { useEvents } from "../data/useEvents.ts";
 
 export const Main = () => {
   const ctx = useContext(AppContext);
   const { currentlyEditingEvent, currentlyEditingThing } = ctx;
 
-  const { things, events } = ctx;
+  const user = useUser();
+  const { data: things } = useThings(user);
+  const { data: events } = useEvents(user);
   console.log("things", things);
   console.log("events", events);
 

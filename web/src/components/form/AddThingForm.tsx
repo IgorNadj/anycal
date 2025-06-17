@@ -11,18 +11,23 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { AppContext } from "../../state/AppContext.tsx";
 import { getFirstUnusedColour } from "../../utils.ts";
 import { format } from "date-fns";
 import { useDebounce } from "../../hooks/useDebounce.ts";
 import { Suggestion } from "../../types.ts";
 import { useFetchSuggestions } from "../../data/useFetchSuggestions.ts";
+import { useThings } from "../../data/useThings.ts";
+import { useUser } from "../../hooks/useUser.ts";
+import { useCreateThing } from "../../data/useCreateThing.ts";
+import { useCreateEvent } from "../../data/useCreateEvent.ts";
 
 export const AddThingForm = () => {
-  const ctx = useContext(AppContext);
-  const { things, createThing, createEvent } = ctx;
+  const user = useUser();
+  const { data: things } = useThings(user);
+  const { mutate: createThing } = useCreateThing();
+  const { mutate: createEvent } = useCreateEvent();
 
   const [date, setDate] = useState<Date>(new Date());
 
@@ -39,6 +44,7 @@ export const AddThingForm = () => {
       uuid: uuidv4(),
       colour: getFirstUnusedColour(things),
       visible: true,
+      userUuid: user.uuid,
     };
     const newEvent = {
       name,

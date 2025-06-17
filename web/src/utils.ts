@@ -39,6 +39,9 @@ export const getFirstUnusedColour = (things: Thing[]): CalendarColour => {
   return "blue_400";
 };
 
+export const getEventsForThing = (thing: Thing, allEvents: Event[]) =>
+  allEvents.filter((event) => event.thingUuid === thing.uuid);
+
 export const getThingForEvent = (event: Event, allThings: Thing[]) =>
   allThings.find((thing) => thing.uuid === event.thingUuid) ?? null;
 

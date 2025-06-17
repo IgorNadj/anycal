@@ -1,4 +1,3 @@
-// src/components/form/EventsTable.tsx
 import {
   Table,
   TableBody,
@@ -17,17 +16,22 @@ import { useContext, useMemo } from "react";
 import { AppContext } from "../../state/AppContext.tsx";
 import { v4 as uuidv4 } from "uuid";
 import { Event } from "../../types.ts";
+import { useUser } from "../../hooks/useUser.ts";
+import { useEvents } from "../../data/useEvents.ts";
+import { useCreateEvent } from "../../data/useCreateEvent.ts";
+import { getEventsForThing } from "../../utils.ts";
 
 export const EventsTable = () => {
-  const { events, createEvent, currentlyEditingThing } = useContext(AppContext);
+  const { currentlyEditingThing } = useContext(AppContext);
 
-  // Filter events for the current thing
-  const thingEvents = useMemo(() => {
+  const user = useUser();
+  const { data: allEvents } = useEvents(user);
+  const { mutate: createEvent } = useCreateEvent();
+
+  const events = useMemo(() => {
     if (!currentlyEditingThing) return [];
-    return events.filter(
-      (event) => event.thingUuid === currentlyEditingThing.uuid,
-    );
-  }, [events, currentlyEditingThing]);
+    return getEventsForThing(currentlyEditingThing, allEvents);
+  }, [allEvents, currentlyEditingThing]);
 
   const handleAddEvent = () => {
     if (!currentlyEditingThing) return;
@@ -39,11 +43,9 @@ export const EventsTable = () => {
       thingUuid: currentlyEditingThing.uuid,
     };
 
-    // Create the event immediately
     createEvent(newEvent);
   };
 
-  // Don't render anything if there's no currentlyEditingThing
   if (!currentlyEditingThing) return null;
 
   return (
@@ -76,14 +78,14 @@ export const EventsTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {thingEvents.length === 0 ? (
+            {events.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={3} align="center">
                   No events found
                 </TableCell>
               </TableRow>
             ) : (
-              thingEvents.map((event) => (
+              events.map((event) => (
                 <EditableEventRow key={event.uuid} event={event} />
               ))
             )}

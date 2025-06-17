@@ -9,9 +9,10 @@ import {
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useState, useContext } from "react";
-import { AppContext } from "../../state/AppContext.tsx";
+import { useState } from "react";
 import { Event } from "../../types.ts";
+import { useUpdateEvent } from "../../data/useUpdateEvent.ts";
+import { useDeleteEvent } from "../../data/useDeleteEvent.ts";
 
 // Styled components for the editable cells
 const EditableCell = styled(TableCell)(({ theme }) => ({
@@ -30,7 +31,8 @@ const EditableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export const EditableEventRow = ({ event }: { event: Event }) => {
-  const { updateEvent, deleteEvent } = useContext(AppContext);
+  const { mutate: updateEvent } = useUpdateEvent();
+  const { mutate: deleteEvent } = useDeleteEvent();
   const [nameValue, setNameValue] = useState(event.name);
 
   // Handle name change with blur event for saving

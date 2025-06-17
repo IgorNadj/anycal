@@ -2,11 +2,16 @@ export type ViewMode = "compact" | "expanded";
 
 import { CALENDAR_COLOURS } from "./constants.ts";
 
+export type User = {
+  uuid: string;
+};
+
 export type Thing = {
   uuid: string;
   name: string;
   colour: CalendarColour;
   visible: boolean;
+  userUuid: string;
 };
 
 export type Event = {

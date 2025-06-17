@@ -9,15 +9,15 @@ import {
 import { DatePicker } from "@mui/x-date-pickers";
 import { useContext, useState } from "react";
 import { AppContext } from "../../state/AppContext.tsx";
+import { useUpdateEvent } from "../../data/useUpdateEvent.ts";
+import { useDeleteEvent } from "../../data/useDeleteEvent.ts";
 
 export const EditEventDialog = () => {
   const ctx = useContext(AppContext);
-  const {
-    currentlyEditingEvent,
-    setCurrentlyEditingEvent,
-    updateEvent,
-    deleteEvent,
-  } = ctx;
+  const { currentlyEditingEvent, setCurrentlyEditingEvent } = ctx;
+
+  const { mutate: updateEvent } = useUpdateEvent();
+  const { mutate: deleteEvent } = useDeleteEvent();
 
   const [date, setDate] = useState<Date>(
     currentlyEditingEvent?.date ?? new Date(),

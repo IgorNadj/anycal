@@ -1,11 +1,11 @@
 import { Year } from "./Year.tsx";
 import { Header } from "./Header.tsx";
-import { useContext } from "react";
-import { AppContext } from "../../state/AppContext.tsx";
+import { useEvents } from "../../data/useEvents.ts";
+import { useUser } from "../../hooks/useUser.ts";
 
 export const Calendar = () => {
-  const ctx = useContext(AppContext);
-  const { events } = ctx;
+  const user = useUser();
+  const { data: events } = useEvents(user);
 
   const earliestYear = new Date().getFullYear();
   const latestYear =
