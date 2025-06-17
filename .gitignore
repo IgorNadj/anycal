@@ -30,5 +30,5 @@ server/db.sqlite3
 server/coverage/
 /server/.env
 
-# Turbo
-.turbo
+# Env
+.env
