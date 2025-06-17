@@ -1,4 +1,5 @@
 import { Express } from "express";
+import { parse, stringify } from "superjson";
 
 export type RegisterServerAction = ({
   actionName,
@@ -16,17 +17,22 @@ export const serverActionHandler = (app: Express): RegisterServerAction => {
       console.log("Received request for action: ", actionName);
       console.log("Request body: ", req.body);
 
+      const serialisedFnArgs = req.body.serialisedFnArgs;
+      const fnArgs = parse(serialisedFnArgs) as any[];
+
+      console.log("Request fn args: ", fnArgs);
+
       // Import the file
       const actionModule = await import(filePath);
       const actionFn = actionModule[actionName];
 
       // Prepare the arguments
-      const args = req.body;
-      const result = await actionFn(...args);
+      const result = await actionFn(...fnArgs);
 
       console.log("Result: ", result);
 
-      res.json(result);
+      const serialisedFnResult = stringify(result);
+      res.json({ serialisedFnResult });
     });
   };
 };

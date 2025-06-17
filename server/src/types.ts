@@ -1,6 +1,6 @@
 import { Event, Thing } from "../../web/src/types.ts";
 
-export type SerialisedEvent = Omit<Event, "date"> & {
+export type DbEvent = Omit<Event, "date"> & {
   date: string;
 };
 

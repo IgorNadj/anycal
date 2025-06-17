@@ -12,17 +12,27 @@ export const transformServerAction = ({
   const exportNames = collectExportNames(mod);
   const [firstExportName] = exportNames;
   let newCode = `
+import { stringify, parse } from 'superjson';  
+  
 const createActionCaller = (actionName) => {
   return async (...args) => {
-    console.log("caller called with args: " + args);
-    const result = await fetch("/actions/" + actionName, {
-      method: "POST",
-      body: JSON.stringify(args),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return result.json();
+    try {
+      console.log("caller called with args: " + args);
+      const result = await fetch("/actions/" + actionName, {
+        method: "POST",
+        body: JSON.stringify( { serialisedFnArgs: stringify(args) }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const parsedResult = await result.json();
+      const deserialisedFnResult = parse(parsedResult.serialisedFnResult);
+      console.log("deserialisedFnResult: ", deserialisedFnResult);
+      return deserialisedFnResult;
+    } catch (e) {
+      console.error("Error calling action: ", actionName, e);
+      throw e;
+    }
   };
 };
 

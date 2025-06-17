@@ -1,21 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Thing } from "../types.ts";
+import { updateThingAction } from "../actions/updateThingAction.ts";
 
 export const useUpdateThing = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<any, Error, Thing, unknown>({
-    mutationFn: (thing: Thing) => {
-      return fetch(`http://localhost:3000/api/thing/${thing.uuid}`, {
-        method: "put",
-        body: JSON.stringify(thing),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["things"] });
+  return useMutation({
+    mutationFn: (thing: Thing) => updateThingAction(thing),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["things"] });
     },
   });
 };

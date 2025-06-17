@@ -1,6 +1,5 @@
 import express from "express";
 import { Express } from "express";
-import { routes } from "./routes.ts";
 import cors from "cors";
 import morgan from "morgan";
 import "dotenv/config";
@@ -15,8 +14,6 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 app.use(cors());
-
-app.use("/api", routes());
 
 // Server action handler
 const onServerActionFound = serverActionHandler(app);

@@ -1,22 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { Event } from "../types.ts";
-
-type SerializedEvent = Omit<Event, "date"> & {
-  date: string;
-};
+import { getEventsAction } from "../actions/getEventsAction.ts";
 
 export const useEvents = () => {
-  return useQuery<Event[]>({
+  return useQuery({
     queryKey: ["events"],
-    queryFn: async () => {
-      const response = await fetch("http://localhost:3000/api/events");
-      const asJson = await response.json();
-
-      return asJson.map((event: SerializedEvent) => ({
-        ...event,
-        date: new Date(event.date),
-      }));
-    },
+    queryFn: () => getEventsAction(),
     initialData: [],
   });
 };

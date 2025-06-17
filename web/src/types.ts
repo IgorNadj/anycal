@@ -1,6 +1,6 @@
 export type ViewMode = "compact" | "expanded";
 
-import { CALENDAR_COLOURS } from "./constants";
+import { CALENDAR_COLOURS } from "./constants.ts";
 
 export type Thing = {
   uuid: string;

@@ -16,10 +16,9 @@ import { v4 as uuidv4 } from "uuid";
 import { AppContext } from "../../state/AppContext.tsx";
 import { getFirstUnusedColour } from "../../utils.ts";
 import { format } from "date-fns";
-import { useQuery } from "@tanstack/react-query";
-import { fetchSuggestions } from "../../api/fetchSuggestions.ts";
 import { useDebounce } from "../../hooks/useDebounce.ts";
 import { Suggestion } from "../../types.ts";
+import { useFetchSuggestions } from "../../data/useFetchSuggestions.ts";
 
 export const AddThingForm = () => {
   const ctx = useContext(AppContext);
@@ -32,13 +31,7 @@ export const AddThingForm = () => {
   const debouncedInput = useDebounce(input, 500);
   console.log("debouncedInput", debouncedInput);
 
-  const { data: suggestions, isLoading } = useQuery({
-    queryKey: ["suggestions", debouncedInput],
-    queryFn: () => fetchSuggestions(debouncedInput),
-    staleTime: 1000 * 60 * 5,
-    enabled: !!debouncedInput && debouncedInput.length > 0,
-    refetchOnWindowFocus: false,
-  });
+  const { data: suggestions, isLoading } = useFetchSuggestions(debouncedInput);
 
   const create = (name: string, date: Date) => {
     const newThing = {
