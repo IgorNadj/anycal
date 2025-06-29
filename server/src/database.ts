@@ -7,8 +7,6 @@ const initDatabase = `
       uuid TEXT PRIMARY KEY
   );
 
-  INSERT INTO USER (uuid) VALUES ('55efff64-f768-4cc0-baaa-0f1312afa190');
-
   CREATE TABLE IF NOT EXISTS thing (
     uuid TEXT PRIMARY KEY,
     userUuid TEXT NOT NULL,
@@ -34,3 +32,10 @@ const initDatabase = `
 `;
 
 database.exec(initDatabase);
+
+try {
+  const initialUser = `INSERT INTO USER (uuid) VALUES ('55efff64-f768-4cc0-baaa-0f1312afa190');`;
+  database.exec(initialUser);
+} catch (e) {
+  //
+}
