@@ -1,6 +1,9 @@
-import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { App } from "./App.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>RSF Zero up and running!</StrictMode>,
+  <StrictMode>
+    <App />
+  </StrictMode>,
 );

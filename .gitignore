@@ -26,9 +26,5 @@ dist-ssr
 # Temp local db
 db.sqlite3
 
-# Test files
-server/coverage/
-/server/.env
-
 # Env
 .env
