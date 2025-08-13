@@ -2,21 +2,15 @@ import {
   Button,
   DialogActions,
   DialogContent,
-  TextField,
   Typography,
-  Box,
-  List,
-  ListItem,
-  Paper,
-  CircularProgress,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { getFirstUnusedColour } from "../../utils.ts";
-import { format } from "date-fns";
 import { useDebounce } from "../../hooks/useDebounce.ts";
 import type { Suggestion } from "../../types.ts";
+import { SearchWithSuggestions } from "../dropdown/SearchWithSuggestions.tsx";
 import { useFetchSuggestions } from "../../data/useFetchSuggestions.ts";
 import { useThings } from "../../data/useThings.ts";
 import { useUser } from "../../hooks/useUser.ts";
@@ -36,7 +30,8 @@ export const AddThingForm = () => {
   const debouncedInput = useDebounce(input, 500);
   console.log("debouncedInput", debouncedInput);
 
-  const { data: suggestions, isLoading } = useFetchSuggestions(debouncedInput);
+  const { data: suggestions, isLoading: isLoadingSuggestions } =
+    useFetchSuggestions(debouncedInput);
 
   const create = (name: string, date: Date) => {
     const newThing = {
@@ -70,37 +65,13 @@ export const AddThingForm = () => {
     <>
       <DialogContent>
         <Typography variant="h6">What</Typography>
-        <TextField
-          variant="outlined"
-          sx={{ width: "100%", mb: 1 }}
+        <SearchWithSuggestions
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onInputChange={setInput}
+          suggestions={suggestions}
+          isLoading={isLoadingSuggestions}
+          onSuggestionSelect={handleSuggestionClick}
         />
-
-        {isLoading && (
-          <Box display="flex" justifyContent="center" my={1}>
-            <CircularProgress size={24} />
-          </Box>
-        )}
-
-        {suggestions && suggestions.length > 0 && (
-          <Paper elevation={2} sx={{ mb: 2, maxHeight: 200, overflow: "auto" }}>
-            <List dense>
-              {suggestions.map((suggestion, index) => (
-                <ListItem
-                  key={index + "-" + suggestion.title}
-                  onClick={() => handleSuggestionClick(suggestion)}
-                  sx={{
-                    cursor: "pointer",
-                    "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.04)" },
-                  }}
-                >
-                  {suggestion.title} {format(suggestion.date, "yyyy-MM-dd")}
-                </ListItem>
-              ))}
-            </List>
-          </Paper>
-        )}
 
         <Typography variant="h6">When</Typography>
         <DatePicker value={date} onChange={(date) => date && setDate(date)} />
