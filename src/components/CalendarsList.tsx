@@ -6,6 +6,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Typography,
 } from "@mui/material";
 import { CALENDAR_COLOURS } from "../constants.ts";
 import type { Calendar } from "../types.ts";
@@ -27,6 +28,7 @@ export const CalendarsList = () => {
 
   return (
     <>
+      <Typography variant="h6">My Calendars</Typography>
       <List>
         {calendars.map((calendar) => (
           <ListItem key={calendar.uuid} disablePadding>
