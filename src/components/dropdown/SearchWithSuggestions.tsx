@@ -66,6 +66,11 @@ export const SearchWithSuggestions = ({
         onChange={(e) => onInputChange(e.target.value)}
         onKeyDown={handleKeyDown}
         fullWidth
+        slotProps={{
+          input: {
+            autoComplete: "off",
+          },
+        }}
       />
 
       {isLoading && (
