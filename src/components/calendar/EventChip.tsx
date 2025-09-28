@@ -1,4 +1,4 @@
-import type { Event } from "../../types.ts";
+import type { CalendarEvent } from "../../types.ts";
 import { Chip } from "@mui/material";
 import { useContext } from "react";
 import { AppContext } from "../../state/AppContext.tsx";
@@ -6,7 +6,7 @@ import { CALENDAR_COLOURS } from "../../constants.ts";
 import { useThings } from "../../data/useThings.ts";
 import { useUser } from "../../hooks/useUser.ts";
 
-export const EventChip = ({ event }: { event: Event }) => {
+export const EventChip = ({ event }: { event: CalendarEvent }) => {
   const ctx = useContext(AppContext);
   const { setCurrentlyEditingEvent } = ctx;
 

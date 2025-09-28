@@ -15,7 +15,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useContext, useMemo } from "react";
 import { AppContext } from "../../state/AppContext.tsx";
 import { v4 as uuidv4 } from "uuid";
-import type { Event } from "../../types.ts";
+import type { CalendarEvent } from "../../types.ts";
 import { useUser } from "../../hooks/useUser.ts";
 import { useEvents } from "../../data/useEvents.ts";
 import { useCreateEvent } from "../../data/useCreateEvent.ts";
@@ -36,7 +36,7 @@ export const EventsTable = () => {
   const handleAddEvent = () => {
     if (!currentlyEditingThing) return;
 
-    const newEvent: Event = {
+    const newEvent: CalendarEvent = {
       uuid: uuidv4(),
       name: "New Event",
       date: new Date(),

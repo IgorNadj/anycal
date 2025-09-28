@@ -9,7 +9,7 @@ import {
 import { DatePicker } from "@mui/x-date-pickers";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
-import type { Event } from "../../types.ts";
+import type { CalendarEvent } from "../../types.ts";
 import { useUpdateEvent } from "../../data/useUpdateEvent.ts";
 import { useDeleteEvent } from "../../data/useDeleteEvent.ts";
 
@@ -29,7 +29,7 @@ const EditableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-export const EditableEventRow = ({ event }: { event: Event }) => {
+export const EditableEventRow = ({ event }: { event: CalendarEvent }) => {
   const { mutate: updateEvent } = useUpdateEvent();
   const { mutate: deleteEvent } = useDeleteEvent();
   const [nameValue, setNameValue] = useState(event.name);

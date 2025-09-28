@@ -19,7 +19,7 @@ const initDatabase = `
       ON DELETE CASCADE
   );
   
-  CREATE TABLE IF NOT EXISTS event (
+  CREATE TABLE IF NOT EXISTS calendar_event (
     uuid TEXT PRIMARY KEY,
     name TEXT NOT NULL,
     date TEXT NOT NULL,

@@ -14,7 +14,7 @@ export type Thing = {
   userUuid: string;
 };
 
-export type Event = {
+export type CalendarEvent = {
   uuid: string;
   name: string;
   date: Date;

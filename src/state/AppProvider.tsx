@@ -1,5 +1,5 @@
 import { type ReactNode, useState } from "react";
-import type { Thing, Event } from "../types.ts";
+import type { Thing, CalendarEvent } from "../types.ts";
 import { AppContext, type AppContextType } from "./AppContext.tsx";
 import type { ViewMode } from "../types.ts";
 
@@ -9,7 +9,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [viewMode, setViewMode] = useState<ViewMode>(DEFAULT_VIEW_MODE);
 
   const [currentlyEditingEvent, setCurrentlyEditingEvent] =
-    useState<Event | null>(null);
+    useState<CalendarEvent | null>(null);
 
   const [currentlyEditingThing, setCurrentlyEditingThing] =
     useState<Thing | null>(null);
