@@ -1,11 +1,11 @@
 import { useLocalStorage } from "./useLocalStorage.ts";
 
 type DbType = {
-  thingRefUuids: string[];
+  calendarRefUuids: string[];
 };
 
 const emptyDb = {
-  thingRefUuids: [],
+  calendarRefUuids: [],
 };
 
 export const useAnycalLocalStorage = () => {

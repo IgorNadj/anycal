@@ -7,7 +7,7 @@ const initDatabase = `
       uuid TEXT PRIMARY KEY
   );
 
-  CREATE TABLE IF NOT EXISTS thing (
+  CREATE TABLE IF NOT EXISTS calendar (
     uuid TEXT PRIMARY KEY,
     userUuid TEXT NOT NULL,
     name TEXT NOT NULL, 
@@ -23,10 +23,10 @@ const initDatabase = `
     uuid TEXT PRIMARY KEY,
     name TEXT NOT NULL,
     date TEXT NOT NULL,
-    thingUuid TEXT NOT NULL,
-    CONSTRAINT fk_thing
-      FOREIGN KEY (thingUuid)
-      REFERENCES thing(uuid)
+    calendarUuid TEXT NOT NULL,
+    CONSTRAINT fk_calendar
+      FOREIGN KEY (calendarUuid)
+      REFERENCES calendar(uuid)
       ON DELETE CASCADE
   );
 `;
@@ -34,7 +34,7 @@ const initDatabase = `
 database.exec(initDatabase);
 
 try {
-  const initialUser = `INSERT INTO USER (uuid) VALUES ('55efff64-f768-4cc0-baaa-0f1312afa190');`;
+  const initialUser = `INSERT INTO user (uuid) VALUES ('55efff64-f768-4cc0-baaa-0f1312afa190');`;
   database.exec(initialUser);
 } catch (e) {
   //

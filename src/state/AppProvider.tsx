@@ -1,5 +1,5 @@
 import { type ReactNode, useState } from "react";
-import type { Thing, CalendarEvent } from "../types.ts";
+import type { Calendar, CalendarEvent } from "../types.ts";
 import { AppContext, type AppContextType } from "./AppContext.tsx";
 import type { ViewMode } from "../types.ts";
 
@@ -11,16 +11,16 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [currentlyEditingEvent, setCurrentlyEditingEvent] =
     useState<CalendarEvent | null>(null);
 
-  const [currentlyEditingThing, setCurrentlyEditingThing] =
-    useState<Thing | null>(null);
+  const [currentlyEditingCalendar, setCurrentlyEditingCalendar] =
+    useState<Calendar | null>(null);
 
   const value: AppContextType = {
     viewMode,
     setViewMode,
     currentlyEditingEvent,
     setCurrentlyEditingEvent,
-    currentlyEditingThing,
-    setCurrentlyEditingThing,
+    currentlyEditingCalendar: currentlyEditingCalendar,
+    setCurrentlyEditingCalendar: setCurrentlyEditingCalendar,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

@@ -3,10 +3,10 @@ import { Typography } from "@mui/material";
 import styled from "styled-components";
 import { AppContext } from "../../state/AppContext.tsx";
 import { useContext } from "react";
-import { eventsOnDate, getThingForEvent } from "../../utils.ts";
+import { eventsOnDate, getCalendarForEvent } from "../../utils.ts";
 import { useEvents } from "../../data/useEvents.ts";
 import { useUser } from "../../hooks/useUser.ts";
-import { useThings } from "../../data/useThings.ts";
+import { useCalendars } from "../../data/useCalendars.ts";
 
 const DayContainer = styled.div`
   outline: 1px solid gray;
@@ -23,7 +23,7 @@ const DayTitleContainer = styled.h6`
   margin: 0.2em;
 `;
 
-const ThingsContainer = styled.div`
+const CalendarEventContainer = styled.div`
   outline: 1px solid red;
   flex: 1;
 `;
@@ -42,7 +42,7 @@ export const Day = ({
 
   const user = useUser();
   const { data: events } = useEvents(user);
-  const { data: things } = useThings(user);
+  const { data: calendars } = useCalendars(user);
 
   const eventsThisDate = eventsOnDate(events, year, month, day);
 
@@ -58,14 +58,14 @@ export const Day = ({
           {day + 1}
         </Typography>
       </DayTitleContainer>
-      <ThingsContainer>
+      <CalendarEventContainer>
         {eventsThisDate.map(
           (event) =>
-            getThingForEvent(event, things)?.visible && (
+            getCalendarForEvent(event, calendars)?.visible && (
               <EventChip key={event.uuid} event={event} />
             ),
         )}
-      </ThingsContainer>
+      </CalendarEventContainer>
     </DayContainer>
   );
 };

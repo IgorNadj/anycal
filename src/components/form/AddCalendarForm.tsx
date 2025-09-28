@@ -9,18 +9,18 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { getFirstUnusedColour } from "../../utils.ts";
 import { useDebounce } from "../../hooks/useDebounce.ts";
-import type { Suggestion } from "../../types.ts";
+import type { CalendarEvent, Suggestion } from "../../types.ts";
 import { SearchWithSuggestions } from "../dropdown/SearchWithSuggestions.tsx";
 import { useFetchSuggestions } from "../../data/useFetchSuggestions.ts";
-import { useThings } from "../../data/useThings.ts";
 import { useUser } from "../../hooks/useUser.ts";
-import { useCreateThing } from "../../data/useCreateThing.ts";
 import { useCreateEvent } from "../../data/useCreateEvent.ts";
+import { useCreateCalendar } from "../../data/useCreateCalendar.ts";
+import { useCalendars } from "../../data/useCalendars.ts";
 
-export const AddThingForm = () => {
+export const AddCalendarForm = () => {
   const user = useUser();
-  const { data: things } = useThings(user);
-  const { mutate: createThing } = useCreateThing();
+  const { data: calendars } = useCalendars(user);
+  const { mutate: createCalendar } = useCreateCalendar();
   const { mutate: createEvent } = useCreateEvent();
 
   const [date, setDate] = useState<Date>(new Date());
@@ -34,20 +34,20 @@ export const AddThingForm = () => {
     useFetchSuggestions(debouncedInput);
 
   const create = (name: string, date: Date) => {
-    const newThing = {
+    const newCalendar = {
       name,
       uuid: uuidv4(),
-      colour: getFirstUnusedColour(things),
+      colour: getFirstUnusedColour(calendars),
       visible: true,
       userUuid: user.uuid,
     };
-    const newEvent = {
+    const newEvent: CalendarEvent = {
       name,
       date,
       uuid: uuidv4(),
-      thingUuid: newThing.uuid,
+      calendarUuid: newCalendar.uuid,
     };
-    createThing(newThing);
+    createCalendar(newCalendar);
     createEvent(newEvent);
 
     setInput("");

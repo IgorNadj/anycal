@@ -3,7 +3,7 @@ import { Chip } from "@mui/material";
 import { useContext } from "react";
 import { AppContext } from "../../state/AppContext.tsx";
 import { CALENDAR_COLOURS } from "../../constants.ts";
-import { useThings } from "../../data/useThings.ts";
+import { useCalendars } from "../../data/useCalendars.ts";
 import { useUser } from "../../hooks/useUser.ts";
 
 export const EventChip = ({ event }: { event: CalendarEvent }) => {
@@ -11,16 +11,16 @@ export const EventChip = ({ event }: { event: CalendarEvent }) => {
   const { setCurrentlyEditingEvent } = ctx;
 
   const user = useUser();
-  const { data: things } = useThings(user);
+  const { data: calendars } = useCalendars(user);
 
-  const thing = things.find((thing) => thing.uuid === event.thingUuid);
-  if (!thing) {
+  const calendar = calendars.find((c) => c.uuid === event.calendarUuid);
+  if (!calendar) {
     return null;
   }
 
   return (
     <Chip
-      sx={{ backgroundColor: CALENDAR_COLOURS[thing.colour] }}
+      sx={{ backgroundColor: CALENDAR_COLOURS[calendar.colour] }}
       label={event.name}
       onClick={() => setCurrentlyEditingEvent(event)}
     />

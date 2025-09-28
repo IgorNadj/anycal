@@ -1,29 +1,29 @@
 import { Box, Container, Grid2 as Grid, Typography } from "@mui/material";
-import { AddThingForm } from "./form/AddThingForm.tsx";
+import { AddCalendarForm } from "./form/AddCalendarForm.tsx";
 import { Calendar } from "./calendar/Calendar.tsx";
 import { useContext } from "react";
 import { EditEventDialog } from "./form/EditEventDialog.tsx";
 import { AppContext } from "../state/AppContext.tsx";
-import { ThingsList } from "./ThingsList.tsx";
-import { EditThingDialog } from "./form/EditThingDialog.tsx";
+import { EditCalendarDialog } from "./form/EditCalendarDialog.tsx";
 import { useUser } from "../hooks/useUser.ts";
-import { useThings } from "../data/useThings.ts";
 import { useEvents } from "../data/useEvents.ts";
+import { CalendarsList } from "./CalendarsList.tsx";
+import { useCalendars } from "../data/useCalendars.ts";
 
 export const Main = () => {
   const ctx = useContext(AppContext);
-  const { currentlyEditingEvent, currentlyEditingThing } = ctx;
+  const { currentlyEditingEvent, currentlyEditingCalendar } = ctx;
 
   const user = useUser();
-  const { data: things } = useThings(user);
+  const { data: calendars } = useCalendars(user);
   const { data: events } = useEvents(user);
-  console.log("things", things);
+  console.log("calendars", calendars);
   console.log("events", events);
 
   return (
     <Container sx={{ py: { xs: 8, sm: 10 } }}>
       <EditEventDialog key={currentlyEditingEvent?.uuid} />
-      <EditThingDialog key={currentlyEditingThing?.uuid} />
+      <EditCalendarDialog key={currentlyEditingCalendar?.uuid} />
       <Box>
         <Typography
           component="h2"
@@ -43,8 +43,8 @@ export const Main = () => {
       <Box>
         <Grid container spacing={10}>
           <Grid size={6}>
-            <AddThingForm />
-            <ThingsList />
+            <AddCalendarForm />
+            <CalendarsList />
           </Grid>
           <Grid size={6}>
             <Calendar />

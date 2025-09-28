@@ -11,7 +11,7 @@ type DbCalendarEvent = Omit<CalendarEvent, "date"> & {
 export const getEventsAction = async (user: User): Promise<CalendarEvent[]> => {
   const eventsRaw = database
     .prepare(
-      "SELECT * FROM calendar_event WHERE thingUuid IN (SELECT uuid FROM thing WHERE userUuid = ?)",
+      "SELECT * FROM calendar_event WHERE calendarUuid IN (SELECT uuid FROM calendar WHERE userUuid = ?)",
     )
     .all(user.uuid) as unknown as DbCalendarEvent[];
   return eventsRaw.map((eventRaw) => ({

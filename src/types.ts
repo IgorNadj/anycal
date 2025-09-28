@@ -6,7 +6,7 @@ export type User = {
   uuid: string;
 };
 
-export type Thing = {
+export type Calendar = {
   uuid: string;
   name: string;
   colour: CalendarColour;
@@ -18,7 +18,7 @@ export type CalendarEvent = {
   uuid: string;
   name: string;
   date: Date;
-  thingUuid: string;
+  calendarUuid: string;
 };
 
 export type Suggestion = {

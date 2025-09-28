@@ -7,7 +7,7 @@ import { database } from "../database.ts";
 export const createEventAction = async (event: CalendarEvent) => {
   database
     .prepare(
-      "INSERT INTO calendar_event (uuid, name, date, thingUuid) VALUES (?, ?, ?, ?)",
+      "INSERT INTO calendar_event (uuid, name, date, calendarUuid) VALUES (?, ?, ?, ?)",
     )
-    .run(event.uuid, event.name, formatRFC3339(event.date), event.thingUuid);
+    .run(event.uuid, event.name, formatRFC3339(event.date), event.calendarUuid);
 };

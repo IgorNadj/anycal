@@ -19,34 +19,34 @@ import type { CalendarEvent } from "../../types.ts";
 import { useUser } from "../../hooks/useUser.ts";
 import { useEvents } from "../../data/useEvents.ts";
 import { useCreateEvent } from "../../data/useCreateEvent.ts";
-import { getEventsForThing } from "../../utils.ts";
+import { getEventsForCalendar } from "../../utils.ts";
 
 export const EventsTable = () => {
-  const { currentlyEditingThing } = useContext(AppContext);
+  const { currentlyEditingCalendar } = useContext(AppContext);
 
   const user = useUser();
   const { data: allEvents } = useEvents(user);
   const { mutate: createEvent } = useCreateEvent();
 
   const events = useMemo(() => {
-    if (!currentlyEditingThing) return [];
-    return getEventsForThing(currentlyEditingThing, allEvents);
-  }, [allEvents, currentlyEditingThing]);
+    if (!currentlyEditingCalendar) return [];
+    return getEventsForCalendar(currentlyEditingCalendar, allEvents);
+  }, [allEvents, currentlyEditingCalendar]);
 
   const handleAddEvent = () => {
-    if (!currentlyEditingThing) return;
+    if (!currentlyEditingCalendar) return;
 
     const newEvent: CalendarEvent = {
       uuid: uuidv4(),
       name: "New Event",
       date: new Date(),
-      thingUuid: currentlyEditingThing.uuid,
+      calendarUuid: currentlyEditingCalendar.uuid,
     };
 
     createEvent(newEvent);
   };
 
-  if (!currentlyEditingThing) return null;
+  if (!currentlyEditingCalendar) return null;
 
   return (
     <>
