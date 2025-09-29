@@ -43,7 +43,6 @@ export const EditableEventRow = ({ event }: { event: CalendarEvent }) => {
 
   // Update local state while typing
   const handleNameChange = (value: string) => {
-    console.log("handleNameChange", value);
     setNameValue(value);
   };
 

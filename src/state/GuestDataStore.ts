@@ -1,38 +1,56 @@
+import { parse, stringify } from "superjson";
 import type { Calendar, CalendarEvent } from "../types.ts";
 
-const state: {
-  calendars: Map<Calendar["uuid"], Calendar>;
-  events: Map<CalendarEvent["uuid"], CalendarEvent>;
+let state: {
+  calendars: Record<Calendar["uuid"], Calendar>;
+  events: Record<CalendarEvent["uuid"], CalendarEvent>;
 } = {
-  calendars: new Map(),
-  events: new Map(),
+  calendars: {},
+  events: {},
 };
+
+const persist = () => {
+  localStorage.setItem("anycal_guest_data", stringify(state));
+};
+
+const load = () => {
+  const raw = localStorage.getItem("anycal_guest_data");
+  if (!raw) return;
+  state = parse(raw);
+};
+
+load();
 
 export const GuestDataStore = {
   calendars: {
-    get: () => Array.from(state.calendars.values()),
+    get: () => Array.from(Object.values(state.calendars)),
     create: (calendar: Calendar) => {
-      state.calendars.set(calendar.uuid, calendar);
+      state.calendars[calendar.uuid] = calendar;
+      persist();
     },
     update: (calendar: Calendar) => {
-      state.calendars.get(calendar.uuid) &&
-        state.calendars.set(calendar.uuid, calendar);
+      state.calendars[calendar.uuid] = calendar;
+      persist();
     },
     delete: (calendar: Calendar) => {
-      state.calendars.delete(calendar.uuid);
+      delete state.calendars[calendar.uuid];
+      persist();
     },
   },
 
   events: {
-    get: () => Array.from(state.events.values()),
+    get: () => Array.from(Object.values(state.events)),
     create: (event: CalendarEvent) => {
-      state.events.set(event.uuid, event);
+      state.events[event.uuid] = event;
+      persist();
     },
     update: (event: CalendarEvent) => {
-      state.events.get(event.uuid) && state.events.set(event.uuid, event);
+      state.events[event.uuid] = event;
+      persist();
     },
     delete: (event: CalendarEvent) => {
-      state.events.delete(event.uuid);
+      delete state.events[event.uuid];
+      persist();
     },
   },
 };

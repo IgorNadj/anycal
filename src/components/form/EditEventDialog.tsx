@@ -39,8 +39,6 @@ export const EditEventDialog = () => {
     }
   };
 
-  console.log("currentlyEditingEvent", currentlyEditingEvent);
-
   return (
     <Dialog
       open={currentlyEditingEvent !== null}
