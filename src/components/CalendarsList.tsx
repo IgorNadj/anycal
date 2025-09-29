@@ -1,7 +1,9 @@
 import { AppContext } from "../state/AppContext.tsx";
 import { useContext } from "react";
 import {
+  Box,
   Checkbox,
+  IconButton,
   List,
   ListItem,
   ListItemIcon,
@@ -12,10 +14,11 @@ import { CALENDAR_COLOURS } from "../constants.ts";
 import type { Calendar } from "../types.ts";
 import { useCalendars } from "../hooks/useCalendars.ts";
 import { useUpdateCalendar } from "../hooks/useUpdateCalendar.ts";
+import { Add } from "@mui/icons-material";
 
 export const CalendarsList = () => {
   const ctx = useContext(AppContext);
-  const { setCurrentlyEditingCalendar } = ctx;
+  const { setCurrentlyEditingCalendar, setIsCreatingCalendar } = ctx;
 
   const { data: calendars } = useCalendars();
   const { mutate: updateCalendar } = useUpdateCalendar();
@@ -26,7 +29,15 @@ export const CalendarsList = () => {
 
   return (
     <>
-      <Typography variant="h6">My Calendars</Typography>
+      <Box sx={{ display: "flex" }}>
+        <Typography sx={{ flex: 1 }} variant="h6">
+          My Calendars
+        </Typography>
+        <IconButton onClick={() => setIsCreatingCalendar(true)}>
+          <Add />
+        </IconButton>
+      </Box>
+
       <List>
         {calendars.map((calendar) => (
           <ListItem key={calendar.uuid} disablePadding>

@@ -1,10 +1,11 @@
 import { Box, Container, Grid2 as Grid, Typography } from "@mui/material";
-import { AddCalendarForm } from "./form/AddCalendarForm.tsx";
+import { AddEventForm } from "./form/AddEventForm.tsx";
 import { Calendar } from "./calendar/Calendar.tsx";
 import { useContext } from "react";
 import { EditEventDialog } from "./form/EditEventDialog.tsx";
 import { AppContext } from "../state/AppContext.tsx";
 import { EditCalendarDialog } from "./form/EditCalendarDialog.tsx";
+import { AddCalendarDialog } from "./form/AddCalendarDialog.tsx";
 import { useEvents } from "../hooks/useEvents.ts";
 import { CalendarsList } from "./CalendarsList.tsx";
 import { useCalendars } from "../hooks/useCalendars.ts";
@@ -23,6 +24,7 @@ export const Main = () => {
     <Container sx={{ py: { xs: 8, sm: 10 } }}>
       <EditEventDialog key={currentlyEditingEvent?.uuid} />
       <EditCalendarDialog key={currentlyEditingCalendar?.uuid} />
+      <AddCalendarDialog />
       <Box
         sx={{
           display: "flex",
@@ -51,7 +53,7 @@ export const Main = () => {
       <Box>
         <Grid container spacing={10}>
           <Grid size={6}>
-            <AddCalendarForm />
+            <AddEventForm />
             <CalendarsList />
           </Grid>
           <Grid size={6}>

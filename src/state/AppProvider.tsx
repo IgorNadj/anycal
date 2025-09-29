@@ -14,6 +14,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [currentlyEditingCalendar, setCurrentlyEditingCalendar] =
     useState<Calendar | null>(null);
 
+  const [isCreatingCalendar, setIsCreatingCalendar] = useState<boolean>(false);
+
   const value: AppContextType = {
     viewMode,
     setViewMode,
@@ -21,6 +23,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     setCurrentlyEditingEvent,
     currentlyEditingCalendar: currentlyEditingCalendar,
     setCurrentlyEditingCalendar: setCurrentlyEditingCalendar,
+    isCreatingCalendar,
+    setIsCreatingCalendar,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

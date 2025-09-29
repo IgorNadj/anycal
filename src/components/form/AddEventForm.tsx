@@ -5,22 +5,18 @@ import {
   Typography,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { getFirstUnusedColour } from "../../utils.ts";
 import { useDebounce } from "../../hooks/useDebounce.ts";
-import type { CalendarEvent, Suggestion } from "../../types.ts";
+import type { Calendar, CalendarEvent, Suggestion } from "../../types.ts";
 import { SearchWithSuggestions } from "../dropdown/SearchWithSuggestions.tsx";
 import { useFetchSuggestions } from "../../hooks/useFetchSuggestions.ts";
 import { useCreateEvent } from "../../hooks/useCreateEvent.ts";
-import { useCreateCalendar } from "../../hooks/useCreateCalendar.ts";
 import { useCalendars } from "../../hooks/useCalendars.ts";
-import { getAuth } from "../../getAuth.ts";
+import { CalendarPicker } from "./CalendarPicker.tsx";
 
-export const AddCalendarForm = () => {
-  const auth = getAuth();
+export const AddEventForm = () => {
   const { data: calendars } = useCalendars();
-  const { mutate: createCalendar } = useCreateCalendar();
   const { mutate: createEvent } = useCreateEvent();
 
   const [date, setDate] = useState<Date>(new Date());
@@ -29,24 +25,28 @@ export const AddCalendarForm = () => {
 
   const debouncedInput = useDebounce(input, 500);
 
+  const [selectedCalendar, setSelectedCalendar] = useState<Calendar | null>(
+    null,
+  );
+
+  // Default calendar is the first one
+  useEffect(() => {
+    if (calendars.length === 0) return;
+    const [firstCal] = calendars;
+    setSelectedCalendar(firstCal);
+  }, [calendars]);
+
   const { data: suggestions, isLoading: isLoadingSuggestions } =
     useFetchSuggestions(debouncedInput);
 
   const create = (name: string, date: Date) => {
-    const newCalendar = {
-      name,
-      uuid: uuidv4(),
-      colour: getFirstUnusedColour(calendars),
-      visible: true,
-      userUuid: auth.isLoggedIn ? auth.userUuid : auth.guestUuid,
-    };
+    if (!selectedCalendar) return;
     const newEvent: CalendarEvent = {
       name,
       date,
       uuid: uuidv4(),
-      calendarUuid: newCalendar.uuid,
+      calendarUuid: selectedCalendar.uuid,
     };
-    createCalendar(newCalendar);
     createEvent(newEvent);
 
     setInput("");
@@ -74,6 +74,10 @@ export const AddCalendarForm = () => {
 
         <Typography variant="h6">When</Typography>
         <DatePicker value={date} onChange={(date) => date && setDate(date)} />
+        <CalendarPicker
+          selectedCalendar={selectedCalendar}
+          onChangeCalendar={setSelectedCalendar}
+        />
       </DialogContent>
       <DialogActions>
         <Button variant="contained" onClick={handleAddButtonClick}>
