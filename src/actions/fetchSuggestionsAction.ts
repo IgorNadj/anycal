@@ -4,6 +4,8 @@ import type { Suggestion } from "../types.ts";
 import { GoogleGenAI } from "@google/genai";
 import { add, format, parseISO } from "date-fns";
 
+const cache: Record<string, Suggestion[]> = {};
+
 export const fetchSuggestionsAction = async (
   input: string,
 ): Promise<Suggestion[]> => {
@@ -13,6 +15,10 @@ export const fetchSuggestionsAction = async (
   if (!apiKey) throw new Error("API key is not configured");
 
   if (!input) throw new Error("Input is empty");
+
+  if (cache[input]) {
+    return cache[input];
+  }
 
   const ai = new GoogleGenAI({ apiKey });
 
@@ -40,6 +46,8 @@ export const fetchSuggestionsAction = async (
     title: suggestion.title,
     date: parseISO(suggestion.date),
   }));
+
+  cache[input] = hydrated;
 
   return hydrated;
 };
