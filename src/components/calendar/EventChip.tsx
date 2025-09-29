@@ -3,15 +3,13 @@ import { Chip } from "@mui/material";
 import { useContext } from "react";
 import { AppContext } from "../../state/AppContext.tsx";
 import { CALENDAR_COLOURS } from "../../constants.ts";
-import { useCalendars } from "../../data/useCalendars.ts";
-import { useUser } from "../../hooks/useUser.ts";
+import { useCalendars } from "../../hooks/useCalendars.ts";
 
 export const EventChip = ({ event }: { event: CalendarEvent }) => {
   const ctx = useContext(AppContext);
   const { setCurrentlyEditingEvent } = ctx;
 
-  const user = useUser();
-  const { data: calendars } = useCalendars(user);
+  const { data: calendars } = useCalendars();
 
   const calendar = calendars.find((c) => c.uuid === event.calendarUuid);
   if (!calendar) {

@@ -10,8 +10,8 @@ import { DatePicker } from "@mui/x-date-pickers";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
 import type { CalendarEvent } from "../../types.ts";
-import { useUpdateEvent } from "../../data/useUpdateEvent.ts";
-import { useDeleteEvent } from "../../data/useDeleteEvent.ts";
+import { useUpdateEvent } from "../../hooks/useUpdateEvent.ts";
+import { useDeleteEvent } from "../../hooks/useDeleteEvent.ts";
 
 // Styled components for the editable cells
 const EditableCell = styled(TableCell)(({ theme }) => ({

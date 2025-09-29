@@ -13,8 +13,8 @@ import { AppContext } from "../../state/AppContext.tsx";
 import { CalendarColourPicker } from "./CalendarColourPicker.tsx";
 import type { CalendarColour } from "../../types.ts";
 import { EventsTable } from "../table/EventsTable.tsx";
-import { useUpdateCalendar } from "../../data/useUpdateCalendar.ts";
-import { useDeleteCalendar } from "../../data/useDeleteCalendar.ts";
+import { useUpdateCalendar } from "../../hooks/useUpdateCalendar.ts";
+import { useDeleteCalendar } from "../../hooks/useDeleteCalendar.ts";
 
 export const EditCalendarDialog = () => {
   const ctx = useContext(AppContext);

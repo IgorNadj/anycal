@@ -16,16 +16,14 @@ import { useContext, useMemo } from "react";
 import { AppContext } from "../../state/AppContext.tsx";
 import { v4 as uuidv4 } from "uuid";
 import type { CalendarEvent } from "../../types.ts";
-import { useUser } from "../../hooks/useUser.ts";
-import { useEvents } from "../../data/useEvents.ts";
-import { useCreateEvent } from "../../data/useCreateEvent.ts";
+import { useEvents } from "../../hooks/useEvents.ts";
+import { useCreateEvent } from "../../hooks/useCreateEvent.ts";
 import { getEventsForCalendar } from "../../utils.ts";
 
 export const EventsTable = () => {
   const { currentlyEditingCalendar } = useContext(AppContext);
 
-  const user = useUser();
-  const { data: allEvents } = useEvents(user);
+  const { data: allEvents } = useEvents();
   const { mutate: createEvent } = useCreateEvent();
 
   const events = useMemo(() => {

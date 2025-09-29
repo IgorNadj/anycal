@@ -4,9 +4,8 @@ import styled from "styled-components";
 import { AppContext } from "../../state/AppContext.tsx";
 import { useContext } from "react";
 import { eventsOnDate, getCalendarForEvent } from "../../utils.ts";
-import { useEvents } from "../../data/useEvents.ts";
-import { useUser } from "../../hooks/useUser.ts";
-import { useCalendars } from "../../data/useCalendars.ts";
+import { useEvents } from "../../hooks/useEvents.ts";
+import { useCalendars } from "../../hooks/useCalendars.ts";
 
 const DayContainer = styled.div`
   outline: 1px solid gray;
@@ -40,9 +39,8 @@ export const Day = ({
   const ctx = useContext(AppContext);
   const { viewMode } = ctx;
 
-  const user = useUser();
-  const { data: events } = useEvents(user);
-  const { data: calendars } = useCalendars(user);
+  const { data: events } = useEvents();
+  const { data: calendars } = useCalendars();
 
   const eventsThisDate = eventsOnDate(events, year, month, day);
 

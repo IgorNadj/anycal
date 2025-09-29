@@ -10,16 +10,14 @@ import {
 } from "@mui/material";
 import { CALENDAR_COLOURS } from "../constants.ts";
 import type { Calendar } from "../types.ts";
-import { useUser } from "../hooks/useUser.ts";
-import { useCalendars } from "../data/useCalendars.ts";
-import { useUpdateCalendar } from "../data/useUpdateCalendar.ts";
+import { useCalendars } from "../hooks/useCalendars.ts";
+import { useUpdateCalendar } from "../hooks/useUpdateCalendar.ts";
 
 export const CalendarsList = () => {
   const ctx = useContext(AppContext);
   const { setCurrentlyEditingCalendar } = ctx;
 
-  const user = useUser();
-  const { data: calendars } = useCalendars(user);
+  const { data: calendars } = useCalendars();
   const { mutate: updateCalendar } = useUpdateCalendar();
 
   const setCalendarVisible = (calendar: Calendar, visible: boolean) => {

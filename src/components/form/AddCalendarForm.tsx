@@ -11,15 +11,15 @@ import { getFirstUnusedColour } from "../../utils.ts";
 import { useDebounce } from "../../hooks/useDebounce.ts";
 import type { CalendarEvent, Suggestion } from "../../types.ts";
 import { SearchWithSuggestions } from "../dropdown/SearchWithSuggestions.tsx";
-import { useFetchSuggestions } from "../../data/useFetchSuggestions.ts";
-import { useUser } from "../../hooks/useUser.ts";
-import { useCreateEvent } from "../../data/useCreateEvent.ts";
-import { useCreateCalendar } from "../../data/useCreateCalendar.ts";
-import { useCalendars } from "../../data/useCalendars.ts";
+import { useFetchSuggestions } from "../../hooks/useFetchSuggestions.ts";
+import { useCreateEvent } from "../../hooks/useCreateEvent.ts";
+import { useCreateCalendar } from "../../hooks/useCreateCalendar.ts";
+import { useCalendars } from "../../hooks/useCalendars.ts";
+import { getAuth } from "../../getAuth.ts";
 
 export const AddCalendarForm = () => {
-  const user = useUser();
-  const { data: calendars } = useCalendars(user);
+  const auth = getAuth();
+  const { data: calendars } = useCalendars();
   const { mutate: createCalendar } = useCreateCalendar();
   const { mutate: createEvent } = useCreateEvent();
 
@@ -28,7 +28,6 @@ export const AddCalendarForm = () => {
   const [input, setInput] = useState<string>("");
 
   const debouncedInput = useDebounce(input, 500);
-  console.log("debouncedInput", debouncedInput);
 
   const { data: suggestions, isLoading: isLoadingSuggestions } =
     useFetchSuggestions(debouncedInput);
@@ -39,7 +38,7 @@ export const AddCalendarForm = () => {
       uuid: uuidv4(),
       colour: getFirstUnusedColour(calendars),
       visible: true,
-      userUuid: user.uuid,
+      userUuid: auth.isLoggedIn ? auth.userUuid : auth.guestUuid,
     };
     const newEvent: CalendarEvent = {
       name,

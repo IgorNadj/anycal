@@ -2,8 +2,19 @@ export type ViewMode = "compact" | "expanded";
 
 import { CALENDAR_COLOURS } from "./constants.ts";
 
+export type Auth =
+  | {
+      isLoggedIn: true;
+      userUuid: string;
+    }
+  | {
+      isLoggedIn: false;
+      guestUuid: string;
+    };
+
 export type User = {
   uuid: string;
+  email: string | null;
 };
 
 export type Calendar = {
