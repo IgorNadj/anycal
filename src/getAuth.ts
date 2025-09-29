@@ -1,4 +1,5 @@
 import type { Auth } from "./types.ts";
+import { GuestDataStore } from "./state/GuestDataStore.ts";
 
 export const getAuth = (): Auth => {
   const userUuid = window.localStorage.getItem("anycal_userUuid");
@@ -10,7 +11,7 @@ export const getAuth = (): Auth => {
   } else {
     return {
       isLoggedIn: false,
-      guestUuid: "55efff64-f768-4cc0-baaa-0f1312afa190",
+      guestUuid: GuestDataStore.user.getUuid(),
     };
   }
 };
