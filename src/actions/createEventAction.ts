@@ -1,13 +1,9 @@
 "use server";
 
 import type { CalendarEvent } from "../types.ts";
-import { formatRFC3339 } from "date-fns";
 import { database } from "../database.ts";
+import { createEvent } from "../sql/mutations.ts";
 
 export const createEventAction = async (event: CalendarEvent) => {
-  database
-    .prepare(
-      "INSERT INTO calendar_event (uuid, name, date, calendarUuid) VALUES (?, ?, ?, ?)",
-    )
-    .run(event.uuid, event.name, formatRFC3339(event.date), event.calendarUuid);
+  createEvent(database, event);
 };

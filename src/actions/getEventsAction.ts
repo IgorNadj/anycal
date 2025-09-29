@@ -2,20 +2,10 @@
 
 import { database } from "../database.ts";
 import type { CalendarEvent, User } from "../types.ts";
-import { parseISO } from "date-fns";
+import { getEvents } from "../sql/queries.ts";
 
-type DbCalendarEvent = Omit<CalendarEvent, "date"> & {
-  date: string;
-};
-
-export const getEventsAction = async (user: User): Promise<CalendarEvent[]> => {
-  const eventsRaw = database
-    .prepare(
-      "SELECT * FROM calendar_event WHERE calendarUuid IN (SELECT uuid FROM calendar WHERE userUuid = ?)",
-    )
-    .all(user.uuid) as unknown as DbCalendarEvent[];
-  return eventsRaw.map((eventRaw) => ({
-    ...eventRaw,
-    date: parseISO(eventRaw.date),
-  }));
+export const getEventsAction = async (
+  userUuid: User["uuid"],
+): Promise<CalendarEvent[]> => {
+  return getEvents(database, userUuid);
 };

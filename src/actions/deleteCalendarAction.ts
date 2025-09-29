@@ -2,7 +2,8 @@
 
 import type { Calendar } from "../types.ts";
 import { database } from "../database.ts";
+import { deleteCalendar } from "../sql/mutations.ts";
 
 export const deleteCalendarAction = async (calendar: Calendar) => {
-  database.prepare("DELETE FROM calendar WHERE uuid = ?").run(calendar.uuid);
+  deleteCalendar(database, calendar.uuid);
 };
