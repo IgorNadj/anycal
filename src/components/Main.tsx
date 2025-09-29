@@ -5,18 +5,17 @@ import { useContext } from "react";
 import { EditEventDialog } from "./form/EditEventDialog.tsx";
 import { AppContext } from "../state/AppContext.tsx";
 import { EditCalendarDialog } from "./form/EditCalendarDialog.tsx";
-import { useUser } from "../hooks/useUser.ts";
-import { useEvents } from "../data/useEvents.ts";
+import { useEvents } from "../hooks/useEvents.ts";
 import { CalendarsList } from "./CalendarsList.tsx";
-import { useCalendars } from "../data/useCalendars.ts";
+import { useCalendars } from "../hooks/useCalendars.ts";
+import { AuthAvatar } from "./AuthAvatar.tsx";
 
 export const Main = () => {
   const ctx = useContext(AppContext);
   const { currentlyEditingEvent, currentlyEditingCalendar } = ctx;
 
-  const user = useUser();
-  const { data: calendars } = useCalendars(user);
-  const { data: events } = useEvents(user);
+  const { data: calendars } = useCalendars();
+  const { data: events } = useEvents();
   console.log("calendars", calendars);
   console.log("events", events);
 
@@ -24,21 +23,30 @@ export const Main = () => {
     <Container sx={{ py: { xs: 8, sm: 10 } }}>
       <EditEventDialog key={currentlyEditingEvent?.uuid} />
       <EditCalendarDialog key={currentlyEditingCalendar?.uuid} />
-      <Box>
-        <Typography
-          component="h2"
-          variant="h4"
-          gutterBottom
-          sx={{ color: "text.primary" }}
-        >
-          Any Cal
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{ color: "text.secondary", mb: { xs: 2, sm: 4 } }}
-        >
-          Add anything to your calendar.
-        </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Box>
+          <Typography
+            component="h2"
+            variant="h4"
+            gutterBottom
+            sx={{ color: "text.primary" }}
+          >
+            Any Cal
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{ color: "text.secondary", mb: { xs: 2, sm: 4 } }}
+          >
+            Add anything to your calendar.
+          </Typography>
+        </Box>
+        <AuthAvatar />
       </Box>
       <Box>
         <Grid container spacing={10}>
