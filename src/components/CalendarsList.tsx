@@ -79,9 +79,14 @@ export const CalendarsList = () => {
           <ListItem
             key={calendar.uuid}
             disablePadding
+            sx={{
+              '&:hover .calendar-menu-btn': { opacity: 1, pointerEvents: 'auto' },
+            }}
             secondaryAction={
               <IconButton
                 edge="end"
+                className="calendar-menu-btn"
+                sx={{ opacity: 0, pointerEvents: 'none', transition: 'opacity 0.15s', '&:focus-visible': { opacity: 1, pointerEvents: 'auto' } }}
                 onClick={(e) => openMenu(e as any, calendar)}
               >
                 <MoreVert />
