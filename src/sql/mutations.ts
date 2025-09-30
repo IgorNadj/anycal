@@ -2,6 +2,20 @@ import type { Calendar, CalendarEvent } from "../types.ts";
 import { formatRFC3339 } from "date-fns";
 import type { DatabaseSync } from "node:sqlite";
 
+export function createUser(
+  db: DatabaseSync,
+  user: {
+    uuid: string;
+    email: string;
+    passwordHash: string;
+    passwordSalt: string;
+  },
+): void {
+  db.prepare(
+    "INSERT INTO user (uuid, email, passwordHash, passwordSalt) VALUES (?, ?, ?, ?)",
+  ).run(user.uuid, user.email, user.passwordHash, user.passwordSalt);
+}
+
 export function createCalendar(db: DatabaseSync, calendar: Calendar): void {
   db.prepare(
     "INSERT INTO calendar (uuid, userUuid, name, colour, visible) VALUES (?, ?, ?, ?, ?)",

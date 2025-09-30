@@ -2,7 +2,8 @@ export const initSql = `
   CREATE TABLE IF NOT EXISTS user (
     uuid TEXT PRIMARY KEY,
     email TEXT UNIQUE,
-    passwordHash TEXT
+    passwordHash TEXT,
+    passwordSalt TEXT
   );
 
   CREATE TABLE IF NOT EXISTS calendar (

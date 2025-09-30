@@ -2,7 +2,8 @@
 
 import { database } from "../../database.ts";
 import type { User } from "../../types.ts";
-import crypto from "node:crypto";
+import { verifyPassword } from "../../utils/auth.ts";
+import { selectUserAuthByEmail } from "../../sql/queries.ts";
 
 export type SignInInput = {
   email: string;
@@ -13,14 +14,6 @@ export type SignInResult =
   | { success: true; user: User }
   | { success: false; error: string; field?: "email" | "password" | "form" };
 
-const hashPassword = (password: string) => {
-  const salt = "anycal_salt_v1";
-  return crypto
-    .createHash("sha256")
-    .update(`${salt}:${password}`)
-    .digest("hex");
-};
-
 export const signInAction = async (input: SignInInput): Promise<SignInResult> => {
   const email = input.email?.trim() ?? "";
   const password = input.password ?? "";
@@ -29,18 +22,14 @@ export const signInAction = async (input: SignInInput): Promise<SignInResult> =>
     return { success: false, error: "Email and password are required", field: "form" };
   }
 
-  const row = database
-    .prepare("SELECT uuid, email, passwordHash FROM user WHERE email = ?")
-    .get(email) as
-    | { uuid: string; email: string; passwordHash: string }
-    | undefined;
+  const row = selectUserAuthByEmail(database, email);
 
   if (!row) {
     return { success: false, error: "Invalid email or password", field: "form" };
   }
 
-  const passwordHash = hashPassword(password);
-  if (passwordHash !== row.passwordHash) {
+  const ok = verifyPassword(password, row.passwordSalt, row.passwordHash);
+  if (!ok) {
     return { success: false, error: "Invalid email or password", field: "form" };
   }
 

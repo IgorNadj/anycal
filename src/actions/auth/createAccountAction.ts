@@ -4,40 +4,36 @@ import { database } from "../../database.ts";
 import type { User } from "../../types.ts";
 import crypto from "node:crypto";
 import { sendWelcomeEmail } from "../../services/emailService.ts";
+import { generateSalt, hashPassword } from "../../utils/auth.ts";
+import { selectUserUuidByEmail } from "../../sql/queries.ts";
+import { createUser } from "../../sql/mutations.ts";
 
 export type CreateAccountInput = {
   email: string;
   password: string;
 };
 
-const hashPassword = (password: string) => {
-  // Simple salted sha256 hash for demo purposes (stub). In production use bcrypt/argon2.
-  const salt = "anycal_salt_v1";
-  return crypto
-    .createHash("sha256")
-    .update(`${salt}:${password}`)
-    .digest("hex");
-};
-
 export const createAccountAction = async (
   input: CreateAccountInput,
 ): Promise<User> => {
   const uuid = crypto.randomUUID();
-  const passwordHash = hashPassword(input.password);
 
   // Ensure email not used
-  const existing = database
-    .prepare("SELECT uuid FROM user WHERE email = ?")
-    .get(input.email) as { uuid?: string } | undefined;
+  const existing = selectUserUuidByEmail(database, input.email);
   if (existing?.uuid) {
     throw new Error("Email already in use");
   }
 
-  database
-    .prepare(
-      "INSERT INTO user (uuid, email, passwordHash) VALUES (?, ?, ?)",
-    )
-    .run(uuid, input.email, passwordHash);
+  // Generate a per-user salt and hash the password
+  const salt = generateSalt(16);
+  const passwordHash = hashPassword(input.password, salt);
+
+  createUser(database, {
+    uuid,
+    email: input.email,
+    passwordHash,
+    passwordSalt: salt,
+  });
 
   // Stubbed email notification
   try {
