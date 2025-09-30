@@ -19,6 +19,7 @@ type CalendarPickerProps = {
   fullWidth?: boolean;
   error?: boolean;
   helperText?: string;
+  required?: boolean;
 };
 
 export const CalendarPicker = ({
@@ -29,6 +30,7 @@ export const CalendarPicker = ({
   fullWidth = true,
   error,
   helperText,
+  required,
 }: CalendarPickerProps) => {
   const { data: calendars, isLoading } = useCalendars();
 
@@ -46,6 +48,7 @@ export const CalendarPicker = ({
       fullWidth={fullWidth}
       disabled={isDisabled}
       error={error}
+      required={required}
       size="small"
       sx={{ my: 1 }}
     >
