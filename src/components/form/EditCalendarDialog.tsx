@@ -6,13 +6,11 @@ import {
   DialogTitle,
   TextField,
   Box,
-  Divider,
 } from "@mui/material";
 import { useContext, useState, useEffect } from "react";
 import { AppContext } from "../../state/AppContext.tsx";
 import { CalendarColourPicker } from "./CalendarColourPicker.tsx";
 import type { CalendarColour } from "../../types.ts";
-import { EventsTable } from "../table/EventsTable.tsx";
 import { useUpdateCalendar } from "../../hooks/useUpdateCalendar.ts";
 import { useDeleteCalendar } from "../../hooks/useDeleteCalendar.ts";
 
@@ -88,10 +86,6 @@ export const EditCalendarDialog = () => {
             label="Calendar Name"
           />
         </Box>
-
-        <Divider sx={{ my: 2 }} />
-
-        <EventsTable />
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="error" onClick={() => onDelete()}>
