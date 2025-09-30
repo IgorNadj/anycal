@@ -46,31 +46,33 @@ export const AddCalendarDialog = () => {
 
   return (
     <Dialog open={isCreatingCalendar} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Create Calendar</DialogTitle>
-      <DialogContent>
-        <Box sx={{ mb: 2 }}>
-          <CalendarColourPicker colour={colour} onChange={setColour} />
-        </Box>
-        <TextField
-          variant="outlined"
-          fullWidth
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          label="Calendar Name"
-          autoFocus
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && name.trim().length > 0) {
-              onCreate();
-            }
-          }}
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button variant="contained" onClick={onCreate} disabled={name.trim().length === 0}>
-          Create
-        </Button>
-      </DialogActions>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          onCreate();
+        }}
+      >
+        <DialogTitle>Add a new Calendar</DialogTitle>
+        <DialogContent>
+          <Box sx={{ mb: 2 }}>
+            <CalendarColourPicker colour={colour} onChange={setColour} />
+          </Box>
+          <TextField
+            variant="outlined"
+            fullWidth
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            label="Name"
+            required
+            autoFocus
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button type="submit" variant="contained">
+            Add
+          </Button>
+        </DialogActions>
+      </form>
     </Dialog>
   );
-}
+};

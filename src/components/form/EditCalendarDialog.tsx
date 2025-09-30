@@ -12,14 +12,12 @@ import { AppContext } from "../../state/AppContext.tsx";
 import { CalendarColourPicker } from "./CalendarColourPicker.tsx";
 import type { CalendarColour } from "../../types.ts";
 import { useUpdateCalendar } from "../../hooks/useUpdateCalendar.ts";
-import { useDeleteCalendar } from "../../hooks/useDeleteCalendar.ts";
 
 export const EditCalendarDialog = () => {
   const ctx = useContext(AppContext);
   const { currentlyEditingCalendar, setCurrentlyEditingCalendar } = ctx;
 
   const { mutate: updateCalendar } = useUpdateCalendar();
-  const { mutate: deleteCalendar } = useDeleteCalendar();
 
   const [name, setName] = useState<string>(
     currentlyEditingCalendar?.name ?? "",
@@ -28,7 +26,7 @@ export const EditCalendarDialog = () => {
     currentlyEditingCalendar?.colour ?? "blue_400",
   );
 
-  // Update local state when currentlyEditingCalendar changes
+  // Sync local state when switching which calendar is being edited
   useEffect(() => {
     if (currentlyEditingCalendar) {
       setName(currentlyEditingCalendar.name);
@@ -36,26 +34,10 @@ export const EditCalendarDialog = () => {
     }
   }, [currentlyEditingCalendar]);
 
-  // Save calendar name and colour whenever they change
-  const handleCalendarNameChange = (newName: string) => {
-    setName(newName);
-    if (currentlyEditingCalendar) {
-      updateCalendar({ ...currentlyEditingCalendar, name: newName, colour });
-    }
-  };
-
-  const handleCalendarColourChange = (newColour: CalendarColour) => {
-    setColour(newColour);
-    if (currentlyEditingCalendar) {
-      updateCalendar({ ...currentlyEditingCalendar, name, colour: newColour });
-    }
-  };
-
-  const onDelete = () => {
-    if (currentlyEditingCalendar) {
-      setCurrentlyEditingCalendar(null);
-      deleteCalendar({ ...currentlyEditingCalendar, name });
-    }
+  const onSave = () => {
+    if (!currentlyEditingCalendar) return;
+    updateCalendar({ ...currentlyEditingCalendar, name, colour });
+    setCurrentlyEditingCalendar(null);
   };
 
   return (
@@ -65,33 +47,33 @@ export const EditCalendarDialog = () => {
       maxWidth="md"
       fullWidth
     >
-      <DialogTitle>Edit Calendar</DialogTitle>
-      <DialogContent>
-        <Box sx={{ mb: 3 }}>
-          <CalendarColourPicker
-            colour={colour}
-            onChange={handleCalendarColourChange}
-          />
-          <TextField
-            variant="outlined"
-            sx={{ width: "100%", mt: 2 }}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            onBlur={() => handleCalendarNameChange(name)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                (e.target as HTMLElement).blur();
-              }
-            }}
-            label="Calendar Name"
-          />
-        </Box>
-      </DialogContent>
-      <DialogActions>
-        <Button variant="contained" color="error" onClick={() => onDelete()}>
-          Delete
-        </Button>
-      </DialogActions>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSave();
+        }}
+      >
+        <DialogTitle>Edit Calendar</DialogTitle>
+        <DialogContent>
+          <Box sx={{ mb: 3 }}>
+            <CalendarColourPicker colour={colour} onChange={setColour} />
+            <TextField
+              variant="outlined"
+              sx={{ width: "100%", mt: 2 }}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              label="Name"
+              required
+              autoFocus
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button type="submit" variant="contained">
+            Save
+          </Button>
+        </DialogActions>
+      </form>
     </Dialog>
   );
 };
