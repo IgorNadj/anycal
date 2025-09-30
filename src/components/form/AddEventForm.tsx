@@ -74,10 +74,12 @@ export const AddEventForm = () => {
 
         <Typography variant="h6">When</Typography>
         <DatePicker value={date} onChange={(date) => date && setDate(date)} />
-        <CalendarPicker
-          selectedCalendar={selectedCalendar}
-          onChangeCalendar={setSelectedCalendar}
-        />
+        {calendars.length > 1 ? (
+          <CalendarPicker
+            selectedCalendar={selectedCalendar}
+            onChangeCalendar={setSelectedCalendar}
+          />
+        ) : null}
       </DialogContent>
       <DialogActions>
         <Button variant="contained" onClick={handleAddButtonClick}>
