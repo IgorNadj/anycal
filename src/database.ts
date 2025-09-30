@@ -8,11 +8,3 @@ export const database = new DatabaseSync("db.sqlite3");
 database.exec("PRAGMA foreign_keys = ON;");
 
 database.exec(initSql);
-
-// Seed a known user for dev/demo convenience
-try {
-  const initialUser = `INSERT INTO user (uuid) VALUES ('55efff64-f768-4cc0-baaa-0f1312afa190');`;
-  database.exec(initialUser);
-} catch (e) {
-  // ignore if already inserted
-}
