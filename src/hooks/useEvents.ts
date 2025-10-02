@@ -1,16 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { getEventsAction } from "../actions/getEventsAction.ts";
-import { getAuth } from "../getAuth.ts";
 import { GuestDataStore } from "../state/GuestDataStore.ts";
+import { useAuth } from "./useAuth.ts";
 
 export const useEvents = () => {
-  const auth = getAuth();
+  const auth = useAuth();
 
   return useQuery({
     queryKey: ["events"],
     queryFn: async () => {
-      if (auth.isLoggedIn) {
-        return getEventsAction(auth.userUuid);
+      if (auth.state.isLoggedIn) {
+        return getEventsAction(auth.state.user.uuid);
       } else {
         return GuestDataStore.events.get();
       }

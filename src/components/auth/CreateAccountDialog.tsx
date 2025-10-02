@@ -1,79 +1,103 @@
 import { useState } from "react";
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Stack, Alert } from "@mui/material";
-import { createAccountAction } from "../../actions/auth/createAccountAction.ts";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+  Stack,
+  Alert,
+  Typography,
+} from "@mui/material";
+import { useCreateUser } from "../../hooks/useCreateUser.ts";
 
 export type CreateAccountDialogProps = {
   open: boolean;
   onClose: () => void;
-  onSuccess: (user: { uuid: string; email?: string | null }) => Promise<void> | void;
 };
 
-export const CreateAccountDialog = ({ open, onClose, onSuccess }: CreateAccountDialogProps) => {
+export const CreateAccountDialog = ({
+  open,
+  onClose,
+}: CreateAccountDialogProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+
+  const { mutate: createUser, isPending, error, isSuccess } = useCreateUser();
 
   const reset = () => {
     setEmail("");
     setPassword("");
-    setError(null);
   };
 
   const handleClose = () => {
-    if (!submitting) {
-      reset();
-      onClose();
-    }
+    reset();
+    onClose();
   };
+
+  const errorMessage = error?.message;
+  const isEmailField = error?.field === "email";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setSubmitting(true);
-    try {
-      const user = await createAccountAction({ email: email.trim(), password });
-      await onSuccess(user);
-      reset();
-      onClose();
-    } catch (e: any) {
-      setError(e?.message ?? "Failed to create account");
-    } finally {
-      setSubmitting(false);
-    }
+    createUser({ email: email.trim(), password });
   };
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
-      <form onSubmit={handleSubmit}>
-        <DialogTitle>Create account</DialogTitle>
-        <DialogContent>
-          <Stack spacing={2} sx={{ mt: 1 }}>
-            {error && <Alert severity="error">{error}</Alert>}
-            <TextField
-              label="Email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoFocus
-              fullWidth
-            />
-            <TextField
-              label="Password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              fullWidth
-            />
-          </Stack>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} disabled={submitting}>Cancel</Button>
-          <Button type="submit" variant="contained" disabled={submitting}>Create</Button>
-        </DialogActions>
-      </form>
+      {!isSuccess ? (
+        <form onSubmit={handleSubmit}>
+          <DialogTitle>Create account</DialogTitle>
+          <DialogContent>
+            <Stack spacing={2} sx={{ mt: 1 }}>
+              {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+              <TextField
+                label="Email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoFocus
+                fullWidth
+                error={isEmailField}
+                helperText={isEmailField ? errorMessage : undefined}
+              />
+              <TextField
+                label="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                fullWidth
+              />
+            </Stack>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} disabled={isPending}>
+              Cancel
+            </Button>
+            <Button type="submit" variant="contained" disabled={isPending}>
+              Create
+            </Button>
+          </DialogActions>
+        </form>
+      ) : (
+        <>
+          <DialogTitle>Account created</DialogTitle>
+          <DialogContent>
+            <Stack spacing={2} sx={{ mt: 1 }}>
+              <Alert severity="success">Your account has been created.</Alert>
+              <Typography variant="body2">You are now signed in.</Typography>
+            </Stack>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="contained" onClick={handleClose}>
+              Continue
+            </Button>
+          </DialogActions>
+        </>
+      )}
     </Dialog>
   );
 };

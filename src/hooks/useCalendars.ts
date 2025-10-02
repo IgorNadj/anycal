@@ -1,16 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { getCalendarsAction } from "../actions/getCalendarsAction.ts";
-import { getAuth } from "../getAuth.ts";
 import { GuestDataStore } from "../state/GuestDataStore.ts";
+import { useAuth } from "./useAuth.ts";
 
 export const useCalendars = () => {
-  const auth = getAuth();
+  const auth = useAuth();
 
   return useQuery({
     queryKey: ["calendars"],
     queryFn: async () => {
-      if (auth.isLoggedIn) {
-        return getCalendarsAction(auth.userUuid);
+      if (auth.state.isLoggedIn) {
+        return getCalendarsAction(auth.state.user.uuid);
       } else {
         return GuestDataStore.calendars.get();
       }

@@ -1,16 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Calendar } from "../types.ts";
 import { deleteCalendarAction } from "../actions/deleteCalendarAction.ts";
-import { getAuth } from "../getAuth.ts";
 import { GuestDataStore } from "../state/GuestDataStore.ts";
+import { useAuth } from "./useAuth.ts";
 
 export const useDeleteCalendar = () => {
   const queryClient = useQueryClient();
-  const auth = getAuth();
+  const auth = useAuth();
 
   return useMutation({
     mutationFn: async (calendar: Calendar) => {
-      if (auth.isLoggedIn) {
+      if (auth.state.isLoggedIn) {
         return deleteCalendarAction(calendar);
       } else {
         GuestDataStore.calendars.delete(calendar);

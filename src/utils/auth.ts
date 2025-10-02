@@ -8,7 +8,10 @@ export const generateSalt = (bytes: number = 16): string => {
 // Hash the password using sha256 with the provided salt
 // Note: For production, prefer a memory-hard KDF like argon2id or scrypt/bcrypt.
 export const hashPassword = (password: string, salt: string): string => {
-  return crypto.createHash("sha256").update(`${salt}:${password}`).digest("hex");
+  return crypto
+    .createHash("sha256")
+    .update(`${salt}:${password}`)
+    .digest("hex");
 };
 
 // Verify a password against a stored hash using timing-safe comparison where possible
@@ -27,4 +30,12 @@ export const verifyPassword = (
     // Fallback to simple comparison if anything goes wrong converting buffers
     return computedHex === expectedHashHex;
   }
+};
+
+export const rememberLoggedInUser = (uuid: string) => {
+  localStorage.setItem("anycal_loggedInUserUuid", uuid);
+};
+
+export const forgetLoggedInUser = () => {
+  localStorage.removeItem("anycal_loggedInUserUuid");
 };

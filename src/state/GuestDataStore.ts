@@ -2,40 +2,40 @@ import { parse, stringify } from "superjson";
 import type { Calendar, CalendarEvent } from "../types.ts";
 import { v4 as uuidv4 } from "uuid";
 
-const newGuestUserUuid = uuidv4();
-const newGuestCalendarUuid = uuidv4();
-
-let state: {
+type GuestDataState = {
   calendars: Record<Calendar["uuid"], Calendar>;
   events: Record<CalendarEvent["uuid"], CalendarEvent>;
-  userUuid: string;
-} = {
-  calendars: {
-    [newGuestCalendarUuid]: {
-      uuid: newGuestCalendarUuid,
-      name: "My Calendar",
-      colour: "blue_400",
-      visible: true,
-      userUuid: newGuestUserUuid,
-    },
-  },
-  events: {},
-  userUuid: newGuestUserUuid,
+  guestUserUuid: string;
 };
+
+let state: GuestDataState;
 
 const persist = () => {
   localStorage.setItem("anycal_guest_data", stringify(state));
 };
 
-const load = () => {
-  const raw = localStorage.getItem("anycal_guest_data");
-  if (!raw) {
-    persist();
-    return;
-  }
-  state = parse(raw);
-};
-load();
+// Init
+const raw = localStorage.getItem("anycal_guest_data");
+if (raw) {
+  state = parse(raw) as GuestDataState;
+} else {
+  const newGuestUserUuid = uuidv4();
+  const newCalendarUuid = uuidv4();
+  state = {
+    calendars: {
+      [newCalendarUuid]: {
+        uuid: newCalendarUuid,
+        name: "My Calendar",
+        colour: "blue_400",
+        visible: true,
+        userUuid: newGuestUserUuid,
+      },
+    },
+    events: {},
+    guestUserUuid: newGuestUserUuid,
+  };
+  persist();
+}
 
 export const GuestDataStore = {
   calendars: {
@@ -70,7 +70,5 @@ export const GuestDataStore = {
     },
   },
 
-  user: {
-    getUuid: () => state.userUuid,
-  },
+  guestUserUuid: state.guestUserUuid,
 };

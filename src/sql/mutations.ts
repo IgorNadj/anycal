@@ -1,16 +1,8 @@
-import type { Calendar, CalendarEvent } from "../types.ts";
+import type { Calendar, CalendarEvent, UserWithAuth } from "../types.ts";
 import { formatRFC3339 } from "date-fns";
 import type { DatabaseSync } from "node:sqlite";
 
-export function createUser(
-  db: DatabaseSync,
-  user: {
-    uuid: string;
-    email: string;
-    passwordHash: string;
-    passwordSalt: string;
-  },
-): void {
+export function createUser(db: DatabaseSync, user: UserWithAuth): void {
   db.prepare(
     "INSERT INTO user (uuid, email, passwordHash, passwordSalt) VALUES (?, ?, ?, ?)",
   ).run(user.uuid, user.email, user.passwordHash, user.passwordSalt);
@@ -51,4 +43,19 @@ export function createEvent(db: DatabaseSync, event: CalendarEvent): void {
 
 export function deleteEvent(db: DatabaseSync, eventUuid: string): void {
   db.prepare("DELETE FROM calendar_event WHERE uuid = ?").run(eventUuid);
+}
+
+export function updateUserEmail(db: DatabaseSync, uuid: string, email: string): void {
+  db.prepare("UPDATE user SET email = ? WHERE uuid = ?").run(email, uuid);
+}
+
+export function updateUserPassword(
+  db: DatabaseSync,
+  uuid: string,
+  passwordHash: string,
+  passwordSalt: string,
+): void {
+  db
+    .prepare("UPDATE user SET passwordHash = ?, passwordSalt = ? WHERE uuid = ?")
+    .run(passwordHash, passwordSalt, uuid);
 }

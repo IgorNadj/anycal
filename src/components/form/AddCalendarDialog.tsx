@@ -12,8 +12,8 @@ import { AppContext } from "../../state/AppContext.tsx";
 import { CalendarColourPicker } from "./CalendarColourPicker.tsx";
 import type { CalendarColour, Calendar } from "../../types.ts";
 import { v4 as uuidv4 } from "uuid";
-import { getAuth } from "../../getAuth.ts";
 import { useCreateCalendar } from "../../hooks/useCreateCalendar.ts";
+import { useAuth } from "../../hooks/useAuth.ts";
 
 export const AddCalendarDialog = () => {
   const { isCreatingCalendar, setIsCreatingCalendar } = useContext(AppContext);
@@ -23,7 +23,7 @@ export const AddCalendarDialog = () => {
   const [name, setName] = useState<string>("");
   const [colour, setColour] = useState<CalendarColour>("blue_400");
 
-  const auth = getAuth();
+  const auth = useAuth();
 
   const onClose = () => {
     setIsCreatingCalendar(false);
@@ -32,7 +32,7 @@ export const AddCalendarDialog = () => {
   };
 
   const onCreate = () => {
-    const userUuid = auth.isLoggedIn ? auth.userUuid : auth.guestUuid;
+    const userUuid = auth.state.isLoggedIn ? auth.state.user.uuid : auth.state.guestUuid;
     const newCalendar: Calendar = {
       uuid: uuidv4(),
       name,

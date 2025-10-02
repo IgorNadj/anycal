@@ -1,16 +1,12 @@
 import { useState } from "react";
 import { Avatar, Box, IconButton, Menu, MenuItem } from "@mui/material";
-import { getAuth } from "../getAuth.ts";
-import { useQueryClient } from "@tanstack/react-query";
 import { CreateAccountDialog } from "./auth/CreateAccountDialog.tsx";
 import { SignInDialog } from "./auth/SignInDialog.tsx";
-import { SettingsDialog } from "./auth/SettingsDialog.tsx";
-import { useUser } from "../hooks/useUser.ts";
+import { EditUserDialog } from "./auth/EditUserDialog.tsx";
+import { useAuth } from "../hooks/useAuth.ts";
 
 export const AuthAvatar = () => {
-  const auth = getAuth();
-  const { data: user } = useUser();
-  const qc = useQueryClient();
+  const auth = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -18,26 +14,16 @@ export const AuthAvatar = () => {
     setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
-  const persistUser = async (u: { uuid: string; email?: string | null }) => {
-    localStorage.setItem("anycal_authUser", JSON.stringify(u));
-    await qc.invalidateQueries();
-  };
-
-  const clearUser = async () => {
-    localStorage.removeItem("anycal_authUser");
-    await qc.invalidateQueries();
-  };
-
   const [showCreate, setShowCreate] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
   const onSignOut = async () => {
+    await auth.logOut();
     handleClose();
-    await clearUser();
   };
 
-  const letter = user?.email ? user.email[0].toUpperCase() : "";
+  const letter = auth.state.isLoggedIn ? (auth.state.user.email[0]?.toUpperCase() ?? "") : "";
 
   return (
     <Box>
@@ -53,10 +39,10 @@ export const AuthAvatar = () => {
           sx={{
             width: 32,
             height: 32,
-            bgcolor: auth.isLoggedIn ? undefined : "grey.400",
+            bgcolor: auth.state.isLoggedIn ? undefined : "grey.400",
           }}
         >
-          {auth.isLoggedIn ? letter : undefined}
+          {auth.state.isLoggedIn ? letter : undefined}
         </Avatar>
       </IconButton>
       <Menu
@@ -69,7 +55,7 @@ export const AuthAvatar = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        {!auth.isLoggedIn && (
+        {!auth.state.isLoggedIn && (
           <MenuItem
             onClick={() => {
               handleClose();
@@ -79,7 +65,7 @@ export const AuthAvatar = () => {
             Create account
           </MenuItem>
         )}
-        {!auth.isLoggedIn && (
+        {!auth.state.isLoggedIn && (
           <MenuItem
             onClick={() => {
               handleClose();
@@ -89,7 +75,7 @@ export const AuthAvatar = () => {
             Sign in
           </MenuItem>
         )}
-        {auth.isLoggedIn && (
+        {auth.state.isLoggedIn && (
           <MenuItem
             onClick={() => {
               handleClose();
@@ -99,24 +85,20 @@ export const AuthAvatar = () => {
             Settings
           </MenuItem>
         )}
-        {auth.isLoggedIn && <MenuItem onClick={onSignOut}>Sign out</MenuItem>}
+        {auth.state.isLoggedIn && (
+          <MenuItem onClick={onSignOut}>Sign out</MenuItem>
+        )}
       </Menu>
 
       {/* Dialogs */}
       <CreateAccountDialog
         open={showCreate}
         onClose={() => setShowCreate(false)}
-        onSuccess={persistUser}
       />
-      <SignInDialog
-        open={showSignIn}
-        onClose={() => setShowSignIn(false)}
-        onSuccess={persistUser}
-      />
-      <SettingsDialog
+      <SignInDialog open={showSignIn} onClose={() => setShowSignIn(false)} />
+      <EditUserDialog
         open={showSettings}
         onClose={() => setShowSettings(false)}
-        onSuccess={persistUser}
       />
     </Box>
   );
