@@ -8,14 +8,16 @@ import {
   TextField,
 } from "@mui/material";
 import { useContext, useState } from "react";
-import { AppContext } from "../../state/AppContext.tsx";
-import { CalendarColourPicker } from "./CalendarColourPicker.tsx";
-import type { Calendar, CalendarColour } from "../../types.ts";
 import { v4 as uuidv4 } from "uuid";
 import { useCreateCalendar } from "../../hooks/useCreateCalendar.ts";
+import { AppContext } from "../../state/AppContext.tsx";
+import { AuthContext } from "../../state/AuthContext.tsx";
+import type { Calendar, CalendarColour } from "../../types.ts";
+import { CalendarColourPicker } from "./CalendarColourPicker.tsx";
 
 export const AddCalendarDialog = () => {
-  const { isCreatingCalendar, setIsCreatingCalendar, userUuid } = useContext(AppContext);
+  const { isCreatingCalendar, setIsCreatingCalendar } = useContext(AppContext);
+  const { userUuid } = useContext(AuthContext);
 
   const { mutate: createCalendar } = useCreateCalendar();
 

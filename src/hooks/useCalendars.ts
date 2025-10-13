@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCalendarsAction } from "../actions/getCalendarsAction.ts";
 import { useContext } from "react";
-import { AppContext } from "../state/AppContext.tsx";
+import { getCalendarsAction } from "../actions/getCalendarsAction.ts";
+import { AuthContext } from "../state/AuthContext.tsx";
 
 export const useCalendars = () => {
-  const { userUuid } = useContext(AppContext);
+  const { userUuid } = useContext(AuthContext);
 
   return useQuery({
     queryKey: [userUuid, "calendars"],

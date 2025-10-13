@@ -1,16 +1,16 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { useContext } from "react";
 import {
   updateUserProfileAction,
   type UpdateUserProfileInput,
 } from "../actions/updateUserProfileAction.ts";
+import { AuthContext } from "../state/AuthContext.tsx";
 import { useValidatedMutation } from "../utils/validation.ts";
-import { useContext } from "react";
-import { AppContext } from "../state/AppContext.tsx";
 
 export const useUpdateUserProfile = () => {
   const queryClient = useQueryClient();
 
-  const { userUuid } = useContext(AppContext);
+  const { userUuid } = useContext(AuthContext);
 
   return useValidatedMutation({
     validatedMutationFn: async (input: UpdateUserProfileInput) => {

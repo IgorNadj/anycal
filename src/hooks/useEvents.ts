@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { getEventsAction } from "../actions/getEventsAction.ts";
 import { useContext } from "react";
-import { AppContext } from "../state/AppContext.tsx";
+import { getEventsAction } from "../actions/getEventsAction.ts";
+import { AuthContext } from "../state/AuthContext.tsx";
 
 export const useEvents = () => {
-  const { userUuid } = useContext(AppContext);
+  const { userUuid } = useContext(AuthContext);
 
   return useQuery({
     queryKey: [userUuid, "events"],

@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { getUserProfileAction } from "../actions/getUserProfileAction.ts";
-import { NotLoggedInError } from "../utils/NotLoggedInError.ts";
 import { useContext } from "react";
-import { AppContext } from "../state/AppContext.tsx";
+import { getUserProfileAction } from "../actions/getUserProfileAction.ts";
+import { AuthContext } from "../state/AuthContext.tsx";
+import { NotLoggedInError } from "../utils/NotLoggedInError.ts";
 
 export const useUserProfile = () => {
-  const { userUuid } = useContext(AppContext);
+  const { userUuid } = useContext(AuthContext);
 
   return useQuery({
     queryKey: [userUuid, "user_profile"],

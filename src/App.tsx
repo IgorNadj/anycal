@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Main } from "./components/Main.tsx";
 import { AppProvider } from "./state/AppProvider.tsx";
+import { AuthProvider } from "./state/AuthProvider.tsx";
 import { getUserLocale } from "./utils.ts";
 
 const userLocale = getUserLocale();
@@ -14,10 +15,12 @@ export const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <AppProvider>
-        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={userLocale}>
-          <Main />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </LocalizationProvider>
+        <AuthProvider>
+          <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={userLocale}>
+            <Main />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </LocalizationProvider>
+        </AuthProvider>
       </AppProvider>
     </QueryClientProvider>
   );

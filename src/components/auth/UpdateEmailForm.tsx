@@ -1,15 +1,15 @@
-import { useContext, useState } from "react";
 import { Alert, Button, DialogActions, Stack, TextField } from "@mui/material";
+import { useContext, useState } from "react";
 import { useUpdateUserProfile } from "../../hooks/useUpdateUserProfile.ts";
 import { useUserProfile } from "../../hooks/useUserProfile.ts";
-import { AppContext } from "../../state/AppContext.tsx";
+import { AuthContext } from "../../state/AuthContext.tsx";
 
 export const UpdateEmailForm = () => {
   const { data: userProfile } = useUserProfile();
   const { email: existingEmail } = userProfile || { email: "" };
   const [email, setEmail] = useState<string>(existingEmail);
 
-  const { userUuid } = useContext(AppContext);
+  const { userUuid } = useContext(AuthContext);
 
   const mutation = useUpdateUserProfile();
   const { mutate: updateUserProfile, isPending, error, isSuccess } = mutation;

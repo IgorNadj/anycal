@@ -1,13 +1,13 @@
-import { useContext, useState } from "react";
 import { Avatar, Box, IconButton, Menu, MenuItem } from "@mui/material";
-import { CreateAccountDialog } from "./auth/CreateAccountDialog.tsx";
-import { SignInDialog } from "./auth/SignInDialog.tsx";
-import { EditUserDialog } from "./auth/EditUserDialog.tsx";
+import { useContext, useState } from "react";
 import { useUserProfile } from "../hooks/useUserProfile.ts";
-import { AppContext } from "../state/AppContext.tsx";
+import { AuthContext } from "../state/AuthContext.tsx";
+import { CreateAccountDialog } from "./auth/CreateAccountDialog.tsx";
+import { EditUserDialog } from "./auth/EditUserDialog.tsx";
+import { SignInDialog } from "./auth/SignInDialog.tsx";
 
 export const AuthAvatar = () => {
-  const { userUuid, setUserUuid } = useContext(AppContext);
+  const { userUuid, setUserUuid } = useContext(AuthContext);
 
   const isLoggedIn = !!userUuid;
   const { data: profile } = useUserProfile();

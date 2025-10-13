@@ -1,9 +1,9 @@
 import { Dialog, DialogContent, DialogTitle, Divider, Stack } from "@mui/material";
+import { useContext, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { AuthContext } from "../../state/AuthContext.tsx";
 import { UpdateEmailForm } from "./UpdateEmailForm.tsx";
 import { UpdatePasswordForm } from "./UpdatePasswordForm.tsx";
-import { useContext, useState } from "react";
-import { AppContext } from "../../state/AppContext.tsx";
-import { v4 as uuidv4 } from "uuid";
 
 export type EditUserDialogProps = {
   open: boolean;
@@ -11,7 +11,7 @@ export type EditUserDialogProps = {
 };
 
 export const EditUserDialog = ({ open, onClose }: EditUserDialogProps) => {
-  const { userUuid } = useContext(AppContext);
+  const { userUuid } = useContext(AuthContext);
 
   const [formKey, setFormKey] = useState<string>(uuidv4()); // allows us to reset child forms
 

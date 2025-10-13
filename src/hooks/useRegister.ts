@@ -1,12 +1,10 @@
-import { registerAction } from "../actions/registerAction.ts";
-import { useValidatedMutation } from "../utils/validation.ts";
 import { useContext } from "react";
-import { AppContext } from "../state/AppContext.tsx";
-
-// type RegisterInput = { email: string; password: string };
+import { registerAction } from "../actions/registerAction.ts";
+import { AuthContext } from "../state/AuthContext.tsx";
+import { useValidatedMutation } from "../utils/validation.ts";
 
 export const useRegister = () => {
-  const { setUserUuid } = useContext(AppContext);
+  const { setUserUuid } = useContext(AuthContext);
 
   return useValidatedMutation({
     validatedMutationFn: async ({

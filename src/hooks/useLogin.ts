@@ -1,10 +1,10 @@
-import { logInAction } from "../actions/logInAction.ts";
-import { useValidatedMutation } from "../utils/validation.ts";
 import { useContext } from "react";
-import { AppContext } from "../state/AppContext.tsx";
+import { logInAction } from "../actions/logInAction.ts";
+import { AuthContext } from "../state/AuthContext.tsx";
+import { useValidatedMutation } from "../utils/validation.ts";
 
 export const useLogin = () => {
-  const { setUserUuid } = useContext(AppContext);
+  const { setUserUuid } = useContext(AuthContext);
 
   return useValidatedMutation({
     validatedMutationFn: async ({

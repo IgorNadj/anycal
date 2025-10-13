@@ -1,15 +1,15 @@
 import { useQueryClient } from "@tanstack/react-query";
-import type { CalendarEvent } from "../types.ts";
-import { createEventAction } from "../actions/createEventAction.ts";
-import { useValidatedMutation } from "../utils/validation.ts";
-import { NotLoggedInError } from "../utils/NotLoggedInError.ts";
 import { useContext } from "react";
-import { AppContext } from "../state/AppContext.tsx";
+import { createEventAction } from "../actions/createEventAction.ts";
+import { AuthContext } from "../state/AuthContext.tsx";
+import type { CalendarEvent } from "../types.ts";
+import { NotLoggedInError } from "../utils/NotLoggedInError.ts";
+import { useValidatedMutation } from "../utils/validation.ts";
 
 export const useCreateEvent = () => {
   const queryClient = useQueryClient();
 
-  const { userUuid } = useContext(AppContext);
+  const { userUuid } = useContext(AuthContext);
 
   return useValidatedMutation({
     validatedMutationFn: async (event: CalendarEvent) => {
