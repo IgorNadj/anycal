@@ -24,8 +24,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     setViewMode,
     currentlyEditingEvent,
     setCurrentlyEditingEvent,
-    currentlyEditingCalendar: currentlyEditingCalendar,
-    setCurrentlyEditingCalendar: setCurrentlyEditingCalendar,
+    currentlyEditingCalendar,
+    setCurrentlyEditingCalendar,
     isCreatingCalendar,
     setIsCreatingCalendar,
   };
