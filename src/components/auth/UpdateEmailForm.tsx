@@ -1,59 +1,46 @@
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Alert, Button, DialogActions, Stack, TextField } from "@mui/material";
-import { useAuth } from "../../hooks/useAuth.ts";
-import { useUpdateUser } from "../../hooks/useUpdateUser.ts";
+import { useUpdateUserProfile } from "../../hooks/useUpdateUserProfile.ts";
+import { useUserProfile } from "../../hooks/useUserProfile.ts";
+import { AppContext } from "../../state/AppContext.tsx";
 
-export type UpdateEmailFormProps = {
-  initialEmail?: string;
-  autoFocus?: boolean;
-};
+export const UpdateEmailForm = () => {
+  const { data: userProfile } = useUserProfile();
+  const { email: existingEmail } = userProfile || { email: "" };
+  const [email, setEmail] = useState<string>(existingEmail);
 
-export const UpdateEmailForm = ({
-  initialEmail = "",
-  autoFocus = true,
-}: UpdateEmailFormProps) => {
-  const auth = useAuth();
-  const [email, setEmail] = useState<string>(initialEmail);
+  const { userUuid } = useContext(AppContext);
 
-  const { mutate: updateUser, isPending, error, isSuccess } = useUpdateUser();
+  const mutation = useUpdateUserProfile();
+  const { mutate: updateUserProfile, isPending, error, isSuccess } = mutation;
 
-  useEffect(() => {
-    setEmail(initialEmail);
-  }, [initialEmail]);
-
-  const loggedInUser = auth.state.isLoggedIn ? auth.state.user : null;
-  if (!loggedInUser) return null;
+  if (!userUuid || !userProfile) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    updateUser({ uuid: loggedInUser.uuid, email: email.trim() });
+    updateUserProfile({ uuid: userUuid, email: email.trim() });
   };
-
-  const errorMessage = error?.message;
-  const isEmailField = error?.field === "email";
 
   return (
     <form onSubmit={handleSubmit}>
       <Stack spacing={2}>
         {isSuccess && (
           <>
-            <Alert severity="success">
-              Your email address has been updated.
-            </Alert>
+            <Alert severity="success">Your email address has been updated.</Alert>
           </>
         )}
         <>
-          {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+          {error && <Alert severity="error">{error.message}</Alert>}
           <TextField
             label="Email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            autoFocus={autoFocus}
+            autoFocus
             fullWidth
-            error={isEmailField}
-            helperText={isEmailField ? errorMessage : undefined}
+            error={error?.field === "email"}
+            helperText={error?.field === "email" ? error?.message : undefined}
           />
           <DialogActions sx={{ px: 0 }}>
             <Button type="submit" variant="contained" disabled={isPending}>

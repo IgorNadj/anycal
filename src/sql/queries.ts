@@ -1,45 +1,26 @@
-import type { Calendar, CalendarEvent, User, UserWithAuth } from "../types.ts";
+import type { Calendar, CalendarEvent, User, UserProfile } from "../types.ts";
 import { parseISO } from "date-fns";
 import type { DatabaseSync } from "node:sqlite";
 
 type DbCalendar = Omit<Calendar, "visible"> & { visible: number };
 type DbCalendarEvent = Omit<CalendarEvent, "date"> & { date: string };
 
-export function getUser(db: DatabaseSync, uuid: string): User {
+export function getUserProfile(db: DatabaseSync, uuid: string): UserProfile {
   return db
-    .prepare("SELECT uuid, email FROM user WHERE uuid = ?")
-    .get(uuid) as unknown as User;
+    .prepare("SELECT email FROM user WHERE uuid = ?")
+    .get(uuid) as unknown as UserProfile;
 }
 
-export function getUserUuidByEmail(
-  db: DatabaseSync,
-  email: string,
-): { uuid?: string } | undefined {
-  return db.prepare("SELECT uuid FROM user WHERE email = ?").get(email) as
-    | { uuid?: string }
-    | undefined;
+export function getUserByEmail(db: DatabaseSync, email: string): User | undefined {
+  return db
+    .prepare("SELECT uuid, email, passwordHash, passwordSalt FROM user WHERE email = ?")
+    .get(email) as User | undefined;
 }
 
-export function getUserWithAuthByEmail(
-  db: DatabaseSync,
-  email: string,
-): UserWithAuth | undefined {
+export function getUserByUuid(db: DatabaseSync, uuid: string): User | undefined {
   return db
-    .prepare(
-      "SELECT uuid, email, passwordHash, passwordSalt FROM user WHERE email = ?",
-    )
-    .get(email) as UserWithAuth | undefined;
-}
-
-export function getUserWithAuthByUuid(
-  db: DatabaseSync,
-  uuid: string,
-): UserWithAuth | undefined {
-  return db
-    .prepare(
-      "SELECT uuid, email, passwordHash, passwordSalt FROM user WHERE uuid = ?",
-    )
-    .get(uuid) as UserWithAuth | undefined;
+    .prepare("SELECT uuid, email, passwordHash, passwordSalt FROM user WHERE uuid = ?")
+    .get(uuid) as User | undefined;
 }
 
 export function getCalendars(db: DatabaseSync, userUuid: string): Calendar[] {

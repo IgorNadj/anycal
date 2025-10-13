@@ -6,9 +6,7 @@ import { add, format, parseISO } from "date-fns";
 
 const cache: Record<string, Suggestion[]> = {};
 
-export const fetchSuggestionsAction = async (
-  input: string,
-): Promise<Suggestion[]> => {
+export const fetchSuggestionsAction = async (input: string): Promise<Suggestion[]> => {
   console.log("Fetching suggestions for: ", input);
 
   const apiKey = process.env.GOOGLE_GEN_AI_API_KEY;

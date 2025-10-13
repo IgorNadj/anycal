@@ -1,7 +1,9 @@
-import { Dialog, DialogTitle, DialogContent, Stack, Divider } from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, Divider, Stack } from "@mui/material";
 import { UpdateEmailForm } from "./UpdateEmailForm.tsx";
 import { UpdatePasswordForm } from "./UpdatePasswordForm.tsx";
-import { useAuth } from "../../hooks/useAuth.ts";
+import { useContext, useState } from "react";
+import { AppContext } from "../../state/AppContext.tsx";
+import { v4 as uuidv4 } from "uuid";
 
 export type EditUserDialogProps = {
   open: boolean;
@@ -9,20 +11,27 @@ export type EditUserDialogProps = {
 };
 
 export const EditUserDialog = ({ open, onClose }: EditUserDialogProps) => {
-  const auth = useAuth();
+  const { userUuid } = useContext(AppContext);
 
-  if (!auth.state.isLoggedIn) {
+  const [formKey, setFormKey] = useState<string>(uuidv4()); // allows us to reset child forms
+
+  const handleClose = () => {
+    setFormKey(uuidv4());
+    onClose();
+  };
+
+  if (!userUuid) {
     return null;
   }
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
+    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
       <DialogTitle>Account settings</DialogTitle>
       <DialogContent>
         <Stack spacing={3} sx={{ mt: 1 }}>
-          <UpdateEmailForm initialEmail={auth.state.user.email} />
+          <UpdateEmailForm key={formKey} />
           <Divider />
-          <UpdatePasswordForm />
+          <UpdatePasswordForm key={formKey} />
         </Stack>
       </DialogContent>
     </Dialog>

@@ -1,17 +1,21 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Avatar, Box, IconButton, Menu, MenuItem } from "@mui/material";
 import { CreateAccountDialog } from "./auth/CreateAccountDialog.tsx";
 import { SignInDialog } from "./auth/SignInDialog.tsx";
 import { EditUserDialog } from "./auth/EditUserDialog.tsx";
-import { useAuth } from "../hooks/useAuth.ts";
+import { useUserProfile } from "../hooks/useUserProfile.ts";
+import { AppContext } from "../state/AppContext.tsx";
 
 export const AuthAvatar = () => {
-  const auth = useAuth();
+  const { userUuid, setUserUuid } = useContext(AppContext);
+
+  const isLoggedIn = !!userUuid;
+  const { data: profile } = useUserProfile();
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const handleOpen = (e: React.MouseEvent<HTMLElement>) =>
-    setAnchorEl(e.currentTarget);
+  const handleOpen = (e: React.MouseEvent<HTMLElement>) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
   const [showCreate, setShowCreate] = useState(false);
@@ -19,11 +23,11 @@ export const AuthAvatar = () => {
   const [showSettings, setShowSettings] = useState(false);
 
   const onSignOut = async () => {
-    await auth.logOut();
+    await setUserUuid(null);
     handleClose();
   };
 
-  const letter = auth.state.isLoggedIn ? (auth.state.user.email[0]?.toUpperCase() ?? "") : "";
+  const letter = profile ? (profile.email[0]?.toUpperCase() ?? "") : "";
 
   return (
     <Box>
@@ -39,10 +43,10 @@ export const AuthAvatar = () => {
           sx={{
             width: 32,
             height: 32,
-            bgcolor: auth.state.isLoggedIn ? undefined : "grey.400",
+            bgcolor: isLoggedIn ? undefined : "grey.400",
           }}
         >
-          {auth.state.isLoggedIn ? letter : undefined}
+          {isLoggedIn ? letter : undefined}
         </Avatar>
       </IconButton>
       <Menu
@@ -55,7 +59,7 @@ export const AuthAvatar = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        {!auth.state.isLoggedIn && (
+        {!isLoggedIn && (
           <MenuItem
             onClick={() => {
               handleClose();
@@ -65,7 +69,7 @@ export const AuthAvatar = () => {
             Create account
           </MenuItem>
         )}
-        {!auth.state.isLoggedIn && (
+        {!isLoggedIn && (
           <MenuItem
             onClick={() => {
               handleClose();
@@ -75,7 +79,7 @@ export const AuthAvatar = () => {
             Sign in
           </MenuItem>
         )}
-        {auth.state.isLoggedIn && (
+        {isLoggedIn && (
           <MenuItem
             onClick={() => {
               handleClose();
@@ -85,21 +89,13 @@ export const AuthAvatar = () => {
             Settings
           </MenuItem>
         )}
-        {auth.state.isLoggedIn && (
-          <MenuItem onClick={onSignOut}>Sign out</MenuItem>
-        )}
+        {isLoggedIn && <MenuItem onClick={onSignOut}>Sign out</MenuItem>}
       </Menu>
 
       {/* Dialogs */}
-      <CreateAccountDialog
-        open={showCreate}
-        onClose={() => setShowCreate(false)}
-      />
+      <CreateAccountDialog open={showCreate} onClose={() => setShowCreate(false)} />
       <SignInDialog open={showSignIn} onClose={() => setShowSignIn(false)} />
-      <EditUserDialog
-        open={showSettings}
-        onClose={() => setShowSettings(false)}
-      />
+      <EditUserDialog open={showSettings} onClose={() => setShowSettings(false)} />
     </Box>
   );
 };

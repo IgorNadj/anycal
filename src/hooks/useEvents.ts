@@ -1,20 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { getEventsAction } from "../actions/getEventsAction.ts";
-import { GuestDataStore } from "../state/GuestDataStore.ts";
-import { useAuth } from "./useAuth.ts";
+import { useContext } from "react";
+import { AppContext } from "../state/AppContext.tsx";
 
 export const useEvents = () => {
-  const auth = useAuth();
+  const { userUuid } = useContext(AppContext);
 
   return useQuery({
-    queryKey: ["events"],
+    queryKey: [userUuid, "events"],
     queryFn: async () => {
-      if (auth.state.isLoggedIn) {
-        return getEventsAction(auth.state.user.uuid);
-      } else {
-        return GuestDataStore.events.get();
-      }
+      if (!userUuid) return [];
+      return getEventsAction(userUuid);
     },
     initialData: [],
+    enabled: !!userUuid,
   });
 };

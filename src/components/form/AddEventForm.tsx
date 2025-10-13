@@ -1,9 +1,4 @@
-import {
-  Button,
-  DialogActions,
-  DialogContent,
-  Typography,
-} from "@mui/material";
+import { Button, DialogActions, DialogContent, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -25,9 +20,7 @@ export const AddEventForm = () => {
 
   const debouncedInput = useDebounce(input, 500);
 
-  const [selectedCalendar, setSelectedCalendar] = useState<Calendar | null>(
-    null,
-  );
+  const [selectedCalendar, setSelectedCalendar] = useState<Calendar | null>(null);
 
   // Default calendar is the first one
   useEffect(() => {

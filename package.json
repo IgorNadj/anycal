@@ -8,12 +8,13 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "rsf-zero dev",
+    "dev": "NODE_ENV=development rsf-zero dev",
     "build": "rsf-zero build",
     "start": "rsf-zero start"
   },
   "dependencies": {
     "@google/genai": "^0.12.0",
+    "@tanstack/react-query-devtools": "^5.90.2",
     "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "rsf-zero": "^0.2.1",

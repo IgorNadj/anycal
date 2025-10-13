@@ -31,11 +31,3 @@ export const verifyPassword = (
     return computedHex === expectedHashHex;
   }
 };
-
-export const rememberLoggedInUser = (uuid: string) => {
-  localStorage.setItem("anycal_loggedInUserUuid", uuid);
-};
-
-export const forgetLoggedInUser = () => {
-  localStorage.removeItem("anycal_loggedInUserUuid");
-};

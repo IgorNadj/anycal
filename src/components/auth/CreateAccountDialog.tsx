@@ -1,34 +1,33 @@
 import { useState } from "react";
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  TextField,
-  Stack,
   Alert,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Stack,
+  TextField,
   Typography,
 } from "@mui/material";
-import { useCreateUser } from "../../hooks/useCreateUser.ts";
+import { useRegister } from "../../hooks/useRegister.ts";
 
 export type CreateAccountDialogProps = {
   open: boolean;
   onClose: () => void;
 };
 
-export const CreateAccountDialog = ({
-  open,
-  onClose,
-}: CreateAccountDialogProps) => {
+export const CreateAccountDialog = ({ open, onClose }: CreateAccountDialogProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { mutate: createUser, isPending, error, isSuccess } = useCreateUser();
+  const useRegisterMutation = useRegister();
+  const { mutate: register, error, isSuccess, isPending } = useRegisterMutation;
 
   const reset = () => {
     setEmail("");
     setPassword("");
+    useRegisterMutation.reset();
   };
 
   const handleClose = () => {
@@ -41,7 +40,7 @@ export const CreateAccountDialog = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    createUser({ email: email.trim(), password });
+    register({ email: email.trim(), password });
   };
 
   return (

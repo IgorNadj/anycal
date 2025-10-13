@@ -1,29 +1,26 @@
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   TextField,
-  Box,
 } from "@mui/material";
 import { useContext, useState } from "react";
 import { AppContext } from "../../state/AppContext.tsx";
 import { CalendarColourPicker } from "./CalendarColourPicker.tsx";
-import type { CalendarColour, Calendar } from "../../types.ts";
+import type { Calendar, CalendarColour } from "../../types.ts";
 import { v4 as uuidv4 } from "uuid";
 import { useCreateCalendar } from "../../hooks/useCreateCalendar.ts";
-import { useAuth } from "../../hooks/useAuth.ts";
 
 export const AddCalendarDialog = () => {
-  const { isCreatingCalendar, setIsCreatingCalendar } = useContext(AppContext);
+  const { isCreatingCalendar, setIsCreatingCalendar, userUuid } = useContext(AppContext);
 
   const { mutate: createCalendar } = useCreateCalendar();
 
   const [name, setName] = useState<string>("");
   const [colour, setColour] = useState<CalendarColour>("blue_400");
-
-  const auth = useAuth();
 
   const onClose = () => {
     setIsCreatingCalendar(false);
@@ -32,13 +29,13 @@ export const AddCalendarDialog = () => {
   };
 
   const onCreate = () => {
-    const userUuid = auth.state.isLoggedIn ? auth.state.user.uuid : auth.state.guestUuid;
+    if (!userUuid) return;
     const newCalendar: Calendar = {
       uuid: uuidv4(),
       name,
       colour,
       visible: true,
-      userUuid,
+      userUuid: userUuid,
     };
     createCalendar(newCalendar);
     onClose();

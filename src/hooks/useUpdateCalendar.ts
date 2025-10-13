@@ -1,23 +1,22 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import type { Calendar } from "../types.ts";
 import { updateCalendarAction } from "../actions/updateCalendarAction.ts";
-import { GuestDataStore } from "../state/GuestDataStore.ts";
-import { useAuth } from "./useAuth.ts";
+import { useValidatedMutation } from "../utils/validation.ts";
+import { NotLoggedInError } from "../utils/NotLoggedInError.ts";
+import { useContext } from "react";
+import { AppContext } from "../state/AppContext.tsx";
 
 export const useUpdateCalendar = () => {
   const queryClient = useQueryClient();
-  const auth = useAuth();
+  const { userUuid } = useContext(AppContext);
 
-  return useMutation({
-    mutationFn: async (calendar: Calendar) => {
-      if (auth.state.isLoggedIn) {
-        return updateCalendarAction(calendar);
-      } else {
-        GuestDataStore.calendars.update(calendar);
-      }
+  return useValidatedMutation({
+    validatedMutationFn: async (calendar: Calendar) => {
+      if (!userUuid) throw NotLoggedInError();
+      return updateCalendarAction(calendar);
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["calendars"] });
+      await queryClient.invalidateQueries({ queryKey: [userUuid, "calendars"] });
     },
   });
 };

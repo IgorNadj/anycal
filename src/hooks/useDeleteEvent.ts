@@ -1,23 +1,22 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { CalendarEvent } from "../types.ts";
 import { deleteEventAction } from "../actions/deleteEventAction.ts";
-import { GuestDataStore } from "../state/GuestDataStore.ts";
-import { useAuth } from "./useAuth.ts";
+import { NotLoggedInError } from "../utils/NotLoggedInError.ts";
+import { useContext } from "react";
+import { AppContext } from "../state/AppContext.tsx";
 
 export const useDeleteEvent = () => {
   const queryClient = useQueryClient();
-  const auth = useAuth();
+
+  const { userUuid } = useContext(AppContext);
 
   return useMutation({
     mutationFn: async (event: CalendarEvent) => {
-      if (auth.state.isLoggedIn) {
-        return deleteEventAction(event);
-      } else {
-        GuestDataStore.events.delete(event);
-      }
+      if (!userUuid) throw NotLoggedInError();
+      return deleteEventAction(event);
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["events"] });
+      await queryClient.invalidateQueries({ queryKey: [userUuid, "events"] });
     },
   });
 };

@@ -1,11 +1,9 @@
 "use server";
 
 import type { CalendarEvent } from "../types.ts";
-import { formatRFC3339 } from "date-fns";
+import { updateEvent } from "../sql/mutations.ts";
 import { database } from "../database.ts";
 
 export const updateEventAction = async (event: CalendarEvent) => {
-  database
-    .prepare("UPDATE calendar_event SET name = ?, date = ? WHERE uuid = ?")
-    .run(event.name, formatRFC3339(event.date), event.uuid);
+  return updateEvent(database, event);
 };
