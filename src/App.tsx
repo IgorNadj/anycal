@@ -1,11 +1,10 @@
-import { AppProvider } from "./state/AppProvider.tsx";
-import { Main } from "./components/Main.tsx";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
-import { getUserLocale } from "./utils.ts";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Main } from "./components/Main.tsx";
+import { AppProvider } from "./state/AppProvider.tsx";
+import { getUserLocale } from "./utils.ts";
 
 const userLocale = getUserLocale();
 
