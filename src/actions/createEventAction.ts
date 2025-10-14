@@ -1,11 +1,17 @@
 "use server";
 
-import type { CalendarEvent } from "../types.ts";
 import { database } from "../database.ts";
 import { createEvent } from "../sql/mutations.ts";
+import type { NewCalendarEvent } from "../types.ts";
 import { ok } from "../utils/validation.ts";
 
-export const createEventAction = async (event: CalendarEvent) => {
-  createEvent(database, event);
+export const createEventAction = async (event: NewCalendarEvent) => {
+  const now = new Date(); // do this on the server in case client time is wrong
+  createEvent(database, {
+    ...event,
+    created: now,
+    lastModified: now,
+    sequence: 0,
+  });
   return ok({});
 };

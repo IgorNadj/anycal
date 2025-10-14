@@ -2,12 +2,12 @@ import { Button, DialogActions, DialogContent, Typography } from "@mui/material"
 import { DatePicker } from "@mui/x-date-pickers";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useDebounce } from "../../hooks/useDebounce.ts";
-import type { Calendar, CalendarEvent, Suggestion } from "../../types.ts";
-import { SearchWithSuggestions } from "../dropdown/SearchWithSuggestions.tsx";
-import { useFetchSuggestions } from "../../hooks/useFetchSuggestions.ts";
-import { useCreateEvent } from "../../hooks/useCreateEvent.ts";
 import { useCalendars } from "../../hooks/useCalendars.ts";
+import { useCreateEvent } from "../../hooks/useCreateEvent.ts";
+import { useDebounce } from "../../hooks/useDebounce.ts";
+import { useFetchSuggestions } from "../../hooks/useFetchSuggestions.ts";
+import type { Calendar, NewCalendarEvent, Suggestion } from "../../types.ts";
+import { SearchWithSuggestions } from "../dropdown/SearchWithSuggestions.tsx";
 import { CalendarPicker } from "./CalendarPicker.tsx";
 
 export const AddEventForm = () => {
@@ -34,7 +34,7 @@ export const AddEventForm = () => {
 
   const create = (name: string, date: Date) => {
     if (!selectedCalendar) return;
-    const newEvent: CalendarEvent = {
+    const newEvent: NewCalendarEvent = {
       name,
       date,
       uuid: uuidv4(),

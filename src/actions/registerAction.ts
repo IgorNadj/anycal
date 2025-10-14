@@ -1,11 +1,11 @@
 "use server";
 
-import { database } from "../database.ts";
 import { v4 as uuidv4 } from "uuid";
-import { generateSalt, hashPassword } from "../utils/crypto.ts";
-import { createUser } from "../sql/mutations.ts";
-import type { User } from "../types.ts";
+import { database } from "../database.ts";
+import { createCalendar, createUser } from "../sql/mutations.ts";
 import { getUserByEmail } from "../sql/queries.ts";
+import type { User } from "../types.ts";
+import { generateSalt, hashPassword } from "../utils/crypto.ts";
 import { ok, validationError } from "../utils/validation.ts";
 
 export type RegisterInput = {
@@ -36,6 +36,15 @@ export const registerAction = async (input: RegisterInput) => {
   };
 
   createUser(database, newUser);
+
+  // create default calendar
+  createCalendar(database, {
+    uuid: uuidv4(),
+    name: "My Calendar",
+    colour: "blue_400",
+    visible: true,
+    userUuid: newUser.uuid,
+  });
 
   return ok({ userUuid: newUser.uuid });
 };

@@ -23,6 +23,9 @@ export const initSql = `
     name TEXT NOT NULL,
     date TEXT NOT NULL,
     calendarUuid TEXT NOT NULL,
+    created TEXT NOT NULL,
+    lastModified TEXT NOT NULL,
+    sequence INTEGER NOT NULL,
     CONSTRAINT fk_calendar
       FOREIGN KEY (calendarUuid)
       REFERENCES calendar(uuid)

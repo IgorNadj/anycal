@@ -1,6 +1,6 @@
-import type { Calendar, CalendarEvent, User } from "../types.ts";
 import { formatRFC3339 } from "date-fns";
 import type { DatabaseSync } from "node:sqlite";
+import type { Calendar, CalendarEvent, User } from "../types.ts";
 
 export function createUser(db: DatabaseSync, user: User): void {
   db.prepare(
@@ -35,14 +35,30 @@ export function deleteCalendar(db: DatabaseSync, calendarUuid: string): void {
 
 export function updateEvent(db: DatabaseSync, event: CalendarEvent): void {
   db.prepare(
-    "UPDATE calendar_event SET name = ?, date = ?, calendarUuid = ? WHERE uuid = ?",
-  ).run(event.name, formatRFC3339(event.date), event.calendarUuid, event.uuid);
+    "UPDATE calendar_event SET name = ?, date = ?, calendarUuid = ?, created = ?, lastModified = ?, sequence = ? WHERE uuid = ?",
+  ).run(
+    event.name,
+    formatRFC3339(event.date),
+    event.calendarUuid,
+    formatRFC3339(event.created),
+    formatRFC3339(event.lastModified),
+    event.sequence,
+    event.uuid,
+  );
 }
 
 export function createEvent(db: DatabaseSync, event: CalendarEvent): void {
   db.prepare(
-    "INSERT INTO calendar_event (uuid, name, date, calendarUuid) VALUES (?, ?, ?, ?)",
-  ).run(event.uuid, event.name, formatRFC3339(event.date), event.calendarUuid);
+    "INSERT INTO calendar_event (uuid, name, date, calendarUuid, created, lastModified, sequence) VALUES (?, ?, ?, ?, ?, ?, ?)",
+  ).run(
+    event.uuid,
+    event.name,
+    formatRFC3339(event.date),
+    event.calendarUuid,
+    formatRFC3339(event.created),
+    formatRFC3339(event.lastModified),
+    event.sequence,
+  );
 }
 
 export function deleteEvent(db: DatabaseSync, eventUuid: string): void {

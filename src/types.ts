@@ -25,7 +25,17 @@ export type CalendarEvent = {
   name: string;
   date: Date;
   calendarUuid: string;
+  created: Date;
+  lastModified: Date;
+  sequence: number; // revision number
 };
+
+export type NewCalendarEvent = Omit<
+  CalendarEvent,
+  "created" | "lastModified" | "sequence"
+>;
+
+export type UpdateCalendarEvent = Omit<CalendarEvent, "lastModified">;
 
 export type Suggestion = {
   title: string;

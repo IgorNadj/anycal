@@ -1,24 +1,24 @@
+import AddIcon from "@mui/icons-material/Add";
 import {
+  Box,
+  Button,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
-  Button,
-  Box,
   Typography,
 } from "@mui/material";
-import { EditableEventRow } from "./EditableEventRow.tsx";
-import AddIcon from "@mui/icons-material/Add";
 import { useContext, useMemo } from "react";
-import { AppContext } from "../../state/AppContext.tsx";
 import { v4 as uuidv4 } from "uuid";
-import type { CalendarEvent } from "../../types.ts";
-import { useEvents } from "../../hooks/useEvents.ts";
 import { useCreateEvent } from "../../hooks/useCreateEvent.ts";
+import { useEvents } from "../../hooks/useEvents.ts";
+import { AppContext } from "../../state/AppContext.tsx";
+import type { NewCalendarEvent } from "../../types.ts";
 import { getEventsForCalendar } from "../../utils.ts";
+import { EditableEventRow } from "./EditableEventRow.tsx";
 
 export const EventsTable = () => {
   const { currentlyEditingCalendar } = useContext(AppContext);
@@ -34,7 +34,7 @@ export const EventsTable = () => {
   const handleAddEvent = () => {
     if (!currentlyEditingCalendar) return;
 
-    const newEvent: CalendarEvent = {
+    const newEvent: NewCalendarEvent = {
       uuid: uuidv4(),
       name: "New Event",
       date: new Date(),
@@ -57,11 +57,7 @@ export const EventsTable = () => {
         }}
       >
         <Typography variant="h6">Events</Typography>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={handleAddEvent}
-        >
+        <Button variant="contained" startIcon={<AddIcon />} onClick={handleAddEvent}>
           Add Event
         </Button>
       </Box>
@@ -83,9 +79,7 @@ export const EventsTable = () => {
                 </TableCell>
               </TableRow>
             ) : (
-              events.map((event) => (
-                <EditableEventRow key={event.uuid} event={event} />
-              ))
+              events.map((event) => <EditableEventRow key={event.uuid} event={event} />)
             )}
           </TableBody>
         </Table>

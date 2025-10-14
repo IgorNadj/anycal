@@ -1,9 +1,13 @@
 "use server";
 
-import type { CalendarEvent } from "../types.ts";
-import { updateEvent } from "../sql/mutations.ts";
 import { database } from "../database.ts";
+import { updateEvent } from "../sql/mutations.ts";
+import type { UpdateCalendarEvent } from "../types.ts";
 
-export const updateEventAction = async (event: CalendarEvent) => {
-  return updateEvent(database, event);
+export const updateEventAction = async (event: UpdateCalendarEvent) => {
+  return updateEvent(database, {
+    ...event,
+    lastModified: new Date(), // do this on the server in case client time is wrong
+    sequence: event.sequence + 1,
+  });
 };
