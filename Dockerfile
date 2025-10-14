@@ -7,6 +7,6 @@ WORKDIR /home/node/app
 RUN yarn install
 RUN yarn run build
 
-EXPOSE 80
+EXPOSE 3000
 
 ENTRYPOINT ["yarn", "start"]
