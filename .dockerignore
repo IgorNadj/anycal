@@ -1,0 +1,5 @@
+.idea
+.junie
+node_modules
+.env
+db.sqlite3
