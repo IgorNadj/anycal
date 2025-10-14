@@ -23,6 +23,7 @@ import { useCalendars } from "../hooks/useCalendars.ts";
 import { useUpdateCalendar } from "../hooks/useUpdateCalendar.ts";
 import { useDeleteCalendar } from "../hooks/useDeleteCalendar.ts";
 import { Add, MoreVert } from "@mui/icons-material";
+import { TextFieldWithCopyButton } from "./TextFieldWithCopyButton.tsx";
 
 export const CalendarsList = () => {
   const ctx = useContext(AppContext);
@@ -35,6 +36,7 @@ export const CalendarsList = () => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [menuCalendar, setMenuCalendar] = useState<Calendar | null>(null);
   const [calendarToDelete, setCalendarToDelete] = useState<Calendar | null>(null);
+  const [subscriptionCalendar, setSubscriptionCalendar] = useState<Calendar | null>(null);
 
   const menuOpen = Boolean(menuAnchorEl);
 
@@ -57,6 +59,7 @@ export const CalendarsList = () => {
     deleteCalendar(calendarToDelete);
     setCalendarToDelete(null);
   };
+
 
   return (
     <>
@@ -122,6 +125,14 @@ export const CalendarsList = () => {
           Settings
         </MenuItem>
         <MenuItem
+          onClick={() => {
+            if (menuCalendar) setSubscriptionCalendar(menuCalendar);
+            closeMenu();
+          }}
+        >
+          Subscribe to this Calendar
+        </MenuItem>
+        <MenuItem
           disabled={calendars.length <= 1}
           onClick={() => {
             if (menuCalendar) setCalendarToDelete(menuCalendar);
@@ -145,6 +156,21 @@ export const CalendarsList = () => {
           <Button color="error" variant="contained" onClick={confirmDelete}>
             Delete
           </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={subscriptionCalendar !== null} onClose={() => setSubscriptionCalendar(null)}>
+        <DialogTitle>Subscribe to Calendar</DialogTitle>
+        <DialogContent>
+          <Typography sx={{ mb: 2 }}>
+            You can add this Calendar to your calendar app with the following url:
+          </Typography>
+          <TextFieldWithCopyButton
+            value={subscriptionCalendar ? `${window.location.origin}/subscribe?uuid=${subscriptionCalendar.uuid}` : ""}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setSubscriptionCalendar(null)}>Close</Button>
         </DialogActions>
       </Dialog>
     </>

@@ -4,7 +4,7 @@ import { getCalendarByUuid, getEventsByCalendarUuid } from "../sql/queries.ts";
 import { generateICalendar } from "../utils/ical.ts";
 
 export const calendarIcs = (app: Express) => {
-  app.get("/api/calendar", (req, res) => {
+  app.get("/subscribe", (req, res) => {
     try {
       const calendarUuid = req.query.uuid as string;
 
@@ -22,12 +22,14 @@ export const calendarIcs = (app: Express) => {
       const events = getEventsByCalendarUuid(database, calendarUuid);
 
       // Find the most recent lastModified date
-      const mostRecentModified = events.length > 0
-        ? events.reduce((latest, event) =>
-            event.lastModified > latest ? event.lastModified : latest,
-            events[0].lastModified
-          )
-        : new Date();
+      const mostRecentModified =
+        events.length > 0
+          ? events.reduce(
+              (latest, event) =>
+                event.lastModified > latest ? event.lastModified : latest,
+              events[0].lastModified,
+            )
+          : new Date();
 
       // Generate iCal content
       const icalContent = generateICalendar(calendar, events);
