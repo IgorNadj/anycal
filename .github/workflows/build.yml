@@ -4,15 +4,17 @@ on:
   push:
     branches: [ "main" ]
 
-env:
-  REGISTRY: docker.io
-  IMAGE_NAME: ${{ github.repository }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Extract Docker image metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ vars.DOCKER_USERNAME }}/anycal
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -20,17 +22,10 @@ jobs:
           username: igornadj
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Extract Docker image metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ vars.GITHUB_REPOSITORY }}
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           annotations: ${{ steps.meta.outputs.annotations }}
-
 
