@@ -20,6 +20,19 @@ jobs:
           username: igornadj
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Extract Docker image metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ vars.DOCKER_USERNAME }}/anycal
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          annotations: ${{ steps.meta.outputs.annotations }}
+
       - name: Build Docker image
         run: docker build -t ${{ github.repository }}:latest .
 
