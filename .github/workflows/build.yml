@@ -24,7 +24,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ vars.DOCKER_USERNAME }}/anycal
+          images: ${{ vars.GITHUB_REPOSITORY }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
