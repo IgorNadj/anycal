@@ -5,6 +5,8 @@ export function generateICalendar(calendar: Calendar, events: CalendarEvent[]): 
   const icalEvents: IcsEvent[] = events.map((event) => ({
     uid: event.uuid,
     summary: event.name,
+    description: "View this event on AnyCal: https://anycal.dev.igornadj.io",
+    url: "https://anycal.dev.igornadj.io",
     start: {
       date: event.date,
     },
