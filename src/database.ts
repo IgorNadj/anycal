@@ -1,7 +1,10 @@
 import { DatabaseSync } from "node:sqlite";
 import { initSql } from "./sql/init.ts";
 
-export const database = new DatabaseSync("db.sqlite3");
+const dbPath = process.env.DB_PATH || "/home/db/db.sqlite3";
+console.log(`Using database at ${dbPath}`);
+
+export const database = new DatabaseSync(dbPath);
 
 // Enforce foreign key constraints for this connection
 // (SQLite requires this PRAGMA to be enabled explicitly)

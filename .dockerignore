@@ -1,6 +1,8 @@
 .github
 .idea
 .junie
+dist
 node_modules
 .env
+.gitignore
 db.sqlite3
