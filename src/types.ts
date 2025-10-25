@@ -1,4 +1,4 @@
-export type ViewMode = "compact" | "expanded";
+export type ViewMode = "month" | "agenda";
 
 import { CALENDAR_COLOURS } from "./constants.ts";
 

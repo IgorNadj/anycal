@@ -1,3 +1,5 @@
+import type { ViewMode } from "./types.ts";
+
 export const CALENDAR_COLOURS = {
   blue_400: "#42a5f5",
   green_400: "#66bb6a",
@@ -17,3 +19,19 @@ export const CALENDAR_COLOURS = {
   deepPurple_400: "#7e57c2",
 };
 
+export const DEFAULT_VIEW_MODE: ViewMode = "month";
+
+export const MONTH_NAMES_SHORT: Record<number, string> = {
+  0: "Jan",
+  1: "Feb",
+  2: "Mar",
+  3: "Apr",
+  4: "May",
+  5: "Jun",
+  6: "Jul",
+  7: "Aug",
+  8: "Sep",
+  9: "Oct",
+  10: "Nov",
+  11: "Dec",
+};

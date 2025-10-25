@@ -1,20 +1,21 @@
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
-import { useContext } from "react";
-import { AppContext } from "../../state/AppContext.tsx";
+import type { ViewMode } from "../../types.ts";
 
-export const Header = () => {
-  const ctx = useContext(AppContext);
-  const { setViewMode } = ctx;
+type Props = {
+  viewMode: ViewMode;
+  onChange: (newViewMode: ViewMode) => void;
+};
 
+export const Header = ({ viewMode, onChange }: Props) => {
   return (
     <>
       <ToggleButtonGroup
-        value={ctx.viewMode}
+        value={viewMode}
         exclusive
-        onChange={(_e, nextViewMode) => setViewMode(nextViewMode)}
+        onChange={(_e, nextViewMode) => onChange(nextViewMode)}
       >
-        <ToggleButton value="compact">Compact</ToggleButton>
-        <ToggleButton value="expanded">Expanded</ToggleButton>
+        <ToggleButton value="month">Month</ToggleButton>
+        <ToggleButton value="agenda">Agenda</ToggleButton>
       </ToggleButtonGroup>
     </>
   );
