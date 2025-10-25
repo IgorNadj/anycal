@@ -1,12 +1,12 @@
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
-import type { ViewMode } from "../../types.ts";
+import type { ViewMode } from "../types.ts";
 
 type Props = {
   viewMode: ViewMode;
   onChange: (newViewMode: ViewMode) => void;
 };
 
-export const Header = ({ viewMode, onChange }: Props) => {
+export const AppHeader = ({ viewMode, onChange }: Props) => {
   return (
     <>
       <ToggleButtonGroup

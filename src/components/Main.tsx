@@ -3,13 +3,13 @@ import { useContext } from "react";
 import { useCalendars } from "../hooks/useCalendars.ts";
 import { useEvents } from "../hooks/useEvents.ts";
 import { AppContext } from "../state/AppContext.tsx";
-import { AuthAvatar } from "./AuthAvatar.tsx";
-import { Calendar } from "./calendar/Calendar.tsx";
+import { AuthAvatar } from "./auth/AuthAvatar.tsx";
 import { CalendarsList } from "./CalendarsList.tsx";
 import { AddCalendarDialog } from "./form/AddCalendarDialog.tsx";
 import { AddEventForm } from "./form/AddEventForm.tsx";
 import { EditCalendarDialog } from "./form/EditCalendarDialog.tsx";
 import { EditEventDialog } from "./form/EditEventDialog.tsx";
+import { MainCalendar } from "./MainCalendar.tsx";
 
 export const Main = () => {
   const ctx = useContext(AppContext);
@@ -57,7 +57,7 @@ export const Main = () => {
             <CalendarsList />
           </Grid>
           <Grid size={9}>
-            <Calendar />
+            <MainCalendar />
           </Grid>
         </Grid>
       </Box>

@@ -1,5 +1,4 @@
-import { AppContext } from "../state/AppContext.tsx";
-import { useContext, useState } from "react";
+import { Add, MoreVert } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -17,13 +16,14 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
+import { useContext, useState } from "react";
 import { CALENDAR_COLOURS } from "../constants.ts";
-import type { Calendar } from "../types.ts";
 import { useCalendars } from "../hooks/useCalendars.ts";
-import { useUpdateCalendar } from "../hooks/useUpdateCalendar.ts";
 import { useDeleteCalendar } from "../hooks/useDeleteCalendar.ts";
-import { Add, MoreVert } from "@mui/icons-material";
-import { TextFieldWithCopyButton } from "./TextFieldWithCopyButton.tsx";
+import { useUpdateCalendar } from "../hooks/useUpdateCalendar.ts";
+import { AppContext } from "../state/AppContext.tsx";
+import type { Calendar } from "../types.ts";
+import { TextFieldWithCopyButton } from "./form/TextFieldWithCopyButton.tsx";
 
 export const CalendarsList = () => {
   const ctx = useContext(AppContext);
@@ -59,7 +59,6 @@ export const CalendarsList = () => {
     deleteCalendar(calendarToDelete);
     setCalendarToDelete(null);
   };
-
 
   return (
     <>
@@ -159,14 +158,21 @@ export const CalendarsList = () => {
         </DialogActions>
       </Dialog>
 
-      <Dialog open={subscriptionCalendar !== null} onClose={() => setSubscriptionCalendar(null)}>
+      <Dialog
+        open={subscriptionCalendar !== null}
+        onClose={() => setSubscriptionCalendar(null)}
+      >
         <DialogTitle>Subscribe to Calendar</DialogTitle>
         <DialogContent>
           <Typography sx={{ mb: 2 }}>
             You can add this Calendar to your calendar app with the following url:
           </Typography>
           <TextFieldWithCopyButton
-            value={subscriptionCalendar ? `${window.location.origin}/subscribe?uuid=${subscriptionCalendar.uuid}` : ""}
+            value={
+              subscriptionCalendar
+                ? `${window.location.origin}/subscribe?uuid=${subscriptionCalendar.uuid}`
+                : ""
+            }
           />
         </DialogContent>
         <DialogActions>

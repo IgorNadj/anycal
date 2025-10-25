@@ -7,8 +7,8 @@ import { useCreateEvent } from "../../hooks/useCreateEvent.ts";
 import { useDebounce } from "../../hooks/useDebounce.ts";
 import { useFetchSuggestions } from "../../hooks/useFetchSuggestions.ts";
 import type { Calendar, NewCalendarEvent, Suggestion } from "../../types.ts";
-import { SearchWithSuggestions } from "../dropdown/SearchWithSuggestions.tsx";
 import { CalendarPicker } from "./CalendarPicker.tsx";
+import { SearchWithSuggestions } from "./SearchWithSuggestions.tsx";
 
 export const AddEventForm = () => {
   const { data: calendars } = useCalendars();

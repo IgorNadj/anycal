@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { DEFAULT_VIEW_MODE } from "../../constants.ts";
-import { useEvents } from "../../hooks/useEvents.ts";
-import type { ViewMode } from "../../types.ts";
-import { Header } from "./Header.tsx";
-import { MonthView } from "./MonthView.tsx";
+import { DEFAULT_VIEW_MODE } from "../constants.ts";
+import { useEvents } from "../hooks/useEvents.ts";
+import type { ViewMode } from "../types.ts";
+import { AppHeader } from "./AppHeader.tsx";
+import { MonthView } from "./calendar-views/MonthView.tsx";
 
-export const Calendar = () => {
+export const MainCalendar = () => {
   const { data: events } = useEvents();
 
   const [viewMode, setViewMode] = useState<ViewMode>(DEFAULT_VIEW_MODE);
@@ -24,7 +24,7 @@ export const Calendar = () => {
 
   return (
     <>
-      <Header viewMode={viewMode} onChange={setViewMode} />
+      <AppHeader viewMode={viewMode} onChange={setViewMode} />
       {viewMode === "month" && (
         <MonthView
           events={events}
