@@ -1,15 +1,15 @@
 import { Box, Container, Grid2 as Grid, Typography } from "@mui/material";
-import { AddEventForm } from "./form/AddEventForm.tsx";
-import { Calendar } from "./calendar/Calendar.tsx";
 import { useContext } from "react";
-import { EditEventDialog } from "./form/EditEventDialog.tsx";
-import { AppContext } from "../state/AppContext.tsx";
-import { EditCalendarDialog } from "./form/EditCalendarDialog.tsx";
-import { AddCalendarDialog } from "./form/AddCalendarDialog.tsx";
-import { useEvents } from "../hooks/useEvents.ts";
-import { CalendarsList } from "./CalendarsList.tsx";
 import { useCalendars } from "../hooks/useCalendars.ts";
+import { useEvents } from "../hooks/useEvents.ts";
+import { AppContext } from "../state/AppContext.tsx";
 import { AuthAvatar } from "./AuthAvatar.tsx";
+import { Calendar } from "./calendar/Calendar.tsx";
+import { CalendarsList } from "./CalendarsList.tsx";
+import { AddCalendarDialog } from "./form/AddCalendarDialog.tsx";
+import { AddEventForm } from "./form/AddEventForm.tsx";
+import { EditCalendarDialog } from "./form/EditCalendarDialog.tsx";
+import { EditEventDialog } from "./form/EditEventDialog.tsx";
 
 export const Main = () => {
   const ctx = useContext(AppContext);
@@ -51,12 +51,12 @@ export const Main = () => {
         <AuthAvatar />
       </Box>
       <Box>
-        <Grid container spacing={10}>
-          <Grid size={6}>
+        <Grid container spacing={1}>
+          <Grid size={3}>
             <AddEventForm />
             <CalendarsList />
           </Grid>
-          <Grid size={6}>
+          <Grid size={9}>
             <Calendar />
           </Grid>
         </Grid>
