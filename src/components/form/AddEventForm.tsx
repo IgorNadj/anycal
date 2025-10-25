@@ -1,4 +1,4 @@
-import { Button, DialogActions, DialogContent, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -55,7 +55,7 @@ export const AddEventForm = () => {
 
   return (
     <>
-      <DialogContent>
+      <Box>
         <Typography variant="h6">What</Typography>
         <SearchWithSuggestions
           value={input}
@@ -73,12 +73,10 @@ export const AddEventForm = () => {
             onChangeCalendar={setSelectedCalendar}
           />
         ) : null}
-      </DialogContent>
-      <DialogActions>
-        <Button variant="contained" onClick={handleAddButtonClick}>
-          Add
-        </Button>
-      </DialogActions>
+      </Box>
+      <Button variant="contained" onClick={handleAddButtonClick}>
+        Add
+      </Button>
     </>
   );
 };

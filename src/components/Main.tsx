@@ -1,14 +1,15 @@
-import { Box, Container, Grid2 as Grid, Typography } from "@mui/material";
-import { useContext } from "react";
+import { Box, Container, Grid2 as Grid } from "@mui/material";
+import { useContext, useState } from "react";
+import { DEFAULT_VIEW_MODE } from "../constants.ts";
 import { useCalendars } from "../hooks/useCalendars.ts";
 import { useEvents } from "../hooks/useEvents.ts";
 import { AppContext } from "../state/AppContext.tsx";
-import { AuthAvatar } from "./auth/AuthAvatar.tsx";
-import { CalendarsList } from "./CalendarsList.tsx";
+import type { ViewMode } from "../types.ts";
+import { AppHeader } from "./AppHeader.tsx";
 import { AddCalendarDialog } from "./form/AddCalendarDialog.tsx";
-import { AddEventForm } from "./form/AddEventForm.tsx";
 import { EditCalendarDialog } from "./form/EditCalendarDialog.tsx";
 import { EditEventDialog } from "./form/EditEventDialog.tsx";
+import { LeftSidebar } from "./LeftSidebar.tsx";
 import { MainCalendar } from "./MainCalendar.tsx";
 
 export const Main = () => {
@@ -20,47 +21,30 @@ export const Main = () => {
   console.log("calendars", calendars);
   console.log("events", events);
 
+  const [viewMode, setViewMode] = useState<ViewMode>(DEFAULT_VIEW_MODE);
+  const [currentDate, setCurrentDate] = useState<Date>(new Date());
+
   return (
-    <Container sx={{ py: { xs: 8, sm: 10 } }}>
-      <EditEventDialog key={currentlyEditingEvent?.uuid} />
-      <EditCalendarDialog key={currentlyEditingCalendar?.uuid} />
-      <AddCalendarDialog />
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Box>
-          <Typography
-            component="h2"
-            variant="h4"
-            gutterBottom
-            sx={{ color: "text.primary" }}
-          >
-            Any Cal
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{ color: "text.secondary", mb: { xs: 2, sm: 4 } }}
-          >
-            Add anything to your calendar.
-          </Typography>
-        </Box>
-        <AuthAvatar />
-      </Box>
+    <Container sx={{ py: { xs: 8, sm: 3 } }}>
       <Box>
         <Grid container spacing={1}>
           <Grid size={3}>
-            <AddEventForm />
-            <CalendarsList />
+            <LeftSidebar />
           </Grid>
           <Grid size={9}>
-            <MainCalendar />
+            <AppHeader
+              viewMode={viewMode}
+              setViewMode={setViewMode}
+              currentDate={currentDate}
+              setCurrentDate={setCurrentDate}
+            />
+            <MainCalendar viewMode={viewMode} currentDate={currentDate} />
           </Grid>
         </Grid>
       </Box>
+      <EditEventDialog key={currentlyEditingEvent?.uuid} />
+      <EditCalendarDialog key={currentlyEditingCalendar?.uuid} />
+      <AddCalendarDialog />
     </Container>
   );
 };

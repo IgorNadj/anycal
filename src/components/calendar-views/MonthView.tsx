@@ -59,10 +59,9 @@ const eventsByDay = (events: CalendarEvent[]) => {
 type Props = {
   events: CalendarEvent[];
   currentDate: Date;
-  setCurrentDate: (newDate: Date) => void;
 };
 
-export const MonthView = ({ events, currentDate, setCurrentDate }: Props) => {
+export const MonthView = ({ events, currentDate }: Props) => {
   const { start, end } = useMemo(() => getMonthGridRange(currentDate), [currentDate]);
   const days = useMemo(() => eachDayOfInterval(start, end), [start, end]);
   const getEvents = useMemo(() => eventsByDay(events), [events]);
