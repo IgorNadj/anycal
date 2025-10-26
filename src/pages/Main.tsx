@@ -14,6 +14,7 @@ import type { ViewMode } from "../types.ts";
 import { CalendarPage } from "./CalendarPage.tsx";
 import { Loading } from "./Loading.tsx";
 import { PageNotFoundPage } from "./PageNotFoundPage.tsx";
+import { ThingPage } from "./ThingPage.tsx";
 import { Welcome } from "./Welcome.tsx";
 
 export const Main = () => {
@@ -71,6 +72,7 @@ export const Main = () => {
               />
             }
           />
+          <Route path="/thing/:uuid" element={<ThingPage />} />
           <Route path="/welcome" element={<Welcome />} />
           <Route path="*" element={<PageNotFoundPage />} />
         </Routes>

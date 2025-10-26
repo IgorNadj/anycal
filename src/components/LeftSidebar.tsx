@@ -3,6 +3,12 @@ import { NavLink } from "react-router";
 import { CalendarsList } from "./CalendarsList.tsx";
 
 export const LeftSidebar = () => {
+  const onNewThingPress = () => {
+    // const newThingUuid = uuidv4();
+    // 1. create new thing, store as a draft
+    // 2. navigate to /things/:uuid
+  };
+
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <Box>
@@ -25,10 +31,13 @@ export const LeftSidebar = () => {
           <NavLink to="/welcome">Home (logged out)</NavLink>
         </ListItem>
         <ListItem>
-          <NavLink to="/404">404</NavLink>
+          <button onClick={onNewThingPress}>+</button>
         </ListItem>
         <ListItem>
-          <NavLink to="/calendar">Calendar</NavLink>
+          <NavLink to={`/thing/abc`}>View Thing: abc</NavLink>
+        </ListItem>
+        <ListItem>
+          <NavLink to="/404">404</NavLink>
         </ListItem>
       </List>
       <CalendarsList />
