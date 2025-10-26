@@ -10,8 +10,8 @@ import {
 import { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useCreateCalendar } from "../../hooks/useCreateCalendar.ts";
-import { AuthContext } from "../../state/AuthContext.tsx";
-import { StateContext } from "../../state/StateContext.tsx";
+import { AuthContext } from "../../providers/AuthContext.tsx";
+import { StateContext } from "../../providers/StateContext.tsx";
 import type { Calendar, CalendarColour } from "../../types.ts";
 import { CalendarColourPicker } from "./CalendarColourPicker.tsx";
 

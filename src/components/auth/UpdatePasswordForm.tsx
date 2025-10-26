@@ -1,7 +1,7 @@
 import { Alert, Button, DialogActions, Stack, TextField } from "@mui/material";
 import { useContext, useState } from "react";
 import { useUpdatePassword } from "../../hooks/useUpdatePassword.ts";
-import { AuthContext } from "../../state/AuthContext.tsx";
+import { AuthContext } from "../../providers/AuthContext.tsx";
 
 export const UpdatePasswordForm = () => {
   const { userUuid } = useContext(AuthContext);

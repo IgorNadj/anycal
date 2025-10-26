@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { getEventsAction } from "../actions/getEventsAction.ts";
-import { AuthContext } from "../state/AuthContext.tsx";
+import { AuthContext } from "../providers/AuthContext.tsx";
 
 export const useEvents = () => {
   const { userUuid } = useContext(AuthContext);

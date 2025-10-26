@@ -2,7 +2,7 @@ import { Alert, Button, DialogActions, Stack, TextField } from "@mui/material";
 import { useContext, useState } from "react";
 import { useUpdateUserProfile } from "../../hooks/useUpdateUserProfile.ts";
 import { useUserProfile } from "../../hooks/useUserProfile.ts";
-import { AuthContext } from "../../state/AuthContext.tsx";
+import { AuthContext } from "../../providers/AuthContext.tsx";
 
 export const UpdateEmailForm = () => {
   const { data: userProfile } = useUserProfile();

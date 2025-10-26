@@ -15,7 +15,7 @@ import { useContext, useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useCreateEvent } from "../../hooks/useCreateEvent.ts";
 import { useEvents } from "../../hooks/useEvents.ts";
-import { StateContext } from "../../state/StateContext.tsx";
+import { StateContext } from "../../providers/StateContext.tsx";
 import type { NewCalendarEvent } from "../../types.ts";
 import { getEventsForCalendar } from "../../utils.ts";
 import { EditableEventRow } from "./EditableEventRow.tsx";

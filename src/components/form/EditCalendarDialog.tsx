@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useUpdateCalendar } from "../../hooks/useUpdateCalendar.ts";
-import { StateContext } from "../../state/StateContext.tsx";
+import { StateContext } from "../../providers/StateContext.tsx";
 import type { CalendarColour } from "../../types.ts";
 import { CalendarColourPicker } from "./CalendarColourPicker.tsx";
 

@@ -21,7 +21,7 @@ import { CALENDAR_COLOURS } from "../constants.ts";
 import { useCalendars } from "../hooks/useCalendars.ts";
 import { useDeleteCalendar } from "../hooks/useDeleteCalendar.ts";
 import { useUpdateCalendar } from "../hooks/useUpdateCalendar.ts";
-import { StateContext } from "../state/StateContext.tsx";
+import { StateContext } from "../providers/StateContext.tsx";
 import type { Calendar } from "../types.ts";
 import { TextFieldWithCopyButton } from "./form/TextFieldWithCopyButton.tsx";
 

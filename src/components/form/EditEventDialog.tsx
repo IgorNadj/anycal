@@ -12,7 +12,7 @@ import { useContext, useEffect, useState } from "react";
 import { useCalendars } from "../../hooks/useCalendars.ts";
 import { useDeleteEvent } from "../../hooks/useDeleteEvent.ts";
 import { useUpdateEvent } from "../../hooks/useUpdateEvent.ts";
-import { StateContext } from "../../state/StateContext.tsx";
+import { StateContext } from "../../providers/StateContext.tsx";
 import type { Calendar } from "../../types.ts";
 import { CalendarPicker } from "./CalendarPicker.tsx";
 

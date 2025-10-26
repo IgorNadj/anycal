@@ -4,7 +4,7 @@ import {
   updateUserProfileAction,
   type UpdateUserProfileInput,
 } from "../actions/updateUserProfileAction.ts";
-import { AuthContext } from "../state/AuthContext.tsx";
+import { AuthContext } from "../providers/AuthContext.tsx";
 import { useValidatedMutation } from "../utils/validation.ts";
 
 export const useUpdateUserProfile = () => {

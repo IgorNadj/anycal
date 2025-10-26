@@ -1,7 +1,7 @@
 import { Avatar, Box, IconButton, Menu, MenuItem } from "@mui/material";
 import { useContext, useState } from "react";
 import { useUserProfile } from "../../hooks/useUserProfile.ts";
-import { AuthContext } from "../../state/AuthContext.tsx";
+import { AuthContext } from "../../providers/AuthContext.tsx";
 import { CreateAccountDialog } from "./CreateAccountDialog.tsx";
 import { EditUserDialog } from "./EditUserDialog.tsx";
 import { SignInDialog } from "./SignInDialog.tsx";

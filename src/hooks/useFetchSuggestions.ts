@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { fetchSuggestionsAction } from "../actions/fetchSuggestionsAction.ts";
-import { AuthContext } from "../state/AuthContext.tsx";
+import { AuthContext } from "../providers/AuthContext.tsx";
 
 export const useFetchSuggestions = (input: string) => {
   const { userUuid } = useContext(AuthContext);

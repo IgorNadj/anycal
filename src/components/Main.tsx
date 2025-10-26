@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import { DEFAULT_VIEW_MODE } from "../constants.ts";
 import { useCalendars } from "../hooks/useCalendars.ts";
 import { useEvents } from "../hooks/useEvents.ts";
-import { StateContext } from "../state/StateContext.tsx";
+import { StateContext } from "../providers/StateContext.tsx";
 import type { ViewMode } from "../types.ts";
 import { AppHeader } from "./AppHeader.tsx";
 import { AppLogo } from "./AppLogo.tsx";

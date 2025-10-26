@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { logInAction } from "../actions/logInAction.ts";
-import { AuthContext } from "../state/AuthContext.tsx";
+import { AuthContext } from "../providers/AuthContext.tsx";
 import { useValidatedMutation } from "../utils/validation.ts";
 
 export const useLogin = () => {

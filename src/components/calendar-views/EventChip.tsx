@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { useContext } from "react";
 import { CALENDAR_COLOURS } from "../../constants.ts";
 import { useCalendars } from "../../hooks/useCalendars.ts";
-import { StateContext } from "../../state/StateContext.tsx";
+import { StateContext } from "../../providers/StateContext.tsx";
 import type { CalendarEvent } from "../../types.ts";
 import { getCalendarForEvent } from "../../utils.ts";
 

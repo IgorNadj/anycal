@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogTitle, Divider, Stack } from "@mui/material";
 import { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { AuthContext } from "../../state/AuthContext.tsx";
+import { AuthContext } from "../../providers/AuthContext.tsx";
 import { UpdateEmailForm } from "./UpdateEmailForm.tsx";
 import { UpdatePasswordForm } from "./UpdatePasswordForm.tsx";
 
