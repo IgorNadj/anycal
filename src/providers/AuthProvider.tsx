@@ -1,17 +1,12 @@
-import { type ReactNode, useEffect, useState } from "react";
+import { type ReactNode, useState } from "react";
 import { AuthContext, type AuthContextType } from "./AuthContext.tsx";
 
 const STORAGE_KEY = "anycal_userUuid";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [userUuid, setUserUuid] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fromStorage = localStorage.getItem(STORAGE_KEY);
-    if (fromStorage) {
-      setUserUuid(fromStorage);
-    }
-  }, []);
+  const [userUuid, setUserUuid] = useState<string | null>(
+    localStorage.getItem(STORAGE_KEY),
+  );
 
   const setUserUuidAndRemember = (uuid: string | null) => {
     setUserUuid(uuid);

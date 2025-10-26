@@ -9,7 +9,6 @@ import { EventsTable } from "./EventsTable.tsx";
 export const ThingForm = ({ initialThing }: { initialThing: Thing }) => {
   const { data: events } = useEvents();
   const existingEventsForThing = getEventsForThing(initialThing, events);
-  const hasExistingEvents = existingEventsForThing.length > 0;
 
   const [name, setName] = useState<string>(initialThing.name || "");
   const [prompt, setPrompt] = useState<string>(initialThing.prompt || "");

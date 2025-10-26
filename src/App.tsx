@@ -13,8 +13,8 @@ export const App = () => {
       <Layout>
         <Routes>
           <Route path="/" element={<Loading />} />
-          <Route path="/home" element={<CalendarPage />} />
-          <Route path="/things/:uuid" element={<ThingPage />} />
+          <Route path="/cal/:calendarUuid" element={<CalendarPage />} />
+          <Route path="/things/:thingUuid" element={<ThingPage />} />
           <Route path="/welcome" element={<Welcome />} />
           <Route path="*" element={<PageNotFoundPage />} />
         </Routes>

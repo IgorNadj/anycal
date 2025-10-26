@@ -1,20 +1,17 @@
-import { Box, List, ListItem, ListItemButton } from "@mui/material";
+import { Box, List, ListItem } from "@mui/material";
 import { NavLink } from "react-router";
 import { useCalendars } from "../../hooks/useCalendars.ts";
 import { AuthAvatar } from "../auth/AuthAvatar.tsx";
-import { CalendarsList } from "./CalendarsList.tsx";
-import { ThingsList } from "./ThingsList.tsx";
+import { Section } from "./Section.tsx";
 
 export const LeftSidebar = () => {
   const { data: calendars } = useCalendars();
 
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
-      <ListItemButton component={NavLink} to="/home">
-        Calendar
-      </ListItemButton>
-      <ThingsList />
-      {calendars.length > 1 && <CalendarsList />}
+      {calendars.map((calendar) => (
+        <Section calendar={calendar} key={calendar.uuid} />
+      ))}
 
       <AuthAvatar />
 

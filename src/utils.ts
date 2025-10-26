@@ -45,4 +45,7 @@ export const getEventsForThing = (thing: Thing, allEvents: CalendarEvent[]) =>
 export const getCalendarForEvent = (event: CalendarEvent, allCalendars: Calendar[]) =>
   allCalendars.find((calendar) => calendar.uuid === event.calendarUuid) ?? null;
 
+export const getThingsForCalendar = (calendar: Calendar, allThings: Thing[]) =>
+  allThings.filter((thing) => thing.calendarUuid === calendar.uuid);
+
 export const objectKeys = Object.keys as <T extends object>(obj: T) => Array<keyof T>;

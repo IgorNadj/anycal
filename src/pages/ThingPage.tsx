@@ -5,16 +5,11 @@ import { HEADER_HEIGHT } from "../constants.ts";
 import { useThings } from "../hooks/useThings.ts";
 
 export const ThingPage = () => {
-  let params = useParams();
-  const thingUuid = params.uuid;
-  const { data: things } = useThings();
+  const { thingUuid } = useParams();
+  const { data: allThings } = useThings();
+  const thing = thingUuid ? allThings.find((t) => t.uuid === thingUuid) : null;
 
-  if (!thingUuid) {
-    return <div>Thing not found</div>;
-  }
-
-  const thing = things.find((t) => t.uuid === thingUuid);
-  if (!thing) {
+  if (!thingUuid || !thing) {
     return <div>Thing not found</div>;
   }
 
