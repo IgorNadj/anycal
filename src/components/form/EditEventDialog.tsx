@@ -4,20 +4,20 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  TextField,
   Stack,
+  TextField,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { useContext, useEffect, useState } from "react";
-import { AppContext } from "../../state/AppContext.tsx";
-import { useUpdateEvent } from "../../hooks/useUpdateEvent.ts";
-import { useDeleteEvent } from "../../hooks/useDeleteEvent.ts";
 import { useCalendars } from "../../hooks/useCalendars.ts";
+import { useDeleteEvent } from "../../hooks/useDeleteEvent.ts";
+import { useUpdateEvent } from "../../hooks/useUpdateEvent.ts";
+import { StateContext } from "../../state/StateContext.tsx";
 import type { Calendar } from "../../types.ts";
 import { CalendarPicker } from "./CalendarPicker.tsx";
 
 export const EditEventDialog = () => {
-  const ctx = useContext(AppContext);
+  const ctx = useContext(StateContext);
   const { currentlyEditingEvent, setCurrentlyEditingEvent } = ctx;
 
   const { mutate: updateEvent } = useUpdateEvent();
@@ -25,9 +25,7 @@ export const EditEventDialog = () => {
 
   const { data: calendars } = useCalendars();
 
-  const [date, setDate] = useState<Date>(
-    currentlyEditingEvent?.date ?? new Date(),
-  );
+  const [date, setDate] = useState<Date>(currentlyEditingEvent?.date ?? new Date());
 
   const [name, setName] = useState<string>(currentlyEditingEvent?.name ?? "");
   const [selectedCalendar, setSelectedCalendar] = useState<Calendar | null>(null);
@@ -36,7 +34,8 @@ export const EditEventDialog = () => {
   useEffect(() => {
     if (!currentlyEditingEvent) return;
     if (!calendars || calendars.length === 0) return;
-    const cal = calendars.find((c) => c.uuid === currentlyEditingEvent.calendarUuid) ?? null;
+    const cal =
+      calendars.find((c) => c.uuid === currentlyEditingEvent.calendarUuid) ?? null;
     setSelectedCalendar(cal);
   }, [currentlyEditingEvent, calendars]);
 

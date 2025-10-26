@@ -1,8 +1,8 @@
 import { type ReactNode, useState } from "react";
 import type { Calendar, CalendarEvent } from "../types.ts";
-import { AppContext, type AppContextType } from "./AppContext.tsx";
+import { type AppContextType, StateContext } from "./StateContext.tsx";
 
-export const AppProvider = ({ children }: { children: ReactNode }) => {
+export const StateProvider = ({ children }: { children: ReactNode }) => {
   const [currentlyEditingEvent, setCurrentlyEditingEvent] =
     useState<CalendarEvent | null>(null);
 
@@ -20,5 +20,5 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     setIsCreatingCalendar,
   };
 
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+  return <StateContext.Provider value={value}>{children}</StateContext.Provider>;
 };

@@ -15,13 +15,13 @@ import { useContext, useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useCreateEvent } from "../../hooks/useCreateEvent.ts";
 import { useEvents } from "../../hooks/useEvents.ts";
-import { AppContext } from "../../state/AppContext.tsx";
+import { StateContext } from "../../state/StateContext.tsx";
 import type { NewCalendarEvent } from "../../types.ts";
 import { getEventsForCalendar } from "../../utils.ts";
 import { EditableEventRow } from "./EditableEventRow.tsx";
 
 export const EventsTable = () => {
-  const { currentlyEditingCalendar } = useContext(AppContext);
+  const { currentlyEditingCalendar } = useContext(StateContext);
 
   const { data: allEvents } = useEvents();
   const { mutate: createEvent } = useCreateEvent();

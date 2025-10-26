@@ -21,12 +21,12 @@ import { CALENDAR_COLOURS } from "../constants.ts";
 import { useCalendars } from "../hooks/useCalendars.ts";
 import { useDeleteCalendar } from "../hooks/useDeleteCalendar.ts";
 import { useUpdateCalendar } from "../hooks/useUpdateCalendar.ts";
-import { AppContext } from "../state/AppContext.tsx";
+import { StateContext } from "../state/StateContext.tsx";
 import type { Calendar } from "../types.ts";
 import { TextFieldWithCopyButton } from "./form/TextFieldWithCopyButton.tsx";
 
 export const CalendarsList = () => {
-  const ctx = useContext(AppContext);
+  const ctx = useContext(StateContext);
   const { setCurrentlyEditingCalendar, setIsCreatingCalendar } = ctx;
 
   const { data: calendars } = useCalendars();

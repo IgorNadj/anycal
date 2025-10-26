@@ -1,27 +1,25 @@
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   TextField,
-  Box,
 } from "@mui/material";
-import { useContext, useState, useEffect } from "react";
-import { AppContext } from "../../state/AppContext.tsx";
-import { CalendarColourPicker } from "./CalendarColourPicker.tsx";
-import type { CalendarColour } from "../../types.ts";
+import { useContext, useEffect, useState } from "react";
 import { useUpdateCalendar } from "../../hooks/useUpdateCalendar.ts";
+import { StateContext } from "../../state/StateContext.tsx";
+import type { CalendarColour } from "../../types.ts";
+import { CalendarColourPicker } from "./CalendarColourPicker.tsx";
 
 export const EditCalendarDialog = () => {
-  const ctx = useContext(AppContext);
+  const ctx = useContext(StateContext);
   const { currentlyEditingCalendar, setCurrentlyEditingCalendar } = ctx;
 
   const { mutate: updateCalendar } = useUpdateCalendar();
 
-  const [name, setName] = useState<string>(
-    currentlyEditingCalendar?.name ?? "",
-  );
+  const [name, setName] = useState<string>(currentlyEditingCalendar?.name ?? "");
   const [colour, setColour] = useState<CalendarColour>(
     currentlyEditingCalendar?.colour ?? "blue_400",
   );

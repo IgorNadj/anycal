@@ -2,12 +2,12 @@ import { Box, Typography } from "@mui/material";
 import { useContext } from "react";
 import { CALENDAR_COLOURS } from "../../constants.ts";
 import { useCalendars } from "../../hooks/useCalendars.ts";
-import { AppContext } from "../../state/AppContext.tsx";
+import { StateContext } from "../../state/StateContext.tsx";
 import type { CalendarEvent } from "../../types.ts";
 import { getCalendarForEvent } from "../../utils.ts";
 
 export const EventChip = ({ event }: { event: CalendarEvent }) => {
-  const ctx = useContext(AppContext);
+  const ctx = useContext(StateContext);
   const { setCurrentlyEditingEvent } = ctx;
 
   const { data: calendars } = useCalendars();
