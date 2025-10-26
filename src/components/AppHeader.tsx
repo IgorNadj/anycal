@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import type { ViewMode } from "../types.ts";
 import { AuthAvatar } from "./auth/AuthAvatar.tsx";
 import { CurrentDateDisplay } from "./header/CurrentDateDisplay.tsx";
@@ -19,28 +20,28 @@ export const AppHeader = ({
   setCurrentDate,
 }: Props) => {
   return (
-    <div style={{ display: "flex" }}>
-      <div style={{ flex: 1, display: "flex" }}>
-        <div>
-          <Today setCurrentDate={setCurrentDate} />
-        </div>
-        <div>
-          <PrevNext
-            viewMode={viewMode}
-            currentDate={currentDate}
-            setCurrentDate={setCurrentDate}
-          />
-        </div>
-        <div>
-          <CurrentDateDisplay currentDate={currentDate} viewMode={viewMode} />
-        </div>
-      </div>
-      <div>
+    <Box
+      sx={{
+        height: "70px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 1,
+      }}
+    >
+      <Box sx={{ flex: 1, display: "flex", alignItems: "center", gap: 1 }}>
+        <Today setCurrentDate={setCurrentDate} />
+        <PrevNext
+          viewMode={viewMode}
+          currentDate={currentDate}
+          setCurrentDate={setCurrentDate}
+        />
+        <CurrentDateDisplay currentDate={currentDate} viewMode={viewMode} />
+      </Box>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <ViewModeSelector viewMode={viewMode} setViewMode={setViewMode} />
-      </div>
-      <div>
         <AuthAvatar />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };

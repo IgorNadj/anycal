@@ -1,4 +1,4 @@
-import { Chip } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useContext } from "react";
 import { CALENDAR_COLOURS } from "../../constants.ts";
 import { useCalendars } from "../../hooks/useCalendars.ts";
@@ -22,21 +22,27 @@ export const EventChip = ({ event }: { event: CalendarEvent }) => {
   }
 
   return (
-    <Chip
+    <Box
+      borderRadius={10}
       sx={{
         backgroundColor: CALENDAR_COLOURS[calendar.colour],
         width: "100%",
-        overflow: "hidden",
-        "& .MuiChip-label": {
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          whiteSpace: "nowrap",
-          width: "100%",
-          maxWidth: "100%",
-        },
       }}
-      label={event.name}
       onClick={() => setCurrentlyEditingEvent(event)}
-    />
+    >
+      <Typography
+        variant="body2"
+        padding={0.5}
+        sx={{
+          textOverflow: "ellipsis",
+          overflow: "hidden",
+          width: "100%",
+          textWrap: "nowrap",
+          cursor: "pointer",
+        }}
+      >
+        {event.name}
+      </Typography>
+    </Box>
   );
 };

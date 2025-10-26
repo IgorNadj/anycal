@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { useEvents } from "../hooks/useEvents.ts";
 import type { ViewMode } from "../types.ts";
 import { MonthView } from "./calendar-views/MonthView.tsx";
@@ -21,6 +22,8 @@ export const MainCalendar = ({ viewMode, currentDate }: Props) => {
   }
 
   return (
-    <>{viewMode === "month" && <MonthView events={events} currentDate={currentDate} />}</>
+    <Box style={{ height: "100%" }}>
+      {viewMode === "month" && <MonthView events={events} currentDate={currentDate} />}
+    </Box>
   );
 };

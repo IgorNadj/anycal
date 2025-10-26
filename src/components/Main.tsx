@@ -1,4 +1,4 @@
-import { Box, Container, Grid2 as Grid } from "@mui/material";
+import { Box } from "@mui/material";
 import { useContext, useState } from "react";
 import { DEFAULT_VIEW_MODE } from "../constants.ts";
 import { useCalendars } from "../hooks/useCalendars.ts";
@@ -6,6 +6,7 @@ import { useEvents } from "../hooks/useEvents.ts";
 import { AppContext } from "../state/AppContext.tsx";
 import type { ViewMode } from "../types.ts";
 import { AppHeader } from "./AppHeader.tsx";
+import { AppLogo } from "./AppLogo.tsx";
 import { AddCalendarDialog } from "./form/AddCalendarDialog.tsx";
 import { EditCalendarDialog } from "./form/EditCalendarDialog.tsx";
 import { EditEventDialog } from "./form/EditEventDialog.tsx";
@@ -24,27 +25,50 @@ export const Main = () => {
   const [viewMode, setViewMode] = useState<ViewMode>(DEFAULT_VIEW_MODE);
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
 
+  const headerHeight = 70;
+
   return (
-    <Container sx={{ py: { xs: 8, sm: 3 } }}>
-      <Box>
-        <Grid container spacing={1}>
-          <Grid size={3}>
-            <LeftSidebar />
-          </Grid>
-          <Grid size={9}>
-            <AppHeader
-              viewMode={viewMode}
-              setViewMode={setViewMode}
-              currentDate={currentDate}
-              setCurrentDate={setCurrentDate}
-            />
-            <MainCalendar viewMode={viewMode} currentDate={currentDate} />
-          </Grid>
-        </Grid>
+    <Box
+      sx={{
+        height: "100vh",
+        backgroundColor: "#f3f8fb",
+        display: "flex",
+        flexDirection: "row",
+      }}
+    >
+      {/* Left */}
+      <Box
+        sx={{ height: "100%", display: "flex", flexDirection: "column", width: "280px" }}
+      >
+        <Box margin={2} height={headerHeight}>
+          <AppLogo />
+        </Box>
+        <Box sx={{ flex: 1, overflow: "hidden" }}>
+          {/* Scrollable content */}
+          <Box sx={{ overflowY: "auto", height: "100%" }}>
+            <Box padding={2}>
+              <LeftSidebar />
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+      {/* Right */}
+      <Box sx={{ height: "100%", display: "flex", flexDirection: "column", flex: 1 }}>
+        <Box paddingTop={2} paddingBottom={2} paddingRight={2} height={headerHeight}>
+          <AppHeader
+            viewMode={viewMode}
+            setViewMode={setViewMode}
+            currentDate={currentDate}
+            setCurrentDate={setCurrentDate}
+          />
+        </Box>
+        <Box sx={{ flex: 1 }} paddingRight={1} paddingBottom={2}>
+          <MainCalendar viewMode={viewMode} currentDate={currentDate} />
+        </Box>
       </Box>
       <EditEventDialog key={currentlyEditingEvent?.uuid} />
       <EditCalendarDialog key={currentlyEditingCalendar?.uuid} />
       <AddCalendarDialog />
-    </Container>
+    </Box>
   );
 };

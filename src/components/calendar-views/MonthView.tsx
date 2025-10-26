@@ -1,4 +1,5 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { format } from "date-fns";
 import { useMemo } from "react";
 import type { CalendarEvent } from "../../types.ts";
 import { EventChip } from "./EventChip.tsx";
@@ -64,6 +65,7 @@ type Props = {
 export const MonthView = ({ events, currentDate }: Props) => {
   const { start, end } = useMemo(() => getMonthGridRange(currentDate), [currentDate]);
   const days = useMemo(() => eachDayOfInterval(start, end), [start, end]);
+  const weeks = useMemo(() => Math.ceil(days.length / 7), [days]);
   const getEvents = useMemo(() => eventsByDay(events), [events]);
 
   const today = useMemo(() => {
@@ -72,81 +74,143 @@ export const MonthView = ({ events, currentDate }: Props) => {
     return n;
   }, []);
 
-  const activeMonth = currentDate.getMonth();
+  // const activeMonth = currentDate.getMonth();
 
   return (
-    <div style={{ display: "grid", gridTemplateRows: "auto 1fr", rowGap: 8 }}>
+    <Box
+      border={1}
+      borderColor={"primary.main"}
+      borderRadius={2}
+      style={{
+        height: "100%",
+        minHeight: 0,
+        display: "flex",
+        flexDirection: "column",
+        borderBottom: "1px solid #ddd",
+        backgroundColor: "#fff",
+      }}
+    >
+      {/* Weekday header row */}
       <div
         style={{
+          height: 17,
           display: "grid",
           gridTemplateColumns: "repeat(7, minmax(0, 1fr))",
-          gap: 1,
-          border: "1px solid #ddd",
-          backgroundColor: "#ddd",
         }}
       >
-        {/* Day of week header */}
         {WEEKDAY_LABELS.map((lbl) => (
-          <Typography
-            key={lbl}
-            variant="body2"
+          <Box
             sx={{
-              textAlign: "center",
-              py: 0.5,
-              backgroundColor: "#fff",
+              borderLeft: lbl === "Sun" ? "none" : "1px solid #ddd",
+              height: "100%",
             }}
           >
-            {lbl}
-          </Typography>
+            <Typography
+              key={lbl}
+              variant="body2"
+              padding={0}
+              paddingTop={1}
+              sx={{
+                textAlign: "center",
+                textTransform: "uppercase",
+                fontSize: "10px",
+              }}
+            >
+              {lbl}
+            </Typography>
+          </Box>
         ))}
+      </div>
 
-        {/* Days grid */}
-        {days.map((day) => {
-          const outOfMonth = day.getMonth() !== activeMonth;
+      {/* Days grid */}
+      <div
+        style={{
+          flex: 1,
+          minHeight: 0,
+          display: "grid",
+          gridTemplateColumns: "repeat(7, minmax(0, 1fr))",
+          gridTemplateRows: `repeat(${weeks}, 1fr)`,
+        }}
+      >
+        {days.map((day, idx) => {
+          // const outOfMonth = day.getMonth() !== activeMonth;
           const isToday = isSameDay(day, today);
+          const isLeftmostColumn = idx % 7 === 0;
           const dayEvents = getEvents(day);
 
           return (
-            <div
+            <Box
               key={day.toISOString()}
-              style={{
-                padding: 6,
-                minHeight: 90,
-                cursor: "pointer",
-                backgroundColor: outOfMonth ? "#f7f7f7" : "#fff",
-                display: "flex",
-                flexDirection: "column",
-                gap: 4,
+              padding={0}
+              sx={{
+                height: "100%",
                 minWidth: 0,
                 overflow: "hidden",
+                borderTop: idx >= 7 ? "1px solid #ddd" : "none",
+                borderLeft: isLeftmostColumn ? "none" : "1px solid #ddd",
               }}
             >
-              <div style={{ textAlign: "center", marginBottom: 4 }}>
-                <Typography
-                  variant="body2"
-                  sx={{ color: isToday ? "primary.main" : "inherit" }}
+              {/* Day label */}
+              <Box
+                paddingTop={0.5}
+                sx={{ display: "flex", justifyContent: "center", flexDirection: "row" }}
+              >
+                {/* Day number */}
+                <Box
+                  sx={{
+                    width: "1.4rem",
+                    height: "1.4rem",
+                    borderRadius: 100,
+                    backgroundColor: isToday ? "secondary.main" : "inherit",
+                    color: isToday ? "white" : "inherit",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
                 >
-                  {day.getDate()}
-                </Typography>
-              </div>
+                  <Typography textAlign="center" sx={{ flex: 1 }} variant="body2">
+                    {day.getDate()}
+                  </Typography>
+                </Box>
 
-              <div
-                style={{
+                {/* 1st of Month */}
+                {day.getDate() === 1 && (
+                  <Box
+                    paddingLeft={isToday ? 0.2 : 0}
+                    paddingRight={0.9}
+                    sx={{
+                      width: "1.4rem",
+                      height: "1.4rem",
+                      borderRadius: 100,
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography variant="body2">{format(day, "MMM")}</Typography>
+                  </Box>
+                )}
+              </Box>
+
+              {/* Event Chips */}
+              <Box
+                paddingTop={0.5}
+                paddingBottom={0.5}
+                sx={{
                   display: "flex",
                   flexDirection: "column",
                   gap: 4,
                   minWidth: 0,
                   overflow: "hidden",
+                  justfiyContent: "flex-start",
                 }}
               >
                 {dayEvents.map((ev) => (
                   <EventChip key={ev.uuid} event={ev} />
                 ))}
-              </div>
-            </div>
+              </Box>
+            </Box>
           );
         })}
       </div>
-    </div>
+    </Box>
   );
 };
