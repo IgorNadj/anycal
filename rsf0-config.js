@@ -4,7 +4,7 @@ export default {
     setHeaders: (res, path, stat) => {
       res.setHeader(
         "Content-Security-Policy",
-        "script-src 'self' https://anycal.dev.igornadj.io",
+        "script-src 'self' https://analytics.dev.igornadj.io",
       );
     },
   },
