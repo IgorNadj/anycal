@@ -1,6 +1,5 @@
 import { Box } from "@mui/material";
 import type { ViewMode } from "../../../types.ts";
-import { AuthAvatar } from "../../auth/AuthAvatar.tsx";
 import { CurrentDateDisplay } from "./CurrentDateDisplay.tsx";
 import { PrevNext } from "./PrevNext.tsx";
 import { Today } from "./Today.tsx";
@@ -37,7 +36,6 @@ export const CalendarHeader = (props: Props) => {
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <ViewModeSelector viewMode={viewMode} setViewMode={setViewMode} />
-        <AuthAvatar />
       </Box>
     </Box>
   );

@@ -2,7 +2,6 @@ import { Add, MoreVert } from "@mui/icons-material";
 import {
   Box,
   Button,
-  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
@@ -10,17 +9,14 @@ import {
   IconButton,
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
   Menu,
   MenuItem,
   Typography,
 } from "@mui/material";
 import { useContext, useState } from "react";
-import { CALENDAR_COLOURS } from "../../constants.ts";
 import { useCalendars } from "../../hooks/useCalendars.ts";
 import { useDeleteCalendar } from "../../hooks/useDeleteCalendar.ts";
-import { useUpdateCalendar } from "../../hooks/useUpdateCalendar.ts";
 import { StateContext } from "../../providers/StateContext.tsx";
 import type { Calendar } from "../../types.ts";
 import { TextFieldWithCopyButton } from "../form/TextFieldWithCopyButton.tsx";
@@ -30,7 +26,6 @@ export const CalendarsList = () => {
   const { setCurrentlyEditingCalendar, setIsCreatingCalendar } = ctx;
 
   const { data: calendars } = useCalendars();
-  const { mutate: updateCalendar } = useUpdateCalendar();
   const { mutate: deleteCalendar } = useDeleteCalendar();
 
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
@@ -48,10 +43,6 @@ export const CalendarsList = () => {
   const closeMenu = () => {
     setMenuAnchorEl(null);
     setMenuCalendar(null);
-  };
-
-  const setCalendarVisible = (calendar: Calendar, visible: boolean) => {
-    updateCalendar({ ...calendar, visible });
   };
 
   const confirmDelete = () => {
@@ -95,18 +86,6 @@ export const CalendarsList = () => {
               </IconButton>
             }
           >
-            <ListItemIcon>
-              <Checkbox
-                checked={calendar.visible}
-                sx={{
-                  color: CALENDAR_COLOURS[calendar.colour],
-                  "&.Mui-checked": {
-                    color: CALENDAR_COLOURS[calendar.colour],
-                  },
-                }}
-                onChange={(e) => setCalendarVisible(calendar, e.target.checked)}
-              />
-            </ListItemIcon>
             <ListItemText onClick={() => setCurrentlyEditingCalendar(calendar)}>
               {calendar.name}
             </ListItemText>

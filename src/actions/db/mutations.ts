@@ -1,6 +1,6 @@
 import { formatRFC3339 } from "date-fns";
 import type { DatabaseSync } from "node:sqlite";
-import type { Calendar, CalendarEvent, User } from "../../types.ts";
+import type { Calendar, CalendarEvent, Thing, User } from "../../types.ts";
 
 export function createUser(db: DatabaseSync, user: User): void {
   db.prepare(
@@ -10,36 +10,55 @@ export function createUser(db: DatabaseSync, user: User): void {
 
 export function createCalendar(db: DatabaseSync, calendar: Calendar): void {
   db.prepare(
-    "INSERT INTO calendar (uuid, userUuid, name, colour, visible) VALUES (?, ?, ?, ?, ?)",
-  ).run(
-    calendar.uuid,
-    calendar.userUuid,
-    calendar.name,
-    calendar.colour,
-    calendar.visible ? 1 : 0,
-  );
+    "INSERT INTO calendar (uuid, userUuid, name) VALUES (?, ?, ?)",
+  ).run(calendar.uuid, calendar.userUuid, calendar.name);
 }
 
 export function updateCalendar(db: DatabaseSync, calendar: Calendar): void {
-  db.prepare("UPDATE calendar SET name = ?, colour = ?, visible = ?  WHERE uuid = ?").run(
-    calendar.name,
-    calendar.colour,
-    calendar.visible ? 1 : 0,
-    calendar.uuid,
-  );
+  db.prepare("UPDATE calendar SET name = ? WHERE uuid = ?").run(calendar.name, calendar.uuid);
 }
 
 export function deleteCalendar(db: DatabaseSync, calendarUuid: string): void {
   db.prepare("DELETE FROM calendar WHERE uuid = ?").run(calendarUuid);
 }
 
+export function createThing(db: DatabaseSync, thing: Thing): void {
+  db.prepare(
+    "INSERT INTO thing (uuid, name, prompt, colour, visible, calendarUuid) VALUES (?, ?, ?, ?, ?, ?)",
+  ).run(
+    thing.uuid,
+    thing.name,
+    thing.prompt,
+    thing.colour,
+    thing.visible ? 1 : 0,
+    thing.calendarUuid,
+  );
+}
+
+export function updateThing(db: DatabaseSync, thing: Thing): void {
+  db.prepare(
+    "UPDATE thing SET name = ?, prompt = ?, colour = ?, visible = ?, calendarUuid = ? WHERE uuid = ?",
+  ).run(
+    thing.name,
+    thing.prompt,
+    thing.colour,
+    thing.visible ? 1 : 0,
+    thing.calendarUuid,
+    thing.uuid,
+  );
+}
+
+export function deleteThing(db: DatabaseSync, thingUuid: string): void {
+  db.prepare("DELETE FROM thing WHERE uuid = ?").run(thingUuid);
+}
+
 export function updateEvent(db: DatabaseSync, event: CalendarEvent): void {
   db.prepare(
-    "UPDATE calendar_event SET name = ?, date = ?, calendarUuid = ?, created = ?, lastModified = ?, sequence = ? WHERE uuid = ?",
+    "UPDATE calendar_event SET name = ?, date = ?, thingUuid = ?, created = ?, lastModified = ?, sequence = ? WHERE uuid = ?",
   ).run(
     event.name,
     formatRFC3339(event.date),
-    event.calendarUuid,
+    event.thingUuid,
     formatRFC3339(event.created),
     formatRFC3339(event.lastModified),
     event.sequence,
@@ -49,12 +68,12 @@ export function updateEvent(db: DatabaseSync, event: CalendarEvent): void {
 
 export function createEvent(db: DatabaseSync, event: CalendarEvent): void {
   db.prepare(
-    "INSERT INTO calendar_event (uuid, name, date, calendarUuid, created, lastModified, sequence) VALUES (?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO calendar_event (uuid, name, date, thingUuid, created, lastModified, sequence) VALUES (?, ?, ?, ?, ?, ?, ?)",
   ).run(
     event.uuid,
     event.name,
     formatRFC3339(event.date),
-    event.calendarUuid,
+    event.thingUuid,
     formatRFC3339(event.created),
     formatRFC3339(event.lastModified),
     event.sequence,

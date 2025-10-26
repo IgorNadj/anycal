@@ -15,20 +15,29 @@ export type UserProfile = {
 export type Calendar = {
   uuid: string;
   name: string;
-  colour: CalendarColour;
-  visible: boolean;
   userUuid: string;
+};
+
+export type Thing = {
+  uuid: string;
+  name: string;
+  prompt: string;
+  colour: ThingColour;
+  visible: boolean;
+  calendarUuid: string;
 };
 
 export type CalendarEvent = {
   uuid: string;
   name: string;
   date: Date;
-  calendarUuid: string;
+  thingUuid: string;
   created: Date;
   lastModified: Date;
   sequence: number; // revision number
 };
+
+export type ThingColour = keyof typeof CALENDAR_COLOURS;
 
 export type NewCalendarEvent = Omit<
   CalendarEvent,

@@ -1,6 +1,8 @@
 import { Box, List, ListItem, Typography } from "@mui/material";
 import { NavLink } from "react-router";
+import { AuthAvatar } from "../auth/AuthAvatar.tsx";
 import { CalendarsList } from "./CalendarsList.tsx";
+import { ThingsList } from "./ThingsList.tsx";
 
 export const LeftSidebar = () => {
   const onNewThingPress = () => {
@@ -40,7 +42,9 @@ export const LeftSidebar = () => {
           <NavLink to="/404">404</NavLink>
         </ListItem>
       </List>
+      <ThingsList />
       <CalendarsList />
+      <AuthAvatar />
     </Box>
   );
 };

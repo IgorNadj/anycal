@@ -1,8 +1,7 @@
 import { parseISO } from "date-fns";
 import type { DatabaseSync } from "node:sqlite";
-import type { Calendar, CalendarEvent, User, UserProfile } from "../../types.ts";
+import type { Calendar, CalendarEvent, Thing, User, UserProfile } from "../../types.ts";
 
-type DbCalendar = Omit<Calendar, "visible"> & { visible: number };
 type DbCalendarEvent = Omit<CalendarEvent, "date" | "created" | "lastModified"> & {
   date: string;
   created: string;
@@ -28,16 +27,15 @@ export function getUserByUuid(db: DatabaseSync, uuid: string): User | undefined 
 }
 
 export function getCalendars(db: DatabaseSync, userUuid: string): Calendar[] {
-  const rows = db
+  return db
     .prepare("SELECT * FROM calendar WHERE userUuid = ?")
-    .all(userUuid) as unknown as DbCalendar[];
-  return rows.map((c) => ({ ...c, visible: c.visible === 1 }));
+    .all(userUuid) as unknown as Calendar[];
 }
 
 export function getEvents(db: DatabaseSync, userUuid: string): CalendarEvent[] {
   const rows = db
     .prepare(
-      "SELECT * FROM calendar_event WHERE calendarUuid IN (SELECT uuid FROM calendar WHERE userUuid = ?)",
+      "SELECT ce.* FROM calendar_event ce WHERE ce.thingUuid IN (SELECT t.uuid FROM thing t WHERE t.calendarUuid IN (SELECT c.uuid FROM calendar c WHERE c.userUuid = ?))",
     )
     .all(userUuid) as unknown as DbCalendarEvent[];
   return rows.map((e) => ({
@@ -52,10 +50,9 @@ export function getCalendarByUuid(
   db: DatabaseSync,
   calendarUuid: string,
 ): Calendar | undefined {
-  const row = db
+  return db
     .prepare("SELECT * FROM calendar WHERE uuid = ?")
-    .get(calendarUuid) as unknown as DbCalendar | undefined;
-  return row ? { ...row, visible: row.visible === 1 } : undefined;
+    .get(calendarUuid) as unknown as Calendar | undefined;
 }
 
 export function getEventsByCalendarUuid(
@@ -63,7 +60,9 @@ export function getEventsByCalendarUuid(
   calendarUuid: string,
 ): CalendarEvent[] {
   const rows = db
-    .prepare("SELECT * FROM calendar_event WHERE calendarUuid = ?")
+    .prepare(
+      "SELECT ce.* FROM calendar_event ce WHERE ce.thingUuid IN (SELECT t.uuid FROM thing t WHERE t.calendarUuid = ?)",
+    )
     .all(calendarUuid) as unknown as DbCalendarEvent[];
   return rows.map((e) => ({
     ...e,
@@ -71,4 +70,20 @@ export function getEventsByCalendarUuid(
     created: parseISO(e.created),
     lastModified: parseISO(e.lastModified),
   }));
+}
+
+export type DbThing = Omit<Thing, "visible"> & { visible: number };
+
+export function getThingsByCalendarUuid(db: DatabaseSync, calendarUuid: string): Thing[] {
+  const rows = db
+    .prepare("SELECT * FROM thing WHERE calendarUuid = ?")
+    .all(calendarUuid) as unknown as DbThing[];
+  return rows.map((t) => ({ ...t, visible: t.visible === 1 }));
+}
+
+export function getThingByUuid(db: DatabaseSync, thingUuid: string): Thing | undefined {
+  const row = db
+    .prepare("SELECT * FROM thing WHERE uuid = ?")
+    .get(thingUuid) as unknown as DbThing | undefined;
+  return row ? { ...row, visible: row.visible === 1 } : undefined;
 }
