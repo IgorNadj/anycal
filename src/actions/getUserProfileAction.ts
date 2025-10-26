@@ -1,7 +1,7 @@
 "use server";
 
-import { database } from "../database.ts";
 import type { User, UserProfile } from "../types.ts";
+import { database } from "./db/database.ts";
 import { getUserProfile } from "./db/queries.ts";
 
 export const getUserProfileAction = async (

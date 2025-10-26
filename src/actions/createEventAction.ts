@@ -1,8 +1,8 @@
 "use server";
 
-import { database } from "../database.ts";
 import type { NewCalendarEvent } from "../types.ts";
 import { ok } from "../utils/validation.ts";
+import { database } from "./db/database.ts";
 import { createEvent } from "./db/mutations.ts";
 
 export const createEventAction = async (event: NewCalendarEvent) => {

@@ -1,8 +1,8 @@
 "use server";
 
-import { database } from "../database.ts";
 import { generateSalt, hashPassword, verifyPassword } from "../utils/crypto.ts";
 import { ok, validationError } from "../utils/validation.ts";
+import { database } from "./db/database.ts";
 import { updateUserPassword } from "./db/mutations.ts";
 import { getUserByUuid } from "./db/queries.ts";
 

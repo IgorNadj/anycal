@@ -1,7 +1,7 @@
 "use server";
 
-import { database } from "../database.ts";
 import type { Calendar, User } from "../types.ts";
+import { database } from "./db/database.ts";
 import { getCalendars } from "./db/queries.ts";
 
 export const getCalendarsAction = async (userUuid: User["uuid"]): Promise<Calendar[]> => {

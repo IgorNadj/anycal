@@ -1,5 +1,5 @@
 import { DatabaseSync } from "node:sqlite";
-import { initSql } from "./actions/db/init.ts";
+import { initSql } from "./init.ts";
 
 const dbPath = process.env.DB_PATH || "/home/db/db.sqlite3";
 console.log(`Using database at ${dbPath}`);

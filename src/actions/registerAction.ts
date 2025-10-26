@@ -1,10 +1,10 @@
 "use server";
 
 import { v4 as uuidv4 } from "uuid";
-import { database } from "../database.ts";
 import type { User } from "../types.ts";
 import { generateSalt, hashPassword } from "../utils/crypto.ts";
 import { ok, validationError } from "../utils/validation.ts";
+import { database } from "./db/database.ts";
 import { createCalendar, createUser } from "./db/mutations.ts";
 import { getUserByEmail } from "./db/queries.ts";
 
