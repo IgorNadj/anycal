@@ -9,5 +9,9 @@ export const Today = ({ setCurrentDate }: Props) => {
     setCurrentDate(new Date());
   };
 
-  return <Button onClick={onClick}>Today</Button>;
+  return (
+    <Button variant="outlined" onClick={onClick}>
+      Today
+    </Button>
+  );
 };

@@ -14,7 +14,7 @@ export const ViewModeSelector = ({ viewMode, setViewMode }: Props) => {
       onChange={(_e, nextViewMode) => setViewMode(nextViewMode)}
     >
       <ToggleButton value="month">Month</ToggleButton>
-      <ToggleButton value="agenda">Agenda</ToggleButton>
+      <ToggleButton value="agenda">List</ToggleButton>
     </ToggleButtonGroup>
   );
 };
