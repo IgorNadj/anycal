@@ -2,7 +2,7 @@
 
 import { database } from "../database.ts";
 import type { CalendarEvent, User } from "../types.ts";
-import { getEvents } from "./sql/queries.ts";
+import { getEvents } from "./db/queries.ts";
 
 export const getEventsAction = async (
   userUuid: User["uuid"],

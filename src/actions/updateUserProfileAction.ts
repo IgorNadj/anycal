@@ -3,8 +3,8 @@
 import { database } from "../database.ts";
 import type { UserProfile } from "../types.ts";
 import { ok, validationError } from "../utils/validation.ts";
-import { updateUserProfile } from "./sql/mutations.ts";
-import { getUserByEmail } from "./sql/queries.ts";
+import { updateUserProfile } from "./db/mutations.ts";
+import { getUserByEmail } from "./db/queries.ts";
 
 export type UpdateUserProfileInput = UserProfile & {
   uuid: string;

@@ -5,8 +5,8 @@ import { database } from "../database.ts";
 import type { User } from "../types.ts";
 import { generateSalt, hashPassword } from "../utils/crypto.ts";
 import { ok, validationError } from "../utils/validation.ts";
-import { createCalendar, createUser } from "./sql/mutations.ts";
-import { getUserByEmail } from "./sql/queries.ts";
+import { createCalendar, createUser } from "./db/mutations.ts";
+import { getUserByEmail } from "./db/queries.ts";
 
 export type RegisterInput = {
   email: string;

@@ -3,7 +3,7 @@
 import { database } from "../database.ts";
 import { verifyPassword } from "../utils/crypto.ts";
 import { ok, validationError } from "../utils/validation.ts";
-import { getUserByEmail } from "./sql/queries.ts";
+import { getUserByEmail } from "./db/queries.ts";
 
 export type LogInInput = EmailAndPasswordInput;
 

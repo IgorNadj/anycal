@@ -3,8 +3,8 @@
 import { database } from "../database.ts";
 import { generateSalt, hashPassword, verifyPassword } from "../utils/crypto.ts";
 import { ok, validationError } from "../utils/validation.ts";
-import { updateUserPassword } from "./sql/mutations.ts";
-import { getUserByUuid } from "./sql/queries.ts";
+import { updateUserPassword } from "./db/mutations.ts";
+import { getUserByUuid } from "./db/queries.ts";
 
 export type UpdatePasswordInput = {
   uuid: string;

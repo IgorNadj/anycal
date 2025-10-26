@@ -2,7 +2,7 @@
 
 import { database } from "../database.ts";
 import type { User, UserProfile } from "../types.ts";
-import { getUserProfile } from "./sql/queries.ts";
+import { getUserProfile } from "./db/queries.ts";
 
 export const getUserProfileAction = async (
   userUuid: User["uuid"],
