@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { format } from "date-fns";
-import type { ViewMode } from "../../types.ts";
+import type { ViewMode } from "../../../types.ts";
 
 type Props = {
   currentDate: Date;

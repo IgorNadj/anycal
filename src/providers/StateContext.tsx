@@ -1,7 +1,11 @@
 import { createContext } from "react";
-import type { Calendar, CalendarEvent } from "../types.ts";
+import type { Calendar, CalendarEvent, ViewMode } from "../types.ts";
 
 export type AppContextType = {
+  viewMode: ViewMode;
+  setViewMode: (newViewMode: ViewMode) => void;
+  currentDate: Date;
+  setCurrentDate: (newDate: Date) => void;
   currentlyEditingEvent: CalendarEvent | null;
   setCurrentlyEditingEvent: (event: CalendarEvent | null) => void;
   currentlyEditingCalendar: Calendar | null;

@@ -1,10 +1,10 @@
 import { Box } from "@mui/material";
-import type { ViewMode } from "../types.ts";
-import { AuthAvatar } from "./auth/AuthAvatar.tsx";
-import { CurrentDateDisplay } from "./header/CurrentDateDisplay.tsx";
-import { PrevNext } from "./header/PrevNext.tsx";
-import { Today } from "./header/Today.tsx";
-import { ViewModeSelector } from "./header/ViewModeSelector.tsx";
+import type { ViewMode } from "../../../types.ts";
+import { AuthAvatar } from "../../auth/AuthAvatar.tsx";
+import { CurrentDateDisplay } from "./CurrentDateDisplay.tsx";
+import { PrevNext } from "./PrevNext.tsx";
+import { Today } from "./Today.tsx";
+import { ViewModeSelector } from "./ViewModeSelector.tsx";
 
 type Props = {
   viewMode: ViewMode;
@@ -13,12 +13,9 @@ type Props = {
   setCurrentDate: (newDate: Date) => void;
 };
 
-export const AppHeader = ({
-  viewMode,
-  setViewMode,
-  currentDate,
-  setCurrentDate,
-}: Props) => {
+export const CalendarHeader = (props: Props) => {
+  const { viewMode, setViewMode, currentDate, setCurrentDate } = props;
+
   return (
     <Box
       sx={{

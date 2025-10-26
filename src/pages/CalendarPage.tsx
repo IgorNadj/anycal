@@ -1,22 +1,31 @@
 import { Box } from "@mui/material";
-import { AppHeader } from "../components/AppHeader.tsx";
-import { MainCalendar } from "../components/MainCalendar.tsx";
-import type { ViewMode } from "../types.ts";
+import { useContext } from "react";
+import { AgendaView } from "../components/calendar/AgendaView.tsx";
+import { CalendarHeader } from "../components/calendar/header/CalendarHeader.tsx";
+import { MonthView } from "../components/calendar/MonthView.tsx";
+import { HEADER_HEIGHT } from "../constants.ts";
+import { useEvents } from "../hooks/useEvents.ts";
+import { StateContext } from "../providers/StateContext.tsx";
 
-type Props = {
-  headerHeight: number;
-  viewMode: ViewMode;
-  setViewMode: (newViewMode: ViewMode) => void;
-  currentDate: Date;
-  setCurrentDate: (newDate: Date) => void;
-};
+export const CalendarPage = () => {
+  const { data: events } = useEvents();
 
-export const CalendarPage = (props: Props) => {
-  const { headerHeight, viewMode, setViewMode, currentDate, setCurrentDate } = props;
+  const { viewMode, setViewMode, currentDate, setCurrentDate } = useContext(StateContext);
+
+  const earliestYear = new Date().getFullYear();
+  const latestYear =
+    events.length === 0
+      ? earliestYear
+      : Math.max(...events.map((event) => event.date.getFullYear()));
+  let years: number[] = [];
+  for (let y = earliestYear; y <= latestYear; y++) {
+    years = [...years, y];
+  }
+
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
-      <Box paddingTop={2} paddingBottom={2} paddingRight={2} height={headerHeight}>
-        <AppHeader
+      <Box paddingTop={2} paddingBottom={2} paddingRight={2} height={HEADER_HEIGHT}>
+        <CalendarHeader
           viewMode={viewMode}
           setViewMode={setViewMode}
           currentDate={currentDate}
@@ -24,7 +33,14 @@ export const CalendarPage = (props: Props) => {
         />
       </Box>
       <Box sx={{ flex: 1 }} paddingRight={1} paddingBottom={2}>
-        <MainCalendar viewMode={viewMode} currentDate={currentDate} />
+        <Box style={{ height: "100%" }}>
+          {viewMode === "month" && (
+            <MonthView events={events} currentDate={currentDate} />
+          )}
+          {viewMode === "agenda" && (
+            <AgendaView events={events} currentDate={currentDate} />
+          )}
+        </Box>
       </Box>
     </Box>
   );

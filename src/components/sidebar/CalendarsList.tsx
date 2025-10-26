@@ -17,13 +17,13 @@ import {
   Typography,
 } from "@mui/material";
 import { useContext, useState } from "react";
-import { CALENDAR_COLOURS } from "../constants.ts";
-import { useCalendars } from "../hooks/useCalendars.ts";
-import { useDeleteCalendar } from "../hooks/useDeleteCalendar.ts";
-import { useUpdateCalendar } from "../hooks/useUpdateCalendar.ts";
-import { StateContext } from "../providers/StateContext.tsx";
-import type { Calendar } from "../types.ts";
-import { TextFieldWithCopyButton } from "./form/TextFieldWithCopyButton.tsx";
+import { CALENDAR_COLOURS } from "../../constants.ts";
+import { useCalendars } from "../../hooks/useCalendars.ts";
+import { useDeleteCalendar } from "../../hooks/useDeleteCalendar.ts";
+import { useUpdateCalendar } from "../../hooks/useUpdateCalendar.ts";
+import { StateContext } from "../../providers/StateContext.tsx";
+import type { Calendar } from "../../types.ts";
+import { TextFieldWithCopyButton } from "../form/TextFieldWithCopyButton.tsx";
 
 export const CalendarsList = () => {
   const ctx = useContext(StateContext);

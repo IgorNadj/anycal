@@ -99,6 +99,7 @@ export const MonthView = ({ events, currentDate }: Props) => {
       >
         {WEEKDAY_LABELS.map((lbl) => (
           <Box
+            key={lbl}
             sx={{
               borderLeft: lbl === "Sun" ? "none" : "1px solid #ddd",
               height: "100%",

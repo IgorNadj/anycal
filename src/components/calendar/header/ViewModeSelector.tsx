@@ -1,5 +1,5 @@
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
-import type { ViewMode } from "../../types.ts";
+import type { ViewMode } from "../../../types.ts";
 
 type Props = {
   viewMode: ViewMode;

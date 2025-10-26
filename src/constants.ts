@@ -35,3 +35,5 @@ export const MONTH_NAMES_SHORT: Record<number, string> = {
   10: "Nov",
   11: "Dec",
 };
+
+export const HEADER_HEIGHT = 70;

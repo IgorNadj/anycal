@@ -1,33 +1,24 @@
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { BrowserRouter } from "react-router";
-import { Main } from "./pages/Main.tsx";
-import { AuthProvider } from "./providers/AuthProvider.tsx";
-import { StateProvider } from "./providers/StateProvider.tsx";
-import { ThemeProvider } from "./providers/ThemeProvider.tsx";
-import { getUserLocale } from "./utils.ts";
-
-const userLocale = getUserLocale();
-
-const queryClient = new QueryClient();
+import { Route, Routes } from "react-router";
+import { Layout } from "./components/Layout.tsx";
+import { CalendarPage } from "./pages/CalendarPage.tsx";
+import { Loading } from "./pages/Loading.tsx";
+import { PageNotFoundPage } from "./pages/PageNotFoundPage.tsx";
+import { ThingPage } from "./pages/ThingPage.tsx";
+import { Welcome } from "./pages/Welcome.tsx";
+import { AppProviders } from "./providers/AppProviders.tsx";
 
 export const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <StateProvider>
-        <AuthProvider>
-          <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={userLocale}>
-            <ThemeProvider>
-              <BrowserRouter>
-                <Main />
-              </BrowserRouter>
-              <ReactQueryDevtools initialIsOpen={false} />
-            </ThemeProvider>
-          </LocalizationProvider>
-        </AuthProvider>
-      </StateProvider>
-    </QueryClientProvider>
+    <AppProviders>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Loading />} />
+          <Route path="/home" element={<CalendarPage />} />
+          <Route path="/thing/:uuid" element={<ThingPage />} />
+          <Route path="/welcome" element={<Welcome />} />
+          <Route path="*" element={<PageNotFoundPage />} />
+        </Routes>
+      </Layout>
+    </AppProviders>
   );
 };
