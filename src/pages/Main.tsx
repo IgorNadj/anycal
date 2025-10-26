@@ -1,17 +1,20 @@
 import { Box } from "@mui/material";
 import { useContext, useState } from "react";
-import { AppHeader } from "../components/AppHeader.tsx";
+import { Route, Routes } from "react-router";
 import { AppLogo } from "../components/AppLogo.tsx";
 import { AddCalendarDialog } from "../components/form/AddCalendarDialog.tsx";
 import { EditCalendarDialog } from "../components/form/EditCalendarDialog.tsx";
 import { EditEventDialog } from "../components/form/EditEventDialog.tsx";
 import { LeftSidebar } from "../components/LeftSidebar.tsx";
-import { MainCalendar } from "../components/MainCalendar.tsx";
 import { DEFAULT_VIEW_MODE } from "../constants.ts";
 import { useCalendars } from "../hooks/useCalendars.ts";
 import { useEvents } from "../hooks/useEvents.ts";
 import { StateContext } from "../providers/StateContext.tsx";
 import type { ViewMode } from "../types.ts";
+import { CalendarPage } from "./CalendarPage.tsx";
+import { Loading } from "./Loading.tsx";
+import { PageNotFoundPage } from "./PageNotFoundPage.tsx";
+import { Welcome } from "./Welcome.tsx";
 
 export const Main = () => {
   const ctx = useContext(StateContext);
@@ -53,18 +56,24 @@ export const Main = () => {
         </Box>
       </Box>
       {/* Right */}
-      <Box sx={{ height: "100%", display: "flex", flexDirection: "column", flex: 1 }}>
-        <Box paddingTop={2} paddingBottom={2} paddingRight={2} height={headerHeight}>
-          <AppHeader
-            viewMode={viewMode}
-            setViewMode={setViewMode}
-            currentDate={currentDate}
-            setCurrentDate={setCurrentDate}
+      <Box sx={{ height: "100%", flex: 1 }}>
+        <Routes>
+          <Route path="/" element={<Loading />} />
+          <Route
+            path="/home"
+            element={
+              <CalendarPage
+                headerHeight={headerHeight}
+                viewMode={viewMode}
+                setViewMode={setViewMode}
+                currentDate={currentDate}
+                setCurrentDate={setCurrentDate}
+              />
+            }
           />
-        </Box>
-        <Box sx={{ flex: 1 }} paddingRight={1} paddingBottom={2}>
-          <MainCalendar viewMode={viewMode} currentDate={currentDate} />
-        </Box>
+          <Route path="/welcome" element={<Welcome />} />
+          <Route path="*" element={<PageNotFoundPage />} />
+        </Routes>
       </Box>
       <EditEventDialog key={currentlyEditingEvent?.uuid} />
       <EditCalendarDialog key={currentlyEditingCalendar?.uuid} />

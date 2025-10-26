@@ -1,6 +1,6 @@
-import { Box, Typography } from "@mui/material";
+import { Box, List, ListItem, Typography } from "@mui/material";
+import { NavLink } from "react-router";
 import { CalendarsList } from "./CalendarsList.tsx";
-import { AddEventForm } from "./form/AddEventForm.tsx";
 
 export const LeftSidebar = () => {
   return (
@@ -13,7 +13,24 @@ export const LeftSidebar = () => {
           Add anything to your calendar.
         </Typography>
       </Box>
-      <AddEventForm />
+
+      <List>
+        <ListItem>
+          <NavLink to="/">Index</NavLink>
+        </ListItem>
+        <ListItem>
+          <NavLink to="/home">Home (logged in)</NavLink>
+        </ListItem>
+        <ListItem>
+          <NavLink to="/welcome">Home (logged out)</NavLink>
+        </ListItem>
+        <ListItem>
+          <NavLink to="/404">404</NavLink>
+        </ListItem>
+        <ListItem>
+          <NavLink to="/calendar">Calendar</NavLink>
+        </ListItem>
+      </List>
       <CalendarsList />
     </Box>
   );
