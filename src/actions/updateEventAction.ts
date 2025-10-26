@@ -1,9 +1,9 @@
 "use server";
 
 import { database } from "../database.ts";
-import { updateEvent } from "../sql/mutations.ts";
 import type { UpdateCalendarEvent } from "../types.ts";
 import { ok } from "../utils/validation.ts";
+import { updateEvent } from "./sql/mutations.ts";
 
 export const updateEventAction = async (event: UpdateCalendarEvent) => {
   updateEvent(database, {

@@ -1,6 +1,6 @@
 import type { Express } from "express";
+import { getCalendarByUuid, getEventsByCalendarUuid } from "../actions/sql/queries.ts";
 import { database } from "../database.ts";
-import { getCalendarByUuid, getEventsByCalendarUuid } from "../sql/queries.ts";
 import { generateICalendar } from "../utils/ical.ts";
 
 export const calendarIcs = (app: Express) => {

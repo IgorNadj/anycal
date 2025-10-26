@@ -1,6 +1,6 @@
 import { formatRFC3339 } from "date-fns";
 import type { DatabaseSync } from "node:sqlite";
-import type { Calendar, CalendarEvent, User } from "../types.ts";
+import type { Calendar, CalendarEvent, User } from "../../types.ts";
 
 export function createUser(db: DatabaseSync, user: User): void {
   db.prepare(
