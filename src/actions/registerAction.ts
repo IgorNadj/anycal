@@ -41,8 +41,6 @@ export const registerAction = async (input: RegisterInput) => {
   createCalendar(database, {
     uuid: uuidv4(),
     name: "My Calendar",
-    colour: "blue_400",
-    visible: true,
     userUuid: newUser.uuid,
   });
 

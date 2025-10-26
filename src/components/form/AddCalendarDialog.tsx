@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Dialog,
   DialogActions,
@@ -12,8 +11,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useCreateCalendar } from "../../hooks/useCreateCalendar.ts";
 import { AuthContext } from "../../providers/AuthContext.tsx";
 import { StateContext } from "../../providers/StateContext.tsx";
-import type { Calendar, CalendarColour } from "../../types.ts";
-import { CalendarColourPicker } from "./CalendarColourPicker.tsx";
+import type { Calendar } from "../../types.ts";
 
 export const AddCalendarDialog = () => {
   const { isCreatingCalendar, setIsCreatingCalendar } = useContext(StateContext);
@@ -22,12 +20,10 @@ export const AddCalendarDialog = () => {
   const { mutate: createCalendar } = useCreateCalendar();
 
   const [name, setName] = useState<string>("");
-  const [colour, setColour] = useState<CalendarColour>("blue_400");
 
   const onClose = () => {
     setIsCreatingCalendar(false);
     setName("");
-    setColour("blue_400");
   };
 
   const onCreate = () => {
@@ -35,8 +31,6 @@ export const AddCalendarDialog = () => {
     const newCalendar: Calendar = {
       uuid: uuidv4(),
       name,
-      colour,
-      visible: true,
       userUuid: userUuid,
     };
     createCalendar(newCalendar);
@@ -53,9 +47,6 @@ export const AddCalendarDialog = () => {
       >
         <DialogTitle>Add a new Calendar</DialogTitle>
         <DialogContent>
-          <Box sx={{ mb: 2 }}>
-            <CalendarColourPicker colour={colour} onChange={setColour} />
-          </Box>
           <TextField
             variant="outlined"
             fullWidth

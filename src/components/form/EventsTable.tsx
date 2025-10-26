@@ -1,7 +1,5 @@
-import AddIcon from "@mui/icons-material/Add";
 import {
   Box,
-  Button,
   Paper,
   Table,
   TableBody,
@@ -9,43 +7,15 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
 } from "@mui/material";
-import { useContext, useMemo } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { useCreateEvent } from "../../hooks/useCreateEvent.ts";
-import { useEvents } from "../../hooks/useEvents.ts";
-import { StateContext } from "../../providers/StateContext.tsx";
-import type { NewCalendarEvent } from "../../types.ts";
-import { getEventsForCalendar } from "../../utils.ts";
-import { EditableEventRow } from "./EditableEventRow.tsx";
+import { format } from "date-fns";
+import type { CalendarEvent } from "../../types.ts";
 
-export const EventsTable = () => {
-  const { currentlyEditingCalendar } = useContext(StateContext);
+type Props = {
+  events: CalendarEvent[];
+};
 
-  const { data: allEvents } = useEvents();
-  const { mutate: createEvent } = useCreateEvent();
-
-  const events = useMemo(() => {
-    if (!currentlyEditingCalendar) return [];
-    return getEventsForCalendar(currentlyEditingCalendar, allEvents);
-  }, [allEvents, currentlyEditingCalendar]);
-
-  const handleAddEvent = () => {
-    if (!currentlyEditingCalendar) return;
-
-    const newEvent: NewCalendarEvent = {
-      uuid: uuidv4(),
-      name: "New Event",
-      date: new Date(),
-      calendarUuid: currentlyEditingCalendar.uuid,
-    };
-
-    createEvent(newEvent);
-  };
-
-  if (!currentlyEditingCalendar) return null;
-
+export const EventsTable = ({ events }: Props) => {
   return (
     <>
       <Box
@@ -55,12 +25,7 @@ export const EventsTable = () => {
           alignItems: "center",
           mb: 2,
         }}
-      >
-        <Typography variant="h6">Events</Typography>
-        <Button variant="contained" startIcon={<AddIcon />} onClick={handleAddEvent}>
-          Add Event
-        </Button>
-      </Box>
+      ></Box>
 
       <TableContainer component={Paper}>
         <Table>
@@ -68,7 +33,6 @@ export const EventsTable = () => {
             <TableRow>
               <TableCell>Name</TableCell>
               <TableCell>Date</TableCell>
-              <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -79,7 +43,12 @@ export const EventsTable = () => {
                 </TableCell>
               </TableRow>
             ) : (
-              events.map((event) => <EditableEventRow key={event.uuid} event={event} />)
+              events.map((event) => (
+                <TableRow key={event.uuid}>
+                  <TableCell>{event.name}</TableCell>
+                  <TableCell>{format(event.date, "dd MM yyyy")}</TableCell>
+                </TableRow>
+              ))
             )}
           </TableBody>
         </Table>

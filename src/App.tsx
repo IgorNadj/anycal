@@ -14,7 +14,7 @@ export const App = () => {
         <Routes>
           <Route path="/" element={<Loading />} />
           <Route path="/home" element={<CalendarPage />} />
-          <Route path="/thing/:uuid" element={<ThingPage />} />
+          <Route path="/things/:uuid" element={<ThingPage />} />
           <Route path="/welcome" element={<Welcome />} />
           <Route path="*" element={<PageNotFoundPage />} />
         </Routes>

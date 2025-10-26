@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import { HEADER_HEIGHT } from "../../../constants.ts";
 import type { ViewMode } from "../../../types.ts";
 import { CurrentDateDisplay } from "./CurrentDateDisplay.tsx";
 import { PrevNext } from "./PrevNext.tsx";
@@ -18,7 +19,7 @@ export const CalendarHeader = (props: Props) => {
   return (
     <Box
       sx={{
-        height: "70px",
+        height: HEADER_HEIGHT,
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",

@@ -1,6 +1,6 @@
 import { type ReactNode, useState } from "react";
 import { DEFAULT_VIEW_MODE } from "../constants.ts";
-import type { Calendar, CalendarEvent, ViewMode } from "../types.ts";
+import type { Calendar, CalendarEvent, Thing, ViewMode } from "../types.ts";
 import { type AppContextType, StateContext } from "./StateContext.tsx";
 
 export const StateProvider = ({ children }: { children: ReactNode }) => {
@@ -14,6 +14,8 @@ export const StateProvider = ({ children }: { children: ReactNode }) => {
   const [currentlyEditingCalendar, setCurrentlyEditingCalendar] =
     useState<Calendar | null>(null);
 
+  const [currentlyEditingThing, setCurrentlyEditingThing] = useState<Thing | null>(null);
+
   const [isCreatingCalendar, setIsCreatingCalendar] = useState<boolean>(false);
 
   const value: AppContextType = {
@@ -25,6 +27,8 @@ export const StateProvider = ({ children }: { children: ReactNode }) => {
     setCurrentlyEditingEvent,
     currentlyEditingCalendar,
     setCurrentlyEditingCalendar,
+    currentlyEditingThing,
+    setCurrentlyEditingThing,
     isCreatingCalendar,
     setIsCreatingCalendar,
   };

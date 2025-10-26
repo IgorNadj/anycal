@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import type { Calendar, CalendarEvent, ViewMode } from "../types.ts";
+import type { Calendar, CalendarEvent, Thing, ViewMode } from "../types.ts";
 
 export type AppContextType = {
   viewMode: ViewMode;
@@ -10,6 +10,8 @@ export type AppContextType = {
   setCurrentlyEditingEvent: (event: CalendarEvent | null) => void;
   currentlyEditingCalendar: Calendar | null;
   setCurrentlyEditingCalendar: (calendar: Calendar | null) => void;
+  currentlyEditingThing: Thing | null;
+  setCurrentlyEditingThing: (thing: Thing | null) => void;
   isCreatingCalendar: boolean;
   setIsCreatingCalendar: (open: boolean) => void;
 };

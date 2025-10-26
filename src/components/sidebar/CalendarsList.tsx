@@ -9,7 +9,7 @@ import {
   IconButton,
   List,
   ListItem,
-  ListItemText,
+  ListItemButton,
   Menu,
   MenuItem,
   Typography,
@@ -86,9 +86,7 @@ export const CalendarsList = () => {
               </IconButton>
             }
           >
-            <ListItemText onClick={() => setCurrentlyEditingCalendar(calendar)}>
-              {calendar.name}
-            </ListItemText>
+            <ListItemButton>{calendar.name}</ListItemButton>
           </ListItem>
         ))}
       </List>

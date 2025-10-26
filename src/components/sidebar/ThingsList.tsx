@@ -1,27 +1,49 @@
+import { Add } from "@mui/icons-material";
 import {
   Box,
-  Checkbox,
+  IconButton,
   List,
-  ListItem,
-  ListItemIcon,
+  ListItemButton,
   ListItemText,
   Typography,
 } from "@mui/material";
-import { CALENDAR_COLOURS } from "../../constants.ts";
+import { useContext } from "react";
+import { useNavigate } from "react-router";
+import { v4 as uuidv4 } from "uuid";
+import { useCalendars } from "../../hooks/useCalendars.ts";
+import { useCreateThing } from "../../hooks/useCreateThing.ts";
 import { useThings } from "../../hooks/useThings.ts";
-import { useUpdateThing } from "../../hooks/useUpdateThing.ts";
+import { StateContext } from "../../providers/StateContext.tsx";
 import type { Thing } from "../../types.ts";
 
 export const ThingsList = () => {
   const { data: things } = useThings();
-  const { mutate: updateThing } = useUpdateThing();
+  const { mutate: createThing } = useCreateThing();
 
-  const setThingVisible = (thing: Thing, visible: boolean) => {
-    updateThing({ ...thing, visible });
+  const { data: calendars } = useCalendars();
+  const [firstCalendar] = calendars;
+
+  const navigate = useNavigate();
+
+  const { currentlyEditingThing, setCurrentlyEditingThing } = useContext(StateContext);
+
+  const onAddClick = () => {
+    console.log("add clicked ");
+    const newThing: Thing = {
+      uuid: uuidv4(),
+      visible: true,
+      colour: "blue_400",
+      calendarUuid: firstCalendar.uuid,
+    };
+    createThing(newThing);
+    navigate(`/things/${newThing.uuid}`);
+    setCurrentlyEditingThing(newThing);
   };
 
   const onClickThing = (thing: Thing) => {
     console.log("clicked ", thing);
+    navigate(`/things/${thing.uuid}`);
+    setCurrentlyEditingThing(thing);
   };
 
   return (
@@ -30,31 +52,22 @@ export const ThingsList = () => {
         <Typography sx={{ flex: 1 }} variant="h6">
           My Things
         </Typography>
+        <IconButton onClick={() => onAddClick()}>
+          <Add />
+        </IconButton>
       </Box>
 
       <List>
         {things.map((thing) => (
-          <ListItem
+          <ListItemButton
             key={thing.uuid}
-            disablePadding
-            sx={{
-              "&:hover .thing-menu-btn": { opacity: 1, pointerEvents: "auto" },
-            }}
+            selected={thing.uuid === currentlyEditingThing?.uuid}
+            onClick={() => onClickThing(thing)}
           >
-            <ListItemIcon>
-              <Checkbox
-                checked={thing.visible}
-                sx={{
-                  color: CALENDAR_COLOURS[thing.colour],
-                  "&.Mui-checked": {
-                    color: CALENDAR_COLOURS[thing.colour],
-                  },
-                }}
-                onChange={(e) => setThingVisible(thing, e.target.checked)}
-              />
-            </ListItemIcon>
-            <ListItemText onClick={() => onClickThing(thing)}>{thing.name}</ListItemText>
-          </ListItem>
+            <ListItemText onClick={() => onClickThing(thing)}>
+              {thing.name || "Unnamed"}
+            </ListItemText>
+          </ListItemButton>
         ))}
       </List>
     </>

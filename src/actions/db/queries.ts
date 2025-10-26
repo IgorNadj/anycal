@@ -74,10 +74,12 @@ export function getEventsByCalendarUuid(
 
 export type DbThing = Omit<Thing, "visible"> & { visible: number };
 
-export function getThingsByCalendarUuid(db: DatabaseSync, calendarUuid: string): Thing[] {
+export function getThingsByUserUuid(db: DatabaseSync, userUuid: string): Thing[] {
   const rows = db
-    .prepare("SELECT * FROM thing WHERE calendarUuid = ?")
-    .all(calendarUuid) as unknown as DbThing[];
+    .prepare(
+      "SELECT * FROM thing WHERE calendarUuid IN (SELECT uuid FROM calendar WHERE userUuid = ?)",
+    )
+    .all(userUuid) as unknown as DbThing[];
   return rows.map((t) => ({ ...t, visible: t.visible === 1 }));
 }
 

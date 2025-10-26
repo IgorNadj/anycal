@@ -1,6 +1,6 @@
 import { enGB, enUS, type Locale } from "date-fns/locale";
-import type { CalendarColour, CalendarEvent, Calendar } from "./types";
 import { CALENDAR_COLOURS } from "./constants.ts";
+import type { Calendar, CalendarColour, CalendarEvent, Thing } from "./types";
 
 const LOCALES: Record<string, Locale> = {
   "en-GB": enGB,
@@ -39,17 +39,10 @@ export const getFirstUnusedColour = (calendars: Calendar[]): CalendarColour => {
   return "blue_400";
 };
 
-export const getEventsForCalendar = (
-  calendar: Calendar,
-  allEvents: CalendarEvent[],
-) => allEvents.filter((event) => event.calendarUuid === calendar.uuid);
+export const getEventsForThing = (thing: Thing, allEvents: CalendarEvent[]) =>
+  allEvents.filter((event) => event.thingUuid === thing.uuid);
 
-export const getCalendarForEvent = (
-  event: CalendarEvent,
-  allCalendars: Calendar[],
-) =>
+export const getCalendarForEvent = (event: CalendarEvent, allCalendars: Calendar[]) =>
   allCalendars.find((calendar) => calendar.uuid === event.calendarUuid) ?? null;
 
-export const objectKeys = Object.keys as <T extends object>(
-  obj: T,
-) => Array<keyof T>;
+export const objectKeys = Object.keys as <T extends object>(obj: T) => Array<keyof T>;

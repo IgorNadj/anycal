@@ -20,8 +20,8 @@ export type Calendar = {
 
 export type Thing = {
   uuid: string;
-  name: string;
-  prompt: string;
+  name?: string;
+  prompt?: string;
   colour: ThingColour;
   visible: boolean;
   calendarUuid: string;

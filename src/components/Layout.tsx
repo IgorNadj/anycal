@@ -29,7 +29,7 @@ export const Layout = (props: Props) => {
     >
       {/* Left */}
       <Box
-        sx={{ height: "100%", display: "flex", flexDirection: "column", width: "400px" }}
+        sx={{ height: "100%", display: "flex", flexDirection: "column", width: "300px" }}
       >
         <Box margin={2} height={HEADER_HEIGHT}>
           <AppLogo />

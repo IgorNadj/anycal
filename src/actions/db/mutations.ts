@@ -9,13 +9,18 @@ export function createUser(db: DatabaseSync, user: User): void {
 }
 
 export function createCalendar(db: DatabaseSync, calendar: Calendar): void {
-  db.prepare(
-    "INSERT INTO calendar (uuid, userUuid, name) VALUES (?, ?, ?)",
-  ).run(calendar.uuid, calendar.userUuid, calendar.name);
+  db.prepare("INSERT INTO calendar (uuid, userUuid, name) VALUES (?, ?, ?)").run(
+    calendar.uuid,
+    calendar.userUuid,
+    calendar.name,
+  );
 }
 
 export function updateCalendar(db: DatabaseSync, calendar: Calendar): void {
-  db.prepare("UPDATE calendar SET name = ? WHERE uuid = ?").run(calendar.name, calendar.uuid);
+  db.prepare("UPDATE calendar SET name = ? WHERE uuid = ?").run(
+    calendar.name,
+    calendar.uuid,
+  );
 }
 
 export function deleteCalendar(db: DatabaseSync, calendarUuid: string): void {
@@ -27,8 +32,8 @@ export function createThing(db: DatabaseSync, thing: Thing): void {
     "INSERT INTO thing (uuid, name, prompt, colour, visible, calendarUuid) VALUES (?, ?, ?, ?, ?, ?)",
   ).run(
     thing.uuid,
-    thing.name,
-    thing.prompt,
+    thing.name || "",
+    thing.prompt || "",
     thing.colour,
     thing.visible ? 1 : 0,
     thing.calendarUuid,
@@ -39,8 +44,8 @@ export function updateThing(db: DatabaseSync, thing: Thing): void {
   db.prepare(
     "UPDATE thing SET name = ?, prompt = ?, colour = ?, visible = ?, calendarUuid = ? WHERE uuid = ?",
   ).run(
-    thing.name,
-    thing.prompt,
+    thing.name || "",
+    thing.prompt || "",
     thing.colour,
     thing.visible ? 1 : 0,
     thing.calendarUuid,
