@@ -1,17 +1,17 @@
 import { Box } from "@mui/material";
 import { useContext, useState } from "react";
+import { AppHeader } from "../components/AppHeader.tsx";
+import { AppLogo } from "../components/AppLogo.tsx";
+import { AddCalendarDialog } from "../components/form/AddCalendarDialog.tsx";
+import { EditCalendarDialog } from "../components/form/EditCalendarDialog.tsx";
+import { EditEventDialog } from "../components/form/EditEventDialog.tsx";
+import { LeftSidebar } from "../components/LeftSidebar.tsx";
+import { MainCalendar } from "../components/MainCalendar.tsx";
 import { DEFAULT_VIEW_MODE } from "../constants.ts";
 import { useCalendars } from "../hooks/useCalendars.ts";
 import { useEvents } from "../hooks/useEvents.ts";
 import { StateContext } from "../providers/StateContext.tsx";
 import type { ViewMode } from "../types.ts";
-import { AppHeader } from "./AppHeader.tsx";
-import { AppLogo } from "./AppLogo.tsx";
-import { AddCalendarDialog } from "./form/AddCalendarDialog.tsx";
-import { EditCalendarDialog } from "./form/EditCalendarDialog.tsx";
-import { EditEventDialog } from "./form/EditEventDialog.tsx";
-import { LeftSidebar } from "./LeftSidebar.tsx";
-import { MainCalendar } from "./MainCalendar.tsx";
 
 export const Main = () => {
   const ctx = useContext(StateContext);
