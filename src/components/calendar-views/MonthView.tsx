@@ -79,14 +79,13 @@ export const MonthView = ({ events, currentDate }: Props) => {
   return (
     <Box
       border={1}
-      borderColor={"primary.main"}
+      borderColor={"#ddd"}
       borderRadius={2}
       style={{
         height: "100%",
         minHeight: 0,
         display: "flex",
         flexDirection: "column",
-        borderBottom: "1px solid #ddd",
         backgroundColor: "#fff",
       }}
     >

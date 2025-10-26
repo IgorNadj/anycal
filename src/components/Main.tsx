@@ -38,7 +38,7 @@ export const Main = () => {
     >
       {/* Left */}
       <Box
-        sx={{ height: "100%", display: "flex", flexDirection: "column", width: "280px" }}
+        sx={{ height: "100%", display: "flex", flexDirection: "column", width: "400px" }}
       >
         <Box margin={2} height={headerHeight}>
           <AppLogo />

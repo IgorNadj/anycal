@@ -32,11 +32,13 @@ export const EventChip = ({ event }: { event: CalendarEvent }) => {
     >
       <Typography
         variant="body2"
-        padding={0.5}
+        paddingLeft={0.5}
+        paddingRight={0.5}
+        paddingTop={0.2}
+        paddingBottom={0.2}
         sx={{
           textOverflow: "ellipsis",
           overflow: "hidden",
-          width: "100%",
           textWrap: "nowrap",
           cursor: "pointer",
         }}
