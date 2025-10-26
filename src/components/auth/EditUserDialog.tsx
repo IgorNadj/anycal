@@ -29,9 +29,9 @@ export const EditUserDialog = ({ open, onClose }: EditUserDialogProps) => {
       <DialogTitle>Account settings</DialogTitle>
       <DialogContent>
         <Stack spacing={3} sx={{ mt: 1 }}>
-          <UpdateEmailForm key={formKey} />
+          <UpdateEmailForm key={`email-${formKey}`} />
           <Divider />
-          <UpdatePasswordForm key={formKey} />
+          <UpdatePasswordForm key={`pw-${formKey}`} />
         </Stack>
       </DialogContent>
     </Dialog>
