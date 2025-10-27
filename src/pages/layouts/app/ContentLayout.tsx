@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { Outlet } from "react-router";
 import { AppHeader } from "../../../components/header/AppHeader.tsx";
 import { HEADER_HEIGHT } from "../../../constants.ts";
@@ -26,7 +26,9 @@ export const ContentLayout = () => {
       >
         <Box>
           <Box sx={{ padding: 5, paddingBottom: 7 }}>
-            <Outlet />
+            <Container>
+              <Outlet />
+            </Container>
           </Box>
         </Box>
       </Box>

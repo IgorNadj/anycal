@@ -1,55 +1,35 @@
-import { Add } from "@mui/icons-material";
-import { Box, IconButton, List, ListItemButton, Typography } from "@mui/material";
-import { Link, useNavigate, useParams } from "react-router";
-import { v4 as uuidv4 } from "uuid";
-import { useCalendars } from "../../hooks/useCalendars.ts";
-import { useCreateThing } from "../../hooks/useCreateThing.ts";
+import CircleIcon from "@mui/icons-material/Circle";
+import {
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+} from "@mui/material";
+import { Link, useParams } from "react-router";
+import { CALENDAR_COLOURS } from "../../constants.ts";
 import { useThings } from "../../hooks/useThings.ts";
-import type { Calendar, Thing } from "../../types.ts";
+import type { Calendar } from "../../types.ts";
 import { getThingsForCalendar } from "../../utils.ts";
 
 type Props = {
   calendar: Calendar;
+  showHeader?: boolean;
 };
 
-export const ThingsList = ({ calendar }: Props) => {
+export const ThingsList = ({ calendar, showHeader = false }: Props) => {
   const { data: allThings } = useThings();
   const things = getThingsForCalendar(calendar, allThings);
-
-  const { mutate: createThing } = useCreateThing();
-
-  const { data: calendars } = useCalendars();
-  const [firstCalendar] = calendars;
-
-  const navigate = useNavigate();
 
   let params = useParams();
   const selectedThingUuid = params.thingUuid;
 
-  const onAddClick = () => {
-    console.log("add clicked ");
-    const newThing: Thing = {
-      uuid: uuidv4(),
-      visible: true,
-      colour: "blue_400",
-      calendarUuid: firstCalendar.uuid,
-    };
-    createThing(newThing);
-    navigate(`/app/things/${newThing.uuid}`);
-  };
-
   return (
     <>
-      <Box sx={{ display: "flex" }}>
-        <Typography sx={{ flex: 1 }} variant="h6">
-          My Things
-        </Typography>
-        <IconButton onClick={() => onAddClick()}>
-          <Add />
-        </IconButton>
-      </Box>
-
-      <List>
+      <List
+        dense
+        subheader={showHeader ? <ListSubheader>My Things</ListSubheader> : undefined}
+      >
         {things.map((thing) => (
           <ListItemButton
             key={thing.uuid}
@@ -57,7 +37,13 @@ export const ThingsList = ({ calendar }: Props) => {
             component={Link}
             to={`/app/things/${thing.uuid}`}
           >
-            {thing.name || "Unnamed"}
+            <ListItemIcon sx={{ minWidth: 35 }}>
+              <CircleIcon
+                fontSize="small"
+                sx={{ color: CALENDAR_COLOURS[thing.colour] }}
+              />
+            </ListItemIcon>
+            <ListItemText>{thing.name || "New Thing"}</ListItemText>
           </ListItemButton>
         ))}
       </List>

@@ -1,7 +1,6 @@
 import { Box } from "@mui/material";
 import { Outlet } from "react-router";
 import { LeftSidebar } from "../../components/sidebar/LeftSidebar.tsx";
-import { SIDEBAR_WIDTH } from "../../constants.ts";
 
 export const AppLayout = () => {
   return (
@@ -20,7 +19,6 @@ export const AppLayout = () => {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          width: SIDEBAR_WIDTH,
         }}
       >
         <LeftSidebar />

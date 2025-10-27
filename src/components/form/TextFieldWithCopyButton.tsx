@@ -1,16 +1,12 @@
 import { Check, ContentCopy } from "@mui/icons-material";
-import { Box, IconButton } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import { Box, IconButton, Typography } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 
-interface TextFieldWithCopyButtonProps {
+type Props = {
   value: string;
-  sx?: any;
-}
+};
 
-export const TextFieldWithCopyButton: React.FC<TextFieldWithCopyButtonProps> = ({
-  value,
-  sx = {},
-}) => {
+export const TextFieldWithCopyButton = ({ value }: Props) => {
   const [copySuccess, setCopySuccess] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -49,25 +45,21 @@ export const TextFieldWithCopyButton: React.FC<TextFieldWithCopyButtonProps> = (
         display: "flex",
         alignItems: "center",
         fontFamily: "monospace",
-        fontSize: "0.875rem",
         backgroundColor: "grey.100",
         padding: 1,
         borderRadius: 1,
         gap: 1,
-        ...sx,
+        minWidth: 0,
       }}
     >
       <Box
         sx={{
           flex: 1,
-          overflow: "hidden",
-          whiteSpace: "nowrap",
-          textOverflow: "ellipsis",
-          minWidth: 0,
         }}
       >
-        {value}
+        <Typography variant="body2">{value}</Typography>
       </Box>
+
       <IconButton
         size="small"
         onClick={copyToClipboard}

@@ -29,9 +29,9 @@ export const getUserLocale = (): Locale => {
   return LOCALES[localeStr] ?? enGB;
 };
 
-export const getFirstUnusedColour = (calendars: Calendar[]): CalendarColour => {
+export const getFirstUnusedColour = (things: Thing[]): CalendarColour => {
   for (const colour of objectKeys(CALENDAR_COLOURS)) {
-    if (calendars.every((calendar) => calendar.colour !== colour)) {
+    if (things.every((thing) => thing.colour !== colour)) {
       return colour;
     }
   }
