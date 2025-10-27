@@ -21,7 +21,10 @@ export const LeftSidebar = () => {
               <NavLink to="/">Index</NavLink>
             </ListItem>
             <ListItem>
-              <NavLink to="/sign-in">Sign in</NavLink>
+              <NavLink to="/hi/register">Register</NavLink>
+            </ListItem>
+            <ListItem>
+              <NavLink to="/hi/sign-in">Sign in</NavLink>
             </ListItem>
             <ListItem>
               <NavLink to="/app/settings">Settings</NavLink>

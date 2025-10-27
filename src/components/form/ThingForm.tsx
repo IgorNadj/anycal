@@ -28,7 +28,6 @@ export const ThingForm = ({ initialThing }: { initialThing: Thing }) => {
 
   return (
     <Box>
-      <Typography variant="h2">Add Anything</Typography>
       <Grid container>
         <Grid size={6}>
           <TextField

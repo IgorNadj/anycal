@@ -5,9 +5,9 @@ import { useUserProfile } from "../../hooks/useUserProfile.ts";
 import { AuthContext } from "../../providers/AuthContext.tsx";
 
 export const AuthAvatar = () => {
-  const { userUuid, setUserUuid } = useContext(AuthContext);
-
+  const { userUuid } = useContext(AuthContext);
   const isLoggedIn = !!userUuid;
+
   const { data: profile } = useUserProfile();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -15,11 +15,6 @@ export const AuthAvatar = () => {
 
   const handleOpen = (e: React.MouseEvent<HTMLElement>) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
-
-  const onSignOut = async () => {
-    await setUserUuid(null);
-    handleClose();
-  };
 
   const letter = profile ? (profile.email[0]?.toUpperCase() ?? "") : "";
 
@@ -55,20 +50,24 @@ export const AuthAvatar = () => {
       >
         {!isLoggedIn && (
           <MenuItem>
-            <NavLink to="/">Create account</NavLink>
+            <NavLink to="/hi/register">Create account</NavLink>
           </MenuItem>
         )}
         {!isLoggedIn && (
           <MenuItem>
-            <NavLink to="/">Sign in</NavLink>
+            <NavLink to="/hi/sign-in">Sign in</NavLink>
           </MenuItem>
         )}
         {isLoggedIn && (
           <MenuItem>
-            <NavLink to="/settings">Settings</NavLink>
+            <NavLink to="/app/settings">Settings</NavLink>
           </MenuItem>
         )}
-        {isLoggedIn && <MenuItem onClick={onSignOut}>Sign out</MenuItem>}
+        {isLoggedIn && (
+          <MenuItem>
+            <NavLink to="/sign-out">Sign out</NavLink>
+          </MenuItem>
+        )}
       </Menu>
     </Box>
   );

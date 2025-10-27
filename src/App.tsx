@@ -6,8 +6,9 @@ import { AppLayout } from "./pages/layouts/AppLayout.tsx";
 import { SplashLayout } from "./pages/layouts/SplashLayout.tsx";
 import { LoadingPage } from "./pages/LoadingPage.tsx";
 import { PageNotFoundPage } from "./pages/PageNotFoundPage.tsx";
+import { RegisterOrSignInPage } from "./pages/RegisterOrSignInPage.tsx";
 import { SettingsPage } from "./pages/SettingsPage.tsx";
-import { SignInPage } from "./pages/SignInPage.tsx";
+import { SignOutPage } from "./pages/SignOutPage.tsx";
 import { ThingPage } from "./pages/ThingPage.tsx";
 import { AppProviders } from "./providers/AppProviders.tsx";
 
@@ -16,8 +17,8 @@ export const App = () => {
     <AppProviders>
       <Routes>
         {/* logged out pages */}
-        <Route path="/sign-in" element={<SplashLayout />}>
-          <Route path="" element={<SignInPage />} />
+        <Route path="/hi" element={<SplashLayout />}>
+          <Route path=":form?" element={<RegisterOrSignInPage />} />
         </Route>
 
         {/* app pages */}
@@ -37,6 +38,12 @@ export const App = () => {
           </Route>
         </Route>
 
+        {/* sign out */}
+        <Route path="/sign-out" element={<SplashLayout />}>
+          <Route path="" element={<SignOutPage />} />
+        </Route>
+
+        {/* 404 */}
         <Route path="*" element={<PageNotFoundPage />} />
       </Routes>
     </AppProviders>

@@ -1,5 +1,6 @@
 import { Alert, Button, Stack, TextField } from "@mui/material";
 import { useState } from "react";
+import { Link } from "react-router";
 import { useLogin } from "../../hooks/useLogin.ts";
 
 export const SignInForm = () => {
@@ -41,7 +42,11 @@ export const SignInForm = () => {
         <Button type="submit" variant="contained" disabled={isPending}>
           Sign in
         </Button>
-        {isSuccess && <Alert severity="success">You are now signed in.</Alert>}
+        {isSuccess && (
+          <Alert severity="success">
+            You are now signed in. <Link to="/">Continue</Link>
+          </Alert>
+        )}
       </Stack>
     </form>
   );

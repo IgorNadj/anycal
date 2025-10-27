@@ -10,7 +10,7 @@ export const LoadingPage = () => {
   const { data: calendars } = useCalendars();
 
   if (!userUuid) {
-    navigate("/sign-in");
+    navigate("/hi");
   }
 
   useEffect(() => {

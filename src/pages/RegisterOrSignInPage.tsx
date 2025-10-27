@@ -1,11 +1,17 @@
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
+import { useParams } from "react-router";
 import { RegisterForm } from "../components/form/RegisterForm.tsx";
 import { SignInForm } from "../components/form/SignInForm.tsx";
 import { NarrowContainer } from "../components/NarrowContainer.tsx";
 
-export const SignInPage = () => {
-  const [tab, setTab] = useState(0);
+type FormParam = "register" | "sign-in";
+
+export const RegisterOrSignInPage = () => {
+  const { form } = useParams();
+  const formParam: FormParam = form === "sign-in" ? "sign-in" : "register";
+
+  const [tab, setTab] = useState<FormParam>(formParam);
 
   return (
     <Box
@@ -41,12 +47,12 @@ export const SignInPage = () => {
 
       <Box sx={{ marginTop: 5 }}>
         <Tabs value={tab} onChange={(_, v) => setTab(v)} aria-label="auth tabs">
-          <Tab label="Register" />
-          <Tab label="Sign in" />
+          <Tab value="register" label="Register" />
+          <Tab value="sign-in" label="Sign in" />
         </Tabs>
         <NarrowContainer>
-          {tab === 0 && <RegisterForm />}
-          {tab === 1 && <SignInForm />}
+          {tab === "register" && <RegisterForm />}
+          {tab === "sign-in" && <SignInForm />}
         </NarrowContainer>
       </Box>
     </Box>

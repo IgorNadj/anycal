@@ -14,7 +14,7 @@ export const ThingPage = () => {
 
   return (
     <Box>
-      <Typography variant="h3">{thing.name}</Typography>
+      <Typography variant="h2">{thing.name || "Thing"}</Typography>
       <ThingForm initialThing={thing} key={thing.uuid} />
     </Box>
   );
