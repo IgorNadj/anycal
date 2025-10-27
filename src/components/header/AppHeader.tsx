@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import { useContext } from "react";
+import { Link } from "react-router";
 import { StateContext } from "../../providers/StateContext.tsx";
 import { AuthAvatar } from "./AuthAvatar.tsx";
 import { CurrentDateDisplay } from "./CurrentDateDisplay.tsx";
@@ -9,9 +10,13 @@ import { ViewModeSelector } from "./ViewModeSelector.tsx";
 
 type Props = {
   calendarControls?: boolean;
+  showCalendarButton?: boolean;
 };
 
-export const AppHeader = ({ calendarControls = false }: Props) => {
+export const AppHeader = ({
+  calendarControls = false,
+  showCalendarButton = false,
+}: Props) => {
   const { viewMode, setViewMode, currentDate, setCurrentDate } = useContext(StateContext);
 
   const viewModeHasDate = viewMode !== "agenda";
@@ -28,6 +33,11 @@ export const AppHeader = ({ calendarControls = false }: Props) => {
       }}
     >
       <Box sx={{ flex: 1, display: "flex", alignItems: "center", gap: 1 }}>
+        {showCalendarButton && (
+          <Box sx={{ paddingLeft: 2 }}>
+            <Link to="/">Cal</Link>
+          </Box>
+        )}
         {calendarControls && viewModeHasDate && (
           <>
             <Today setCurrentDate={setCurrentDate} />
