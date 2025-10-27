@@ -2,12 +2,20 @@ import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
 import { RegisterForm } from "../components/form/RegisterForm.tsx";
 import { SignInForm } from "../components/form/SignInForm.tsx";
+import { NarrowContainer } from "../components/NarrowContainer.tsx";
 
 export const SignInPage = () => {
   const [tab, setTab] = useState(0);
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box
+      sx={{
+        paddingTop: 5,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <Typography variant="h3" gutterBottom>
         Add Anything
       </Typography>
@@ -31,15 +39,15 @@ export const SignInPage = () => {
         </Typography>
       </Box>
 
-      <Box>
+      <Box sx={{ marginTop: 5 }}>
         <Tabs value={tab} onChange={(_, v) => setTab(v)} aria-label="auth tabs">
           <Tab label="Register" />
           <Tab label="Sign in" />
         </Tabs>
-        <Box padding={2}>
+        <NarrowContainer>
           {tab === 0 && <RegisterForm />}
           {tab === 1 && <SignInForm />}
-        </Box>
+        </NarrowContainer>
       </Box>
     </Box>
   );

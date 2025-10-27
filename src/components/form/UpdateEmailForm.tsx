@@ -37,7 +37,6 @@ export const UpdateEmailForm = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            autoFocus
             fullWidth
             error={error?.field === "email"}
             helperText={error?.field === "email" ? error?.message : undefined}

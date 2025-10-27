@@ -36,4 +36,5 @@ export const MONTH_NAMES_SHORT: Record<number, string> = {
   11: "Dec",
 };
 
+export const SIDEBAR_WIDTH = 250;
 export const HEADER_HEIGHT = 70;

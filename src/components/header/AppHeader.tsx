@@ -1,35 +1,34 @@
 import { Box } from "@mui/material";
-import { HEADER_HEIGHT } from "../../../constants.ts";
-import type { ViewMode } from "../../../types.ts";
+import { useContext } from "react";
+import { StateContext } from "../../providers/StateContext.tsx";
+import { AuthAvatar } from "./AuthAvatar.tsx";
 import { CurrentDateDisplay } from "./CurrentDateDisplay.tsx";
 import { PrevNext } from "./PrevNext.tsx";
 import { Today } from "./Today.tsx";
 import { ViewModeSelector } from "./ViewModeSelector.tsx";
 
 type Props = {
-  viewMode: ViewMode;
-  setViewMode: (newViewMode: ViewMode) => void;
-  currentDate: Date;
-  setCurrentDate: (newDate: Date) => void;
+  calendarControls?: boolean;
 };
 
-export const CalendarHeader = (props: Props) => {
-  const { viewMode, setViewMode, currentDate, setCurrentDate } = props;
+export const AppHeader = ({ calendarControls = false }: Props) => {
+  const { viewMode, setViewMode, currentDate, setCurrentDate } = useContext(StateContext);
 
   const viewModeHasDate = viewMode !== "agenda";
 
   return (
     <Box
       sx={{
-        height: HEADER_HEIGHT,
+        height: "100%",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
         gap: 1,
+        paddingRight: 2,
       }}
     >
       <Box sx={{ flex: 1, display: "flex", alignItems: "center", gap: 1 }}>
-        {viewModeHasDate && (
+        {calendarControls && viewModeHasDate && (
           <>
             <Today setCurrentDate={setCurrentDate} />
             <PrevNext
@@ -42,7 +41,10 @@ export const CalendarHeader = (props: Props) => {
         )}
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        <ViewModeSelector viewMode={viewMode} setViewMode={setViewMode} />
+        {calendarControls && (
+          <ViewModeSelector viewMode={viewMode} setViewMode={setViewMode} />
+        )}
+        <AuthAvatar />
       </Box>
     </Box>
   );

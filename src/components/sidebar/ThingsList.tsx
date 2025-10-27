@@ -35,7 +35,7 @@ export const ThingsList = ({ calendar }: Props) => {
       calendarUuid: firstCalendar.uuid,
     };
     createThing(newThing);
-    navigate(`/things/${newThing.uuid}`);
+    navigate(`/app/things/${newThing.uuid}`);
   };
 
   return (
@@ -55,7 +55,7 @@ export const ThingsList = ({ calendar }: Props) => {
             key={thing.uuid}
             selected={thing.uuid === selectedThingUuid}
             component={Link}
-            to={`/things/${thing.uuid}`}
+            to={`/app/things/${thing.uuid}`}
           >
             {thing.name || "Unnamed"}
           </ListItemButton>

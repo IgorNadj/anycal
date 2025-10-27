@@ -1,11 +1,10 @@
-import { Box, CircularProgress } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { HEADER_HEIGHT } from "../constants.ts";
 import { useCalendars } from "../hooks/useCalendars.ts";
 import { AuthContext } from "../providers/AuthContext.tsx";
 
-export const Loading = () => {
+export const LoadingPage = () => {
   const { userUuid } = useContext(AuthContext);
   const navigate = useNavigate();
   const { data: calendars } = useCalendars();
@@ -33,10 +32,5 @@ export const Loading = () => {
     };
   }, []);
 
-  return (
-    <Box>
-      <Box sx={{ height: HEADER_HEIGHT }} />
-      {showProgress && <CircularProgress />}
-    </Box>
-  );
+  return <>{showProgress && <CircularProgress />}</>;
 };

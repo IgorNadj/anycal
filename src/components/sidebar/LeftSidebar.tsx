@@ -1,34 +1,37 @@
 import { Box, List, ListItem } from "@mui/material";
 import { NavLink } from "react-router";
+import { HEADER_HEIGHT } from "../../constants.ts";
 import { useCalendars } from "../../hooks/useCalendars.ts";
-import { AuthAvatar } from "../auth/AuthAvatar.tsx";
+import { AppLogo } from "./AppLogo.tsx";
 import { Section } from "./Section.tsx";
 
 export const LeftSidebar = () => {
   const { data: calendars } = useCalendars();
 
   return (
-    <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
-      {calendars.map((calendar) => (
-        <Section calendar={calendar} key={calendar.uuid} />
-      ))}
+    <Box sx={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+      <Box sx={{ height: HEADER_HEIGHT }}>
+        <AppLogo />
+      </Box>
 
-      <AuthAvatar />
-
-      <List>
-        <ListItem>
-          <NavLink to="/">Index</NavLink>
-        </ListItem>
-        <ListItem>
-          <NavLink to="/home">Home (logged in)</NavLink>
-        </ListItem>
-        <ListItem>
-          <NavLink to="/welcome">Home (logged out)</NavLink>
-        </ListItem>
-        <ListItem>
-          <NavLink to="/404">404</NavLink>
-        </ListItem>
-      </List>
+      <Box sx={{ height: `calc(100vh - ${HEADER_HEIGHT}px)`, overflowY: "auto" }}>
+        <Box sx={{ paddingBottom: 5 }}>
+          <List>
+            <ListItem>
+              <NavLink to="/">Index</NavLink>
+            </ListItem>
+            <ListItem>
+              <NavLink to="/sign-in">Sign in</NavLink>
+            </ListItem>
+            <ListItem>
+              <NavLink to="/app/settings">Settings</NavLink>
+            </ListItem>
+          </List>
+          {calendars.map((calendar) => (
+            <Section calendar={calendar} key={calendar.uuid} />
+          ))}
+        </Box>
+      </Box>
     </Box>
   );
 };

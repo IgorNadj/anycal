@@ -1,1 +1,3 @@
-export const PageNotFoundPage = () => <h1>Page not found</h1>;
+export const PageNotFoundPage = () => {
+  return <h1>Error: Page not found</h1>;
+};

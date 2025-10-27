@@ -47,7 +47,6 @@ export const ThingForm = ({ initialThing }: { initialThing: Thing }) => {
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             label="Prompt"
-            autoFocus
           />
 
           <Box sx={{ mb: 2 }}>

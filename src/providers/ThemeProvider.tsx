@@ -16,6 +16,9 @@ const theme = createTheme({
     success: {
       main: "#4ca4ee",
     },
+    background: {
+      default: "#292929",
+    },
   },
   typography: {
     fontFamily: ["Montserrat", "Roboto", "sans-serif"].join(","),

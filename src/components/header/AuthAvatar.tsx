@@ -3,7 +3,6 @@ import { useContext, useState } from "react";
 import { NavLink } from "react-router";
 import { useUserProfile } from "../../hooks/useUserProfile.ts";
 import { AuthContext } from "../../providers/AuthContext.tsx";
-import { EditUserDialog } from "./EditUserDialog.tsx";
 
 export const AuthAvatar = () => {
   const { userUuid, setUserUuid } = useContext(AuthContext);
@@ -16,8 +15,6 @@ export const AuthAvatar = () => {
 
   const handleOpen = (e: React.MouseEvent<HTMLElement>) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
-
-  const [showSettings, setShowSettings] = useState(false);
 
   const onSignOut = async () => {
     await setUserUuid(null);
@@ -61,21 +58,18 @@ export const AuthAvatar = () => {
             <NavLink to="/">Create account</NavLink>
           </MenuItem>
         )}
+        {!isLoggedIn && (
+          <MenuItem>
+            <NavLink to="/">Sign in</NavLink>
+          </MenuItem>
+        )}
         {isLoggedIn && (
-          <MenuItem
-            onClick={() => {
-              handleClose();
-              setShowSettings(true);
-            }}
-          >
-            Settings
+          <MenuItem>
+            <NavLink to="/settings">Settings</NavLink>
           </MenuItem>
         )}
         {isLoggedIn && <MenuItem onClick={onSignOut}>Sign out</MenuItem>}
       </Menu>
-
-      {/* Dialogs */}
-      <EditUserDialog open={showSettings} onClose={() => setShowSettings(false)} />
     </Box>
   );
 };

@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
-import type { ViewMode } from "../../../types.ts";
+import type { ViewMode } from "../../types.ts";
 
 type Props = {
   currentDate: Date;
