@@ -42,8 +42,18 @@ export const getFirstUnusedColour = (things: Thing[]): CalendarColour => {
 export const getEventsForThing = (thing: Thing, allEvents: CalendarEvent[]) =>
   allEvents.filter((event) => event.thingUuid === thing.uuid);
 
-export const getCalendarForEvent = (event: CalendarEvent, allCalendars: Calendar[]) =>
-  allCalendars.find((calendar) => calendar.uuid === event.calendarUuid) ?? null;
+export const getThingForEvent = (event: CalendarEvent, allThings: Thing[]) =>
+  allThings.find((thing) => thing.uuid === event.thingUuid) ?? null;
+
+export const getCalendarForEvent = (
+  event: CalendarEvent,
+  allThings: Thing[],
+  allCalendars: Calendar[],
+) => {
+  const thing = getThingForEvent(event, allThings);
+  if (!thing) return null;
+  return allCalendars.find((calendar) => calendar.uuid === thing.calendarUuid) ?? null;
+};
 
 export const getThingsForCalendar = (calendar: Calendar, allThings: Thing[]) =>
   allThings.filter((thing) => thing.calendarUuid === calendar.uuid);

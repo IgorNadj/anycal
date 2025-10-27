@@ -1,13 +1,11 @@
 import {
+  CircularProgress,
   FormControl,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
-  FormHelperText,
-  CircularProgress,
 } from "@mui/material";
-import CircleIcon from "@mui/icons-material/Circle";
-import { CALENDAR_COLOURS } from "../../constants.ts";
 import { useCalendars } from "../../hooks/useCalendars.ts";
 import type { Calendar } from "../../types.ts";
 
@@ -41,7 +39,7 @@ export const CalendarPicker = ({
     if (cal) {
       onChangeCalendar(cal);
     }
-  }
+  };
 
   return (
     <FormControl
@@ -52,16 +50,18 @@ export const CalendarPicker = ({
       size="small"
       sx={{ my: 1 }}
     >
-      {label ? (
-        <InputLabel id="calendar-picker-label">{label}</InputLabel>
-      ) : null}
+      {label ? <InputLabel id="calendar-picker-label">{label}</InputLabel> : null}
       <Select
         labelId="calendar-picker-label"
         value={selectedCalendar?.uuid ?? ""}
         label={label}
         displayEmpty
         renderValue={(val) =>
-          isLoading ? <CircularProgress size={16} /> : (calendars.find(c => c.uuid === (val as string))?.name ?? "")
+          isLoading ? (
+            <CircularProgress size={16} />
+          ) : (
+            (calendars.find((c) => c.uuid === (val as string))?.name ?? "")
+          )
         }
         onChange={(e) => onChange(e.target.value as string)}
         MenuProps={{
@@ -76,10 +76,6 @@ export const CalendarPicker = ({
             value={cal.uuid}
             sx={{ display: "flex", gap: 1, alignItems: "center" }}
           >
-            <CircleIcon
-              fontSize="small"
-              sx={{ color: CALENDAR_COLOURS[cal.colour] }}
-            />
             {cal.name}
           </MenuItem>
         ))}

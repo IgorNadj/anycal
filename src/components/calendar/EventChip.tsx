@@ -1,23 +1,24 @@
 import { Box, Typography } from "@mui/material";
 import { useContext } from "react";
 import { CALENDAR_COLOURS } from "../../constants.ts";
-import { useCalendars } from "../../hooks/useCalendars.ts";
+import { useThings } from "../../hooks/useThings.ts";
 import { StateContext } from "../../providers/StateContext.tsx";
 import type { CalendarEvent } from "../../types.ts";
-import { getCalendarForEvent } from "../../utils.ts";
+import { getThingForEvent } from "../../utils.ts";
 
 export const EventChip = ({ event }: { event: CalendarEvent }) => {
   const ctx = useContext(StateContext);
   const { setCurrentlyEditingEvent } = ctx;
 
-  const { data: calendars } = useCalendars();
+  const { data: allThings } = useThings();
 
-  const calendar = getCalendarForEvent(event, calendars);
-  if (!calendar) {
+  const thing = getThingForEvent(event, allThings);
+
+  if (!thing) {
     return null;
   }
 
-  if (!calendar.visible) {
+  if (!thing.visible) {
     return null;
   }
 
@@ -25,7 +26,7 @@ export const EventChip = ({ event }: { event: CalendarEvent }) => {
     <Box
       borderRadius={10}
       sx={{
-        backgroundColor: CALENDAR_COLOURS[calendar.colour],
+        backgroundColor: CALENDAR_COLOURS[thing.colour],
         width: "100%",
       }}
       onClick={() => setCurrentlyEditingEvent(event)}

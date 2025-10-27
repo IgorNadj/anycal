@@ -1,21 +1,23 @@
 import { Box, Button, Grid2 as Grid, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { useEvents } from "../../hooks/useEvents.ts";
+import { useRunThing } from "../../hooks/useRunThing.ts";
 import type { CalendarColour, Thing } from "../../types.ts";
-import { getEventsForThing } from "../../utils.ts";
 import { CalendarColourPicker } from "./CalendarColourPicker.tsx";
-import { EventsTable } from "./EventsTable.tsx";
+import { ThingRunResultTable } from "./ThingRunResultTable.tsx";
 
 export const ThingForm = ({ initialThing }: { initialThing: Thing }) => {
-  const { data: events } = useEvents();
-  const existingEventsForThing = getEventsForThing(initialThing, events);
-
-  const [name, setName] = useState<string>(initialThing.name || "");
-  const [prompt, setPrompt] = useState<string>(initialThing.prompt || "");
   const [colour, setColour] = useState<CalendarColour>(initialThing.colour);
 
+  const [name, setName] = useState<string>(initialThing.name || "");
+
+  const [prompt, setPrompt] = useState<string>(initialThing.prompt || "");
+  const [runPrompt, setRunPrompt] = useState<string>("");
+
+  const { data: runThingResults, isFetching: isRunPending } = useRunThing(runPrompt);
+
   const onRun = () => {
-    console.log("onRun");
+    console.log("onRun", prompt);
+    setRunPrompt(prompt);
   };
 
   const onSave = () => {
@@ -52,7 +54,7 @@ export const ThingForm = ({ initialThing }: { initialThing: Thing }) => {
             <CalendarColourPicker colour={colour} onChange={setColour} />
           </Box>
 
-          <Button variant="outlined" onClick={onRun}>
+          <Button variant="outlined" onClick={onRun} loading={isRunPending}>
             Run
           </Button>
           <Button variant="outlined" onClick={onSave}>
@@ -81,7 +83,7 @@ export const ThingForm = ({ initialThing }: { initialThing: Thing }) => {
       <Box>
         <>
           <Typography variant="h3">Preview</Typography>
-          <EventsTable events={existingEventsForThing} />
+          <ThingRunResultTable resp={runThingResults} />
         </>
       </Box>
     </Box>
