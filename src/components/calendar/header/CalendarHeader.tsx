@@ -16,6 +16,8 @@ type Props = {
 export const CalendarHeader = (props: Props) => {
   const { viewMode, setViewMode, currentDate, setCurrentDate } = props;
 
+  const viewModeHasDate = viewMode !== "agenda";
+
   return (
     <Box
       sx={{
@@ -27,13 +29,17 @@ export const CalendarHeader = (props: Props) => {
       }}
     >
       <Box sx={{ flex: 1, display: "flex", alignItems: "center", gap: 1 }}>
-        <Today setCurrentDate={setCurrentDate} />
-        <PrevNext
-          viewMode={viewMode}
-          currentDate={currentDate}
-          setCurrentDate={setCurrentDate}
-        />
-        <CurrentDateDisplay currentDate={currentDate} viewMode={viewMode} />
+        {viewModeHasDate && (
+          <>
+            <Today setCurrentDate={setCurrentDate} />
+            <PrevNext
+              viewMode={viewMode}
+              currentDate={currentDate}
+              setCurrentDate={setCurrentDate}
+            />
+            <CurrentDateDisplay currentDate={currentDate} viewMode={viewMode} />
+          </>
+        )}
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <ViewModeSelector viewMode={viewMode} setViewMode={setViewMode} />

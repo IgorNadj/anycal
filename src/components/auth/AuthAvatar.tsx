@@ -1,10 +1,9 @@
 import { Avatar, Box, IconButton, Menu, MenuItem } from "@mui/material";
 import { useContext, useState } from "react";
+import { NavLink } from "react-router";
 import { useUserProfile } from "../../hooks/useUserProfile.ts";
 import { AuthContext } from "../../providers/AuthContext.tsx";
-import { CreateAccountDialog } from "./CreateAccountDialog.tsx";
 import { EditUserDialog } from "./EditUserDialog.tsx";
-import { SignInDialog } from "./SignInDialog.tsx";
 
 export const AuthAvatar = () => {
   const { userUuid, setUserUuid } = useContext(AuthContext);
@@ -18,8 +17,6 @@ export const AuthAvatar = () => {
   const handleOpen = (e: React.MouseEvent<HTMLElement>) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
-  const [showCreate, setShowCreate] = useState(false);
-  const [showSignIn, setShowSignIn] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
   const onSignOut = async () => {
@@ -60,23 +57,8 @@ export const AuthAvatar = () => {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         {!isLoggedIn && (
-          <MenuItem
-            onClick={() => {
-              handleClose();
-              setShowCreate(true);
-            }}
-          >
-            Create account
-          </MenuItem>
-        )}
-        {!isLoggedIn && (
-          <MenuItem
-            onClick={() => {
-              handleClose();
-              setShowSignIn(true);
-            }}
-          >
-            Sign in
+          <MenuItem>
+            <NavLink to="/">Create account</NavLink>
           </MenuItem>
         )}
         {isLoggedIn && (
@@ -93,8 +75,6 @@ export const AuthAvatar = () => {
       </Menu>
 
       {/* Dialogs */}
-      <CreateAccountDialog open={showCreate} onClose={() => setShowCreate(false)} />
-      <SignInDialog open={showSignIn} onClose={() => setShowSignIn(false)} />
       <EditUserDialog open={showSettings} onClose={() => setShowSettings(false)} />
     </Box>
   );
