@@ -2,12 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { runThingAction } from "../actions/runThingAction.ts";
 import { AuthContext } from "../providers/AuthContext.tsx";
-
-const emptyData = {
-  summarisedTitle: "",
-  reasonForNoResults: null,
-  events: [],
-};
+import { NotLoggedInError } from "../utils/NotLoggedInError.ts";
 
 export const useRunThing = (input: string) => {
   const { userUuid } = useContext(AuthContext);
@@ -15,10 +10,14 @@ export const useRunThing = (input: string) => {
   return useQuery({
     queryKey: [userUuid, "runThing", input],
     queryFn: () => {
-      if (!userUuid) return emptyData;
+      if (!userUuid) throw NotLoggedInError();
       return runThingAction(input);
     },
-    enabled: !!userUuid && !!input && input.length > 0,
-    initialData: emptyData,
+    enabled: !!userUuid && !!input && input.length > 3,
+    initialData: {
+      summarisedTitle: "",
+      reasonForNoResults: null,
+      events: [],
+    },
   });
 };

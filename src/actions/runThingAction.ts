@@ -1,8 +1,6 @@
 "use server";
 
-import { GoogleGenAI } from "@google/genai";
 import { add, format, parseISO } from "date-fns";
-import { debuglog } from "node:util";
 
 import { v4 as uuidv4 } from "uuid";
 import type {
@@ -12,6 +10,7 @@ import type {
   ThingRun_UnknownDateEvent,
   ThingRun_VagueDateEvent,
 } from "../types.ts";
+import { getPromptRunner } from "./genai/getPromptRunner.ts";
 
 type Resp_NormalEvent = Omit<ThingRun_NormalEvent, "uuid" | "date"> & {
   date: string; // ISO8601 RFC3339 format
@@ -30,118 +29,78 @@ type Resp = Omit<ThingRun_Resp, "events"> & {
   )[];
 };
 
-const cache: Record<string, ThingRun_Resp> = {};
+const SYSTEM_INSTRUCTION = `
+You are an API endpoint for a client interface which is used for making 
+new calendar events, sourced from the internet. A user will say a thing, and your job is 
+to find when that thing is, and return the date. 
 
-const log = debuglog("anycal");
+If the thing has multiple events, for example, every first sunday of the year, return each event.
 
-export const runThingAction = async (input: string): Promise<ThingRun_Resp> => {
-  log("RunThing for: ", input);
+Don't return any events before ${format(add(new Date(), { days: 1 }), "yyyy-MM-dd")}. 
 
-  const apiKey = process.env.GOOGLE_GEN_AI_API_KEY;
-  if (!apiKey) throw new Error("API key is not configured");
+The response structure must be:
 
-  if (!input) throw new Error("Input is empty");
+{ 
+  events: (NormalEvent | SubjectToChangeEvent | UnknownDateEvent | VagueDateEvent)[],
+  reasonForNoResults: string | null, 
+}
 
-  if (cache[input]) {
-    return cache[input];
-  }
+Type definitions:
 
-  const ai = new GoogleGenAI({ apiKey });
+NormalEvent: {
+  type: "NormalEvent",
+  name: string,
+  description: string,
+  date: string, // ISO8601 RFC3339 format
+}
 
-  const groundingTool = {
-    googleSearch: {},
-  };
+SubjectToChangeEvent: {
+  type: "SubjectToChangeEvent",
+  name: string,
+  description: string,
+  date: string, // ISO8601 RFC3339 format
+  reason: string, // reason for date likely to change
+}
 
-  const config = {
-    tools: [groundingTool],
-    systemInstruction: `You are an API endpoint for a client interface which is used for making 
-      new calendar events, sourced from the internet. A user will say a thing, and your job is 
-      to find when that thing is, and return the date. 
-      
-      If the thing has multiple events, for example, every first sunday of the year, return each event.
-      
-      Don't return any events before ${format(add(new Date(), { days: 1 }), "yyyy-MM-dd")}. 
-      
-      For each event:
-      - All event types have name.
-      - All events have description, which describes the event itself.
-      - If the description would not add anything, leave it blank as an empty string.
-      - Important: description has no additional information about the date of the event. 
-      - Different types of events:
-        - If the date is known, and unlikely to change, return as a NormalEvent.
-        - If the date is known, but likely to change, e.g. the finals should be on this date but
-          the organisers will set the actual date closer to the finals, return as a SubjectToChangeEvent 
-          with reason being why it is subject to change.
-        - If the date is vague, e.g. a new product launch is expected to come in Fall this year,
-          return as a VagueDateEvent, with reason being why it is vague.
-        - If the date is completely unknown, return as an UnknownDateEvent, with reason being why it is 
-          unknown
-      
-      Also summarise the input query into a short title (less than 5 words), returned as "summarisedTitle".
-      
-      The response structure should be:
-      
-      { 
-        summarisedTitle: string,
-        reasonForNoResults: string | null, 
-        events: (NormalEvent | SubjectToChangeEvent | UnknownDateEvent | VagueDateEvent)[],
-      }
-      
-      Type definitions:
-      
-      NormalEvent: {
-        type: "NormalEvent",
-        name: string,
-        description: string,
-        date: string, // ISO8601 RFC3339 format
-      }
-      
-      SubjectToChangeEvent: {
-        type: "SubjectToChangeEvent",
-        name: string,
-        description: string,
-        date: string, // ISO8601 RFC3339 format
-        reason: string, // reason for date likely to change
-      }
-      
-      UnknownDateEvent: {
-        type: "UnknownDateEvent",
-        name: string,
-        description: string,
-        reason: string, // reason for no date being known
-      }
-      
-      VagueDateEvent: {
-        type: "VagueDateEvent",
-        name: string,
-        description: string,
-        vagueDate: string, // human readable form
-        reason: string, // reason for vague date
-      }
-      
-      `,
-  };
+UnknownDateEvent: {
+  type: "UnknownDateEvent",
+  name: string,
+  description: string,
+  reason: string, // reason for no date being known
+}
 
-  const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
-    config,
-    contents: input,
-  });
+VagueDateEvent: {
+  type: "VagueDateEvent",
+  name: string,
+  description: string,
+  vagueDate: string, // human readable form
+  reason: string, // reason for vague date
+}
 
-  if (!response.text) {
-    throw new Error("LLM response empty");
-  }
+For each event:
+- All event types have name.
+- All events have description, which describes the event itself.
+  - If the description would not add anything, leave it blank as an empty string.
+  - Important: description has no additional information about the date of the event. 
+- Different types of events:
+  - If the date is known, and unlikely to change, return as a NormalEvent.
+  - If the date is known, but likely to change, e.g. the finals should be on this date but
+    the organisers will set the actual date closer to the finals, return as a SubjectToChangeEvent 
+    with reason being why it is subject to change.
+  - If the date is vague, e.g. a new product launch is expected to come in Fall this year,
+    return as a VagueDateEvent, with reason being why it is vague.
+  - If the date is completely unknown, return as an UnknownDateEvent, with reason being why it is 
+    unknown
 
-  log("LLM Response: ", JSON.stringify(response));
-  log("LLM Response text: ", response.text);
+If no results are found, return an empty array, and set the reasonForNoResults field.
+`;
 
-  const strippedText = response.text.replace("```json", "").replace("```", "");
+const promptRunner = getPromptRunner<Resp>("runThing", SYSTEM_INSTRUCTION);
 
-  const parsed = JSON.parse(strippedText) as Resp;
+export const runThingAction = async (input: string) => {
+  const response = await promptRunner.run(input);
 
-  log("LLM Response parsed: ", JSON.stringify(parsed));
-
-  const hydratedEvents: ThingRun_Resp["events"] = parsed.events.map((rawEvent) => {
+  const hydratedEvents: ThingRun_Resp["events"] = response.events.map((rawEvent) => {
     if (rawEvent.type === "NormalEvent" || rawEvent.type === "SubjectToChangeEvent") {
       return {
         ...rawEvent,
@@ -157,11 +116,9 @@ export const runThingAction = async (input: string): Promise<ThingRun_Resp> => {
   });
 
   const hydratedResp: ThingRun_Resp = {
-    ...parsed,
+    ...response,
     events: hydratedEvents,
   };
-
-  cache[input] = hydratedResp;
 
   return hydratedResp;
 };
