@@ -1,6 +1,12 @@
 import { enGB, enUS, type Locale } from "date-fns/locale";
 import { CALENDAR_COLOURS } from "./constants.ts";
-import type { Calendar, CalendarColour, CalendarEvent, Thing } from "./types";
+import type {
+  Calendar,
+  CalendarColour,
+  CalendarEvent,
+  EventsWithSpecificDate,
+  Thing,
+} from "./types";
 
 const LOCALES: Record<string, Locale> = {
   "en-GB": enGB,
@@ -8,7 +14,7 @@ const LOCALES: Record<string, Locale> = {
 };
 
 export const eventsOnDate = (
-  events: CalendarEvent[],
+  events: EventsWithSpecificDate[],
   year: number,
   month: number,
   day: number,

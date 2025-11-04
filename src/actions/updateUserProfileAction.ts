@@ -14,7 +14,7 @@ export const updateUserProfileAction = async (input: UpdateUserProfileInput) => 
   const email = input.email.trim();
 
   // If email is changing, ensure it's not in use by another user
-  const taken = Object.values(database.data.users).find((u) => u.email === email);
+  const taken = Array.from(database.data.users.values()).find((u) => u.email === email);
   if (taken?.uuid && taken.uuid !== uuid) {
     return validationError({
       code: "EMAIL_TAKEN",
@@ -23,11 +23,16 @@ export const updateUserProfileAction = async (input: UpdateUserProfileInput) => 
     });
   }
 
+  const existingUser = database.data.users.get(uuid);
+  if (!existingUser) {
+    throw new Error("Unknown user");
+  }
+
   await database.update(({ users }) => {
-    users[uuid] = {
-      ...users[uuid],
+    users.set(uuid, {
+      ...existingUser,
       email,
-    };
+    });
   });
 
   return ok({});

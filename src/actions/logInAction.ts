@@ -22,7 +22,9 @@ export const logInAction = async (input: LogInInput) => {
 const signInWithEmailAndPassword = async (input: EmailAndPasswordInput) => {
   const { email, password } = input;
 
-  const user = await Object.values(database.data.users).find((u) => u.email === email);
+  const user = await Array.from(database.data.users.values()).find(
+    (u) => u.email === email,
+  );
 
   if (!user) {
     return validationError({

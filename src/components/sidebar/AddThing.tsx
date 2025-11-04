@@ -20,6 +20,7 @@ export const AddThing = () => {
   const onAddClick = () => {
     const newThing: Thing = {
       uuid: uuidv4(),
+      name: "New Thing",
       visible: true,
       colour: getFirstUnusedColour(allThings),
       calendarUuid: firstCalendar.uuid,

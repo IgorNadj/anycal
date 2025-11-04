@@ -23,7 +23,7 @@ export const updateUserPasswordAction = async (input: UpdatePasswordInput) => {
     });
   }
 
-  const user = database.data.users[uuid];
+  const user = database.data.users.get(uuid);
   if (!user) {
     return validationError({
       code: "INVALID_USER",
@@ -44,11 +44,11 @@ export const updateUserPasswordAction = async (input: UpdatePasswordInput) => {
   const newSalt = generateSalt(16);
   const newHash = hashPassword(newPassword, newSalt);
   await database.update(({ users }) => {
-    users[uuid] = {
+    users.set(uuid, {
       ...user,
       passwordHash: newHash,
       passwordSalt: newSalt,
-    };
+    });
   });
 
   return ok({});

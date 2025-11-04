@@ -4,23 +4,43 @@ import { add, format, parseISO } from "date-fns";
 
 import { v4 as uuidv4 } from "uuid";
 import type {
-  ThingRun_NormalEvent,
-  ThingRun_Resp,
-  ThingRun_SubjectToChangeEvent,
-  ThingRun_UnknownDateEvent,
-  ThingRun_VagueDateEvent,
-} from "../types.ts";
-import { getPromptRunner } from "./genai/getPromptRunner.ts";
+  CalendarEvent,
+  NormalEvent,
+  SubjectToChangeEvent,
+  Thing,
+  UnknownDateEvent,
+  VagueDateEvent,
+} from "../../types.ts";
+import { getPromptRunner } from "./getPromptRunner.ts";
 
-type Resp_NormalEvent = Omit<ThingRun_NormalEvent, "uuid" | "date"> & {
+type Resp_NormalEvent = {
+  type: "NormalEvent";
+  name: string;
+  description: string;
   date: string; // ISO8601 RFC3339 format
 };
-type Resp_SubjectToChangeEvent = Omit<ThingRun_SubjectToChangeEvent, "uuid" | "date"> & {
+type Resp_SubjectToChangeEvent = {
+  type: "SubjectToChangeEvent";
+  name: string;
+  description: string;
   date: string; // ISO8601 RFC3339 format
+  reason: string; // reason for date likely to change
 };
-type Resp_UnknownDateEvent = Omit<ThingRun_UnknownDateEvent, "uuid">;
-type Resp_VagueDateEvent = Omit<ThingRun_VagueDateEvent, "uuid">;
-type Resp = Omit<ThingRun_Resp, "events"> & {
+type Resp_UnknownDateEvent = {
+  type: "UnknownDateEvent";
+  name: string;
+  description: string;
+  reason: string; // reason for no date being known
+};
+type Resp_VagueDateEvent = {
+  type: "VagueDateEvent";
+  name: string;
+  description: string;
+  vagueDate: string; // human readable form
+  reason: string; // reason for vague date
+};
+type Resp = {
+  reasonForNoResults?: string;
   events: (
     | Resp_NormalEvent
     | Resp_SubjectToChangeEvent
@@ -42,7 +62,7 @@ The response structure must be:
 
 { 
   events: (NormalEvent | SubjectToChangeEvent | UnknownDateEvent | VagueDateEvent)[],
-  reasonForNoResults: string | null, 
+  reasonForNoResults?: string, 
 }
 
 Type definitions:
@@ -92,33 +112,58 @@ For each event:
   - If the date is completely unknown, return as an UnknownDateEvent, with reason being why it is 
     unknown
 
-If no results are found, return an empty array, and set the reasonForNoResults field.
+If no results are found, return an empty array of events, and set the reasonForNoResults field.
 `;
 
-const promptRunner = getPromptRunner<Resp>("runThing", SYSTEM_INSTRUCTION);
+const promptRunner = getPromptRunner<Resp>("getEvents", SYSTEM_INSTRUCTION);
 
-export const runThingAction = async (input: string) => {
-  const response = await promptRunner.run(input);
+export const getEvents = async (thing: Thing) => {
+  if (!thing.prompt) {
+    throw new Error("Thing has no prompt");
+  }
 
-  const hydratedEvents: ThingRun_Resp["events"] = response.events.map((rawEvent) => {
-    if (rawEvent.type === "NormalEvent" || rawEvent.type === "SubjectToChangeEvent") {
-      return {
-        ...rawEvent,
+  const resp = await promptRunner.run(thing.prompt);
+
+  const newEvents: CalendarEvent[] = resp.events
+    .map((respEvent) => {
+      const base = {
         uuid: uuidv4(),
-        date: parseISO(rawEvent.date),
+        thingUuid: thing.uuid,
+        created: new Date(),
+        lastModified: new Date(),
+        sequence: 0, // revision number
       };
-    } else {
-      return {
-        ...rawEvent,
-        uuid: uuidv4(),
-      };
-    }
-  });
+      if (respEvent.type === "NormalEvent") {
+        const e: NormalEvent = {
+          ...base,
+          ...respEvent,
+          date: parseISO(respEvent.date),
+        };
+        return e;
+      } else if (respEvent.type === "SubjectToChangeEvent") {
+        const e: SubjectToChangeEvent = {
+          ...base,
+          ...respEvent,
+          date: parseISO(respEvent.date),
+        };
+        return e;
+      } else if (respEvent.type === "UnknownDateEvent") {
+        const e: UnknownDateEvent = {
+          ...base,
+          ...respEvent,
+        };
+        return e;
+      } else if (respEvent.type === "VagueDateEvent") {
+        const e: VagueDateEvent = {
+          ...base,
+          ...respEvent,
+        };
+        return e;
+      } else {
+        return null;
+      }
+    })
+    .filter((e) => e !== null);
 
-  const hydratedResp: ThingRun_Resp = {
-    ...response,
-    events: hydratedEvents,
-  };
-
-  return hydratedResp;
+  return { newEvents, reasonForNoResults: resp.reasonForNoResults };
 };

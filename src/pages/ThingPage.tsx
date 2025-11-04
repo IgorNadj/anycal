@@ -2,9 +2,9 @@ import { Box, Button, Grid2 as Grid, TextField, Typography } from "@mui/material
 import { useState } from "react";
 import { useParams } from "react-router";
 import { ThingRunResultTable } from "../components/form/ThingRunResultTable.tsx";
-import { useGenerateThingName } from "../hooks/useGenerateThingName.ts";
-import { useRunThing } from "../hooks/useRunThing.ts";
+import { useEvents } from "../hooks/useEvents.ts";
 import { useThings } from "../hooks/useThings.ts";
+import { useUpdateThing } from "../hooks/useUpdateThing.ts";
 
 export const ThingPage = () => {
   const { thingUuid } = useParams();
@@ -12,20 +12,21 @@ export const ThingPage = () => {
   const thing = thingUuid ? allThings.find((t) => t.uuid === thingUuid) : null;
 
   const [prompt, setPrompt] = useState<string>(thing?.prompt || "");
-  const [runPrompt, setRunPrompt] = useState<string>("");
 
-  const { mutate: generateThingName } = useGenerateThingName();
+  const { mutate: updateThing, isPending: isRunPending } = useUpdateThing();
 
-  const { data: runThingResults, isFetching: isRunPending } = useRunThing(runPrompt);
+  const { data: allEvents } = useEvents();
+  const events = allEvents.filter((e) => e.thingUuid === thingUuid);
 
   const onRun = () => {
+    console.log("onRun", prompt);
+
     if (!thing) return;
 
-    console.log("onRun", prompt);
-    setRunPrompt(prompt);
-    if (!thing.name) {
-      generateThingName({ thing, prompt });
-    }
+    updateThing({
+      ...thing,
+      prompt,
+    });
   };
 
   const onSave = () => {
@@ -88,7 +89,7 @@ export const ThingPage = () => {
       <Box>
         <>
           <Typography variant="h3">Preview</Typography>
-          <ThingRunResultTable resp={runThingResults} />
+          <ThingRunResultTable events={events} thing={thing} />
         </>
       </Box>
     </Box>

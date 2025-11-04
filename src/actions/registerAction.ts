@@ -13,7 +13,7 @@ export type RegisterInput = {
 
 export const registerAction = async (input: RegisterInput) => {
   // Ensure email not used
-  const existing = Object.values(database.data.users).find(
+  const existing = Array.from(database.data.users.values()).find(
     (u) => u.email === input.email,
   );
   if (existing?.uuid) {
@@ -36,7 +36,7 @@ export const registerAction = async (input: RegisterInput) => {
   };
 
   await database.update(({ users }) => {
-    users[newUser.uuid] = newUser;
+    users.set(newUser.uuid, newUser);
   });
 
   // create default calendar
@@ -46,7 +46,7 @@ export const registerAction = async (input: RegisterInput) => {
     userUuid: newUser.uuid,
   };
   await database.update(({ calendars }) => {
-    calendars[newCalendar.uuid] = newCalendar;
+    calendars.set(newCalendar.uuid, newCalendar);
   });
 
   return ok({ userUuid: newUser.uuid });

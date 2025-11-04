@@ -6,7 +6,7 @@ import { database } from "./db/database.ts";
 
 export const updateCalendarAction = async (calendar: Calendar) => {
   await database.update(({ calendars }) => {
-    calendars[calendar.uuid] = calendar;
+    calendars.set(calendar.uuid, calendar);
   });
   return ok({});
 };

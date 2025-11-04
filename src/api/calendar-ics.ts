@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import { database } from "../actions/db/database.ts";
+import type { EventsWithSpecificDate } from "../types.ts";
 import { generateICalendar } from "../utils/ical.ts";
 
 export const calendarIcs = (app: Express) => {
@@ -12,19 +13,22 @@ export const calendarIcs = (app: Express) => {
       }
 
       // Get calendar
-      const calendar = database.data.calendars[calendarUuid];
+      const calendar = database.data.calendars.get(calendarUuid);
       if (!calendar) {
         return res.status(404).json({ error: "Calendar not found" });
       }
 
       // Get events for this calendar
       const thingUuids = new Set(
-        Object.values(database.data.things)
+        Array.from(database.data.things.values())
           .filter((e) => e.calendarUuid === calendar.uuid)
           .map((e) => e.uuid),
       );
-      const events = Object.values(database.data.events).filter((e) =>
+      const events = Array.from(database.data.events.values()).filter((e) =>
         thingUuids.has(e.thingUuid),
+      );
+      const eventsWithSpecificDate: EventsWithSpecificDate[] = events.filter(
+        (e) => e.type === "NormalEvent" || e.type === "SubjectToChangeEvent",
       );
 
       // Find the most recent lastModified date
@@ -38,7 +42,7 @@ export const calendarIcs = (app: Express) => {
           : new Date();
 
       // Generate iCal content
-      const icalContent = generateICalendar(calendar, events);
+      const icalContent = generateICalendar(calendar, eventsWithSpecificDate);
 
       res.setHeader("Content-Type", "text/calendar; charset=utf-8");
       res.setHeader("Last-Modified", mostRecentModified.toUTCString());

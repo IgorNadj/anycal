@@ -5,7 +5,7 @@ import { ok } from "../utils/validation.ts";
 import { database } from "./db/database.ts";
 
 export const deleteThingAction = async (thing: Thing) => {
-  await database.update(({ things }) => {
+  database.update(({ things }) => {
     return Object.fromEntries(
       Object.entries(things).filter(([, t]) => t.uuid !== thing.uuid),
     );

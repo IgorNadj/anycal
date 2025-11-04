@@ -20,80 +20,66 @@ export type Calendar = {
 
 export type Thing = {
   uuid: string;
-  name?: string;
+  name: string;
   prompt?: string;
+  reasonForNoResults?: string;
+  reasonForFailureToGenerateName?: string;
   colour: ThingColour;
   visible: boolean;
   calendarUuid: string;
 };
-
-export type CalendarEvent = {
-  uuid: string;
-  name: string;
-  date: Date;
-  thingUuid: string;
-  created: Date;
-  lastModified: Date;
-  sequence: number; // revision number
-};
-
-export type ThingColour = keyof typeof CALENDAR_COLOURS;
-
-export type NewCalendarEvent = Omit<
-  CalendarEvent,
-  "created" | "lastModified" | "sequence"
->;
-
-export type UpdateCalendarEvent = Omit<CalendarEvent, "lastModified">;
 
 export type Suggestion = {
   title: string;
   date: Date;
 };
 
-export type ThingRun_NormalEvent = {
+type BaseEvent = {
   uuid: string;
-  type: "NormalEvent";
   name: string;
   description: string;
+  thingUuid: string;
+  created: Date;
+  lastModified: Date;
+  sequence: number; // revision number
+};
+
+export type NormalEvent = BaseEvent & {
+  type: "NormalEvent";
   date: Date;
 };
 
-export type ThingRun_SubjectToChangeEvent = {
-  uuid: string;
+export type SubjectToChangeEvent = BaseEvent & {
   type: "SubjectToChangeEvent";
-  name: string;
-  description: string;
   date: Date;
   reason: string; // reason for date likely to change
 };
 
-export type ThingRun_UnknownDateEvent = {
-  uuid: string;
+export type UnknownDateEvent = BaseEvent & {
   type: "UnknownDateEvent";
-  name: string;
-  description: string;
   reason: string; // reason for no date being known
 };
 
-export type ThingRun_VagueDateEvent = {
-  uuid: string;
+export type VagueDateEvent = BaseEvent & {
   type: "VagueDateEvent";
-  name: string;
-  description: string;
   vagueDate: string; // human readable form
   reason: string; // reason for vague date
 };
 
-export type ThingRun_Resp = {
-  summarisedTitle: string;
-  reasonForNoResults: string | null;
-  events: (
-    | ThingRun_NormalEvent
-    | ThingRun_SubjectToChangeEvent
-    | ThingRun_UnknownDateEvent
-    | ThingRun_VagueDateEvent
-  )[];
-};
+export type EventsWithSpecificDate = NormalEvent | SubjectToChangeEvent;
 
+export type CalendarEvent =
+  | NormalEvent
+  | SubjectToChangeEvent
+  | UnknownDateEvent
+  | VagueDateEvent;
+
+// export type NewCalendarEvent = Omit<
+//   CalendarEvent,
+//   "created" | "lastModified" | "sequence"
+// >;
+//
+// export type UpdateCalendarEvent = Omit<CalendarEvent, "lastModified">;
+
+export type ThingColour = keyof typeof CALENDAR_COLOURS;
 export type CalendarColour = keyof typeof CALENDAR_COLOURS;

@@ -11,18 +11,20 @@ import {
 } from "@mui/material";
 import { format } from "date-fns";
 import type {
-  ThingRun_NormalEvent,
-  ThingRun_Resp,
-  ThingRun_SubjectToChangeEvent,
-  ThingRun_UnknownDateEvent,
-  ThingRun_VagueDateEvent,
+  CalendarEvent,
+  NormalEvent,
+  SubjectToChangeEvent,
+  Thing,
+  UnknownDateEvent,
+  VagueDateEvent,
 } from "../../types.ts";
 
 type Props = {
-  resp: ThingRun_Resp;
+  thing: Thing;
+  events: CalendarEvent[];
 };
 
-const trNormalEvent = (event: ThingRun_NormalEvent) => (
+const trNormalEvent = (event: NormalEvent) => (
   <>
     <TableCell>{event.name}</TableCell>
     <TableCell>{event.description}</TableCell>
@@ -31,7 +33,7 @@ const trNormalEvent = (event: ThingRun_NormalEvent) => (
   </>
 );
 
-const trSubjectToChangeEvent = (event: ThingRun_SubjectToChangeEvent) => (
+const trSubjectToChangeEvent = (event: SubjectToChangeEvent) => (
   <>
     <TableCell>{event.name}</TableCell>
     <TableCell>{event.description}</TableCell>
@@ -43,7 +45,7 @@ const trSubjectToChangeEvent = (event: ThingRun_SubjectToChangeEvent) => (
   </>
 );
 
-const trVagueDateEvent = (event: ThingRun_VagueDateEvent) => (
+const trVagueDateEvent = (event: VagueDateEvent) => (
   <>
     <TableCell>{event.name}</TableCell>
     <TableCell>{event.description}</TableCell>
@@ -55,7 +57,7 @@ const trVagueDateEvent = (event: ThingRun_VagueDateEvent) => (
   </>
 );
 
-const trUnknownDateEvent = (event: ThingRun_UnknownDateEvent) => (
+const trUnknownDateEvent = (event: UnknownDateEvent) => (
   <>
     <TableCell>{event.name}</TableCell>
     <TableCell>{event.description}</TableCell>
@@ -67,8 +69,8 @@ const trUnknownDateEvent = (event: ThingRun_UnknownDateEvent) => (
   </>
 );
 
-export const ThingRunResultTable = ({ resp }: Props) => {
-  const { events, reasonForNoResults } = resp;
+export const ThingRunResultTable = ({ thing, events }: Props) => {
+  const { reasonForNoResults, reasonForFailureToGenerateName } = thing;
   return (
     <>
       <Box
@@ -78,7 +80,10 @@ export const ThingRunResultTable = ({ resp }: Props) => {
           alignItems: "center",
           mb: 2,
         }}
-      ></Box>
+      >
+        <>reasonForNoResults: {reasonForNoResults}</>
+        <>reasonForFailureToGenerateName: {reasonForFailureToGenerateName}</>
+      </Box>
 
       <TableContainer component={Paper}>
         <Table>

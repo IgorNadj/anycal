@@ -1,7 +1,10 @@
 import { generateIcsCalendar, type IcsCalendar, type IcsEvent } from "ts-ics";
-import type { Calendar, CalendarEvent } from "../types.ts";
+import type { Calendar, EventsWithSpecificDate } from "../types.ts";
 
-export function generateICalendar(calendar: Calendar, events: CalendarEvent[]): string {
+export function generateICalendar(
+  calendar: Calendar,
+  events: EventsWithSpecificDate[],
+): string {
   const icalEvents: IcsEvent[] = events.map((event) => ({
     uid: event.uuid,
     summary: event.name,

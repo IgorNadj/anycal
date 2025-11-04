@@ -1,11 +1,11 @@
 import { Box, Divider, Typography } from "@mui/material";
 import { format } from "date-fns";
 import { useMemo } from "react";
-import type { CalendarEvent } from "../../types.ts";
+import type { EventsWithSpecificDate } from "../../types.ts";
 import { EventChip } from "./EventChip.tsx";
 
 type Props = {
-  events: CalendarEvent[];
+  events: EventsWithSpecificDate[];
   currentDate?: Date;
 };
 
@@ -24,7 +24,7 @@ export const AgendaView = ({ events }: Props) => {
   }, [sorted]);
 
   const eventsByYear = useMemo(() => {
-    const map = new Map<number, CalendarEvent[]>();
+    const map = new Map<number, EventsWithSpecificDate[]>();
     for (const ev of sorted) {
       const y = ev.date.getFullYear();
       const arr = map.get(y) ?? [];

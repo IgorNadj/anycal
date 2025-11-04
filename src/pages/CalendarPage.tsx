@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { AgendaView } from "../components/calendar/AgendaView.tsx";
 import { MonthView } from "../components/calendar/MonthView.tsx";
-import { useEvents } from "../hooks/useEvents.ts";
+import { useEventsWithSpecificDate } from "../hooks/useEventsWithSpecificDate.ts";
 import { StateContext } from "../providers/StateContext.tsx";
 
 export const CalendarPage = () => {
-  const { data: events } = useEvents();
+  const events = useEventsWithSpecificDate();
 
   const { viewMode, currentDate } = useContext(StateContext);
 

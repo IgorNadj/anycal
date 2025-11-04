@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { format } from "date-fns";
 import { useMemo } from "react";
-import type { CalendarEvent } from "../../types.ts";
+import type { CalendarEvent, EventsWithSpecificDate } from "../../types.ts";
 import { EventChip } from "./EventChip.tsx";
 
 const WEEKDAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
@@ -45,7 +45,7 @@ const eachDayOfInterval = (start: Date, end: Date) => {
   return days;
 };
 
-const eventsByDay = (events: CalendarEvent[]) => {
+const eventsByDay = (events: EventsWithSpecificDate[]) => {
   // Bucket events by YYYY-MM-DD for fast lookup
   const map = new Map<string, CalendarEvent[]>();
   for (const ev of events) {
@@ -58,7 +58,7 @@ const eventsByDay = (events: CalendarEvent[]) => {
 };
 
 type Props = {
-  events: CalendarEvent[];
+  events: EventsWithSpecificDate[];
   currentDate: Date;
 };
 

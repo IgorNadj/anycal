@@ -5,8 +5,8 @@ import { ok } from "../utils/validation.ts";
 import { database } from "./db/database.ts";
 
 export const createThingAction = async (thing: Thing) => {
-  await database.update(({ things }) => {
-    things[thing.uuid] = thing;
+  database.update(({ things }) => {
+    things.set(thing.uuid, thing);
   });
   return ok({});
 };

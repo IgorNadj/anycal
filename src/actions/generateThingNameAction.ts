@@ -37,7 +37,7 @@ type Resp = {
 const promptRunner = getPromptRunner<Resp>("generateThingName", SYSTEM_INSTRUCTION);
 
 export const generateThingNameAction = async ({ thingUuid, prompt }: Props) => {
-  const thing = database.data.things[thingUuid];
+  const thing = database.data.things.get(thingUuid);
   if (!thing) throw new Error("Thing not found");
 
   if (thing.name) {
@@ -67,11 +67,11 @@ export const generateThingNameAction = async ({ thingUuid, prompt }: Props) => {
     });
   }
 
-  await database.update(({ things }) => {
-    things[thingUuid] = {
+  database.update(({ things }) => {
+    things.set(thingUuid, {
       ...thing,
       name: niceName,
-    };
+    });
   });
 
   return ok({});
