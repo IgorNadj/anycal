@@ -17,7 +17,7 @@
     "@tanstack/react-query-devtools": "^5.90.2",
     "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
-    "lowdb": "^7.0.1",
+    "lowdb": "IgorNadj/lowdb#main",
     "react-router": "^7.9.4",
     "rsf-zero": "^0.3.2",
     "superjson": "^2.2.2",
