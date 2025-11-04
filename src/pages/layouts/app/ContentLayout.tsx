@@ -8,7 +8,7 @@ export const ContentLayout = () => {
     <Box sx={{ height: "100%", flex: 1 }}>
       {/* App Header */}
       <Box sx={{ height: HEADER_HEIGHT }}>
-        <AppHeader calendarControls={false} showCalendarButton={true} />
+        <AppHeader calendarControls={false} />
       </Box>
 
       {/* Scrollable content */}
