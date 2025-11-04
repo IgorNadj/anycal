@@ -71,13 +71,6 @@ export const ManageCalendarsForm = () => {
 
   return (
     <>
-      <Box sx={{ marginTop: 5 }}>
-        <Button onClick={onClickAdd} loading={isCreateCalendarPending} variant="outlined">
-          <Add />
-          Add a new calendar
-        </Button>
-      </Box>
-
       <Box>
         {calendars.map((calendar) => (
           <Paper key={calendar.uuid} sx={{ marginY: 5, padding: 3 }}>
@@ -111,6 +104,13 @@ export const ManageCalendarsForm = () => {
             </Box>
           </Paper>
         ))}
+      </Box>
+
+      <Box sx={{ marginTop: 5 }}>
+        <Button onClick={onClickAdd} loading={isCreateCalendarPending} variant="outlined">
+          <Add />
+          Add a new calendar
+        </Button>
       </Box>
 
       <Menu anchorEl={menuAnchorEl} open={menuOpen} onClose={closeMenu}>
