@@ -1,5 +1,6 @@
-import { Box, List, ListItem } from "@mui/material";
-import { NavLink } from "react-router";
+import { Settings } from "@mui/icons-material";
+import { Box, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { NavLink, useLocation } from "react-router";
 import { HEADER_HEIGHT, SIDEBAR_WIDTH } from "../../constants.ts";
 import { useCalendars } from "../../hooks/useCalendars.ts";
 import { AddThing } from "./AddThing.tsx";
@@ -8,6 +9,8 @@ import { CalAndThingsSection } from "./CalAndThingsSection.tsx";
 
 export const LeftSidebar = () => {
   const { data: calendars } = useCalendars();
+
+  const location = useLocation();
 
   return (
     <Box
@@ -43,10 +46,18 @@ export const LeftSidebar = () => {
               <CalAndThingsSection calendar={calendar} key={calendar.uuid} />
             ))}
           </Box>
-          <List sx={{ paddingTop: 2, paddingBottom: 5 }}>
-            <ListItem>
-              <NavLink to="/app/settings">Settings</NavLink>
-            </ListItem>
+          <List dense sx={{ paddingTop: 2 }}>
+            <ListItemButton
+              component={NavLink}
+              to={`/app/settings`}
+              selected={location.pathname === "/app/settings"}
+              disableRipple
+            >
+              <ListItemIcon sx={{ minWidth: 35 }}>
+                <Settings fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Settings</ListItemText>
+            </ListItemButton>
           </List>
         </Box>
       </Box>

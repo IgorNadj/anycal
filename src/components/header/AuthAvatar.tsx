@@ -60,11 +60,6 @@ export const AuthAvatar = () => {
         )}
         {isLoggedIn && (
           <MenuItem>
-            <NavLink to="/app/settings">Settings</NavLink>
-          </MenuItem>
-        )}
-        {isLoggedIn && (
-          <MenuItem>
             <NavLink to="/sign-out">Sign out</NavLink>
           </MenuItem>
         )}
