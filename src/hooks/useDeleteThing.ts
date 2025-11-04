@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useContext } from "react";
 import { deleteThingAction } from "../actions/deleteThingAction.ts";
 import { StateContext } from "../providers/StateContext.tsx";
+import type { Thing } from "../types.ts";
 
 export const useDeleteThing = () => {
   const queryClient = useQueryClient();
@@ -10,8 +11,8 @@ export const useDeleteThing = () => {
   const calendarUuid = currentlyEditingCalendar?.uuid;
 
   return useMutation({
-    mutationFn: async (thingUuid: string) => {
-      return deleteThingAction(thingUuid);
+    mutationFn: async (thing: Thing) => {
+      return deleteThingAction(thing);
     },
     onSuccess: async () => {
       if (calendarUuid) {

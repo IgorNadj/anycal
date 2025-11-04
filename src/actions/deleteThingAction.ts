@@ -1,8 +1,14 @@
 "use server";
 
+import type { Thing } from "../types.ts";
+import { ok } from "../utils/validation.ts";
 import { database } from "./db/database.ts";
-import { deleteThing } from "./db/mutations.ts";
 
-export const deleteThingAction = async (thingUuid: string) => {
-  deleteThing(database, thingUuid);
+export const deleteThingAction = async (thing: Thing) => {
+  await database.update(({ things }) => {
+    return Object.fromEntries(
+      Object.entries(things).filter(([, t]) => t.uuid !== thing.uuid),
+    );
+  });
+  return ok({});
 };

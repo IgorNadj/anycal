@@ -3,8 +3,6 @@
 import { generateSalt, hashPassword, verifyPassword } from "../utils/crypto.ts";
 import { ok, validationError } from "../utils/validation.ts";
 import { database } from "./db/database.ts";
-import { updateUserPassword } from "./db/mutations.ts";
-import { getUserByUuid } from "./db/queries.ts";
 
 export type UpdatePasswordInput = {
   uuid: string;
@@ -25,7 +23,7 @@ export const updateUserPasswordAction = async (input: UpdatePasswordInput) => {
     });
   }
 
-  const user = getUserByUuid(database, uuid);
+  const user = database.data.users[uuid];
   if (!user) {
     return validationError({
       code: "INVALID_USER",
@@ -45,7 +43,13 @@ export const updateUserPasswordAction = async (input: UpdatePasswordInput) => {
 
   const newSalt = generateSalt(16);
   const newHash = hashPassword(newPassword, newSalt);
-  updateUserPassword(database, uuid, newHash, newSalt);
+  await database.update(({ users }) => {
+    users[uuid] = {
+      ...user,
+      passwordHash: newHash,
+      passwordSalt: newSalt,
+    };
+  });
 
   return ok({});
 };

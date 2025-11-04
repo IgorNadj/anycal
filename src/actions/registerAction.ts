@@ -5,8 +5,6 @@ import type { User } from "../types.ts";
 import { generateSalt, hashPassword } from "../utils/crypto.ts";
 import { ok, validationError } from "../utils/validation.ts";
 import { database } from "./db/database.ts";
-import { createCalendar, createUser } from "./db/mutations.ts";
-import { getUserByEmail } from "./db/queries.ts";
 
 export type RegisterInput = {
   email: string;
@@ -15,7 +13,9 @@ export type RegisterInput = {
 
 export const registerAction = async (input: RegisterInput) => {
   // Ensure email not used
-  const existing = getUserByEmail(database, input.email);
+  const existing = Object.values(database.data.users).find(
+    (u) => u.email === input.email,
+  );
   if (existing?.uuid) {
     return validationError({
       code: "EMAIL_TAKEN",
@@ -35,13 +35,18 @@ export const registerAction = async (input: RegisterInput) => {
     passwordSalt,
   };
 
-  createUser(database, newUser);
+  await database.update(({ users }) => {
+    users[newUser.uuid] = newUser;
+  });
 
   // create default calendar
-  createCalendar(database, {
+  const newCalendar = {
     uuid: uuidv4(),
     name: "My Calendar",
     userUuid: newUser.uuid,
+  };
+  await database.update(({ calendars }) => {
+    calendars[newCalendar.uuid] = newCalendar;
   });
 
   return ok({ userUuid: newUser.uuid });

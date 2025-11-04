@@ -3,9 +3,10 @@
 import type { Calendar } from "../types.ts";
 import { ok } from "../utils/validation.ts";
 import { database } from "./db/database.ts";
-import { createCalendar } from "./db/mutations.ts";
 
 export const createCalendarAction = async (calendar: Calendar) => {
-  createCalendar(database, calendar);
+  await database.update(({ calendars }) => {
+    calendars[calendar.uuid] = calendar;
+  });
   return ok({});
 };

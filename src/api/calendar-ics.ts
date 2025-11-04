@@ -1,6 +1,5 @@
 import type { Express } from "express";
 import { database } from "../actions/db/database.ts";
-import { getCalendarByUuid, getEventsByCalendarUuid } from "../actions/db/queries.ts";
 import { generateICalendar } from "../utils/ical.ts";
 
 export const calendarIcs = (app: Express) => {
@@ -13,13 +12,20 @@ export const calendarIcs = (app: Express) => {
       }
 
       // Get calendar
-      const calendar = getCalendarByUuid(database, calendarUuid);
+      const calendar = database.data.calendars[calendarUuid];
       if (!calendar) {
         return res.status(404).json({ error: "Calendar not found" });
       }
 
       // Get events for this calendar
-      const events = getEventsByCalendarUuid(database, calendarUuid);
+      const thingUuids = new Set(
+        Object.values(database.data.things)
+          .filter((e) => e.calendarUuid === calendar.uuid)
+          .map((e) => e.uuid),
+      );
+      const events = Object.values(database.data.events).filter((e) =>
+        thingUuids.has(e.thingUuid),
+      );
 
       // Find the most recent lastModified date
       const mostRecentModified =

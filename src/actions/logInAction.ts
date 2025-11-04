@@ -3,7 +3,6 @@
 import { verifyPassword } from "../utils/crypto.ts";
 import { ok, validationError } from "../utils/validation.ts";
 import { database } from "./db/database.ts";
-import { getUserByEmail } from "./db/queries.ts";
 
 export type LogInInput = EmailAndPasswordInput;
 
@@ -23,9 +22,9 @@ export const logInAction = async (input: LogInInput) => {
 const signInWithEmailAndPassword = async (input: EmailAndPasswordInput) => {
   const { email, password } = input;
 
-  const row = getUserByEmail(database, email);
+  const user = await Object.values(database.data.users).find((u) => u.email === email);
 
-  if (!row) {
+  if (!user) {
     return validationError({
       code: "INVALID_EMAIL_OR_PASSWORD",
       message: "Invalid Email or Password",
@@ -33,16 +32,14 @@ const signInWithEmailAndPassword = async (input: EmailAndPasswordInput) => {
     });
   }
 
-  const verified = verifyPassword(password, row.passwordSalt, row.passwordHash);
+  const verified = verifyPassword(password, user.passwordSalt, user.passwordHash);
   if (!verified) {
-    if (!row) {
-      return validationError({
-        code: "INVALID_EMAIL_OR_PASSWORD",
-        message: "Invalid Email or Password",
-        field: "form",
-      });
-    }
+    return validationError({
+      code: "INVALID_EMAIL_OR_PASSWORD",
+      message: "Invalid Email or Password",
+      field: "form",
+    });
   }
 
-  return ok({ userUuid: row.uuid });
+  return ok({ userUuid: user.uuid });
 };

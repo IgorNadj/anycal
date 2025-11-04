@@ -2,8 +2,6 @@
 
 import { ok, validationError } from "../utils/validation.ts";
 import { database } from "./db/database.ts";
-import { updateThing } from "./db/mutations.ts";
-import { getThingByUuid } from "./db/queries.ts";
 import { getPromptRunner } from "./genai/getPromptRunner.ts";
 
 const SYSTEM_INSTRUCTION = `You are part of an API making new calendar events, sourced from 
@@ -39,7 +37,7 @@ type Resp = {
 const promptRunner = getPromptRunner<Resp>("generateThingName", SYSTEM_INSTRUCTION);
 
 export const generateThingNameAction = async ({ thingUuid, prompt }: Props) => {
-  const thing = getThingByUuid(database, thingUuid);
+  const thing = database.data.things[thingUuid];
   if (!thing) throw new Error("Thing not found");
 
   if (thing.name) {
@@ -69,9 +67,11 @@ export const generateThingNameAction = async ({ thingUuid, prompt }: Props) => {
     });
   }
 
-  updateThing(database, {
-    ...thing,
-    name: niceName,
+  await database.update(({ things }) => {
+    things[thingUuid] = {
+      ...thing,
+      name: niceName,
+    };
   });
 
   return ok({});
