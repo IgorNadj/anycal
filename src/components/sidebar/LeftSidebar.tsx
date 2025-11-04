@@ -4,7 +4,7 @@ import { HEADER_HEIGHT, SIDEBAR_WIDTH } from "../../constants.ts";
 import { useCalendars } from "../../hooks/useCalendars.ts";
 import { AddThing } from "./AddThing.tsx";
 import { AppLogo } from "./AppLogo.tsx";
-import { Section } from "./Section.tsx";
+import { CalAndThingsSection } from "./CalAndThingsSection.tsx";
 
 export const LeftSidebar = () => {
   const { data: calendars } = useCalendars();
@@ -35,12 +35,12 @@ export const LeftSidebar = () => {
           }}
         >
           <Box sx={{ flex: 1 }}>
-            <Box sx={{ marginTop: 2, marginBottom: 2, paddingLeft: 1 }}>
+            <Box sx={{ marginTop: 2, marginBottom: 4, paddingLeft: 2 }}>
               <AddThing />
             </Box>
 
             {calendars.map((calendar) => (
-              <Section calendar={calendar} key={calendar.uuid} />
+              <CalAndThingsSection calendar={calendar} key={calendar.uuid} />
             ))}
           </Box>
           <List sx={{ paddingTop: 2, paddingBottom: 5 }}>

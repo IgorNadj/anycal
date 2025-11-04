@@ -1,3 +1,4 @@
+import { CalendarMonth } from "@mui/icons-material";
 import CircleIcon from "@mui/icons-material/Circle";
 import {
   List,
@@ -6,7 +7,7 @@ import {
   ListItemText,
   ListSubheader,
 } from "@mui/material";
-import { Link, useParams } from "react-router";
+import { Link, NavLink, useParams } from "react-router";
 import { CALENDAR_COLOURS } from "../../constants.ts";
 import { useThings } from "../../hooks/useThings.ts";
 import type { Calendar } from "../../types.ts";
@@ -17,11 +18,12 @@ type Props = {
   showHeader?: boolean;
 };
 
-export const ThingsList = ({ calendar, showHeader = false }: Props) => {
+export const CalAndThingsSection = ({ calendar, showHeader = false }: Props) => {
   const { data: allThings } = useThings();
   const things = getThingsForCalendar(calendar, allThings);
 
   let params = useParams();
+  const selectedCalendarUuid = params.calendarUuid;
   const selectedThingUuid = params.thingUuid;
 
   return (
@@ -30,12 +32,26 @@ export const ThingsList = ({ calendar, showHeader = false }: Props) => {
         dense
         subheader={showHeader ? <ListSubheader>My Things</ListSubheader> : undefined}
       >
+        <ListItemButton
+          component={NavLink}
+          to={`/cal/${calendar.uuid}`}
+          selected={selectedCalendarUuid === calendar.uuid}
+          sx={{ marginBottom: 4 }}
+          disableRipple
+        >
+          <ListItemIcon sx={{ minWidth: 35 }}>
+            <CalendarMonth fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>{calendar.name || "Calendar"}</ListItemText>
+        </ListItemButton>
+
         {things.map((thing) => (
           <ListItemButton
             key={thing.uuid}
             selected={thing.uuid === selectedThingUuid}
             component={Link}
             to={`/app/things/${thing.uuid}`}
+            disableRipple
           >
             <ListItemIcon sx={{ minWidth: 35 }}>
               <CircleIcon

@@ -30,7 +30,11 @@ export const AddThing = () => {
   };
 
   return (
-    <IconButton size="large" onClick={() => onAddClick()}>
+    <IconButton
+      size="large"
+      onClick={() => onAddClick()}
+      sx={{ border: "1px solid #ddd" }}
+    >
       <Add />
     </IconButton>
   );
