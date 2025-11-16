@@ -1,7 +1,6 @@
 import { Box, Container } from "@mui/material";
 import { Outlet } from "react-router";
 import { Footer } from "../../components/Footer.tsx";
-import { AuthAvatar } from "../../components/header/AuthAvatar.tsx";
 import { AppLogo } from "../../components/sidebar/AppLogo.tsx";
 
 export const SplashLayout = () => {
@@ -15,7 +14,6 @@ export const SplashLayout = () => {
       >
         <Box sx={{ display: "flex", justifyContent: "space-between", padding: 2 }}>
           <AppLogo />
-          <AuthAvatar />
         </Box>
         <Container maxWidth="md" sx={{ paddingTop: 5, paddingBottom: 5 }}>
           <Box sx={{ paddingBottom: 10, minHeight: `calc(100vh - 220px)` }}>

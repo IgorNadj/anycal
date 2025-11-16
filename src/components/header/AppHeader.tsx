@@ -1,7 +1,6 @@
 import { Box } from "@mui/material";
 import { useContext } from "react";
 import { StateContext } from "../../providers/StateContext.tsx";
-import { AuthAvatar } from "./AuthAvatar.tsx";
 import { CurrentDateDisplay } from "./CurrentDateDisplay.tsx";
 import { PrevNext } from "./PrevNext.tsx";
 import { Today } from "./Today.tsx";
@@ -44,7 +43,6 @@ export const AppHeader = ({ calendarControls = false }: Props) => {
         {calendarControls && (
           <ViewModeSelector viewMode={viewMode} setViewMode={setViewMode} />
         )}
-        <AuthAvatar />
       </Box>
     </Box>
   );

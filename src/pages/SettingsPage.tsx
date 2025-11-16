@@ -1,5 +1,6 @@
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
+import { NavLink } from "react-router";
 import { ManageCalendarsForm } from "../components/form/ManageCalendarsForm.tsx";
 import { UpdateEmailForm } from "../components/form/UpdateEmailForm.tsx";
 import { UpdatePasswordForm } from "../components/form/UpdatePasswordForm.tsx";
@@ -29,6 +30,7 @@ export const SettingsPage = () => {
       {tab === 2 && (
         <NarrowContainer>
           <UpdatePasswordForm />
+          <NavLink to="/sign-out">Sign out</NavLink>
         </NarrowContainer>
       )}
     </Box>
