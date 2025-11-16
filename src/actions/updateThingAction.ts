@@ -10,24 +10,28 @@ import { getEvents } from "./genai/getEvents.ts";
 const log = debuglog("anycal:updateThingAction");
 
 export const updateThingAction = async (thing: Thing) => {
-  // first persist to db
+  // first get existing thing to see what has changed
+  const existingThing = database.data.things.get(thing.uuid);
+  if (!existingThing) throw new Error("Thing not found");
+
+  // 1. auto generate a name based on prompt
+  const run1 = runGenerateNiceName(thing, existingThing);
+  // 2. get the events
+  const run2 = runGetEvents(thing, existingThing);
+  await Promise.all([run1, run2]);
+
+  // persist to db
   database.update(({ things }) => {
     things.set(thing.uuid, thing);
   });
 
-  // 1. auto generate a name based on prompt
-  const run1 = runGenerateNiceName(thing);
-  // 2. get the events
-  const run2 = runGetEvents(thing);
-  await Promise.all([run1, run2]);
-
   return ok({});
 };
 
-const runGenerateNiceName = async (thing: Thing) => {
+const runGenerateNiceName = async (thing: Thing, existingThing: Thing) => {
   log("Running generate nice name");
 
-  if (thing.niceName) {
+  if (existingThing.niceName) {
     log("thing already has a niceName");
     return;
     // only auto-generate a niceName once
@@ -51,7 +55,12 @@ const runGenerateNiceName = async (thing: Thing) => {
   });
 };
 
-const runGetEvents = async (thing: Thing) => {
+const runGetEvents = async (thing: Thing, existingThing: Thing) => {
+  if (existingThing.prompt === thing.prompt) {
+    log("thing prompt hasn't changed, no need to get events");
+    return;
+  }
+
   log("Running get events");
   const { newEvents, reasonForNoResults } = await getEvents(thing);
 
