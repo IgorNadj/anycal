@@ -15,6 +15,7 @@ export const useUpdateThing = () => {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: [userUuid, "things"] });
+      await queryClient.invalidateQueries({ queryKey: [userUuid, "events"] });
     },
   });
 };
