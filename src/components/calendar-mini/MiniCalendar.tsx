@@ -103,11 +103,9 @@ export const MiniCalendar = ({ events }: Props) => {
               }
               if (isSelected) {
                 return {
-                  backgroundColor: lighten(theme.palette.secondary.main, 0.6),
-                  color: "#333",
-                  "&:hover": {
-                    backgroundColor: lighten(theme.palette.secondary.main, 0.8),
-                  },
+                  color: "#000",
+                  fontWeight: "bold",
+                  border: `1px solid #ddd`,
                 };
               }
               return {};
@@ -157,7 +155,7 @@ export const MiniCalendar = ({ events }: Props) => {
                 <Box
                   sx={{
                     position: "absolute",
-                    bottom: 0,
+                    bottom: "1px",
                     left: 0,
                     width: "100%",
                     pointerEvents: "none",
