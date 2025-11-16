@@ -23,7 +23,6 @@ export const CalAndThingsSection = ({ calendar, showHeader = false }: Props) => 
   const things = getThingsForCalendar(calendar, allThings);
 
   let params = useParams();
-  const selectedCalendarUuid = params.calendarUuid;
   const selectedThingUuid = params.thingUuid;
 
   return (
@@ -32,19 +31,6 @@ export const CalAndThingsSection = ({ calendar, showHeader = false }: Props) => 
         dense
         subheader={showHeader ? <ListSubheader>My Things</ListSubheader> : undefined}
       >
-        <ListItemButton
-          component={NavLink}
-          to={`/cal/${calendar.uuid}`}
-          selected={selectedCalendarUuid === calendar.uuid}
-          sx={{ marginBottom: 4 }}
-          disableRipple
-        >
-          <ListItemIcon sx={{ minWidth: 35 }}>
-            <CalendarMonth fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>{calendar.name || "Calendar"}</ListItemText>
-        </ListItemButton>
-
         {things.map((thing) => (
           <ListItemButton
             key={thing.uuid}

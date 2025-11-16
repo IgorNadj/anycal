@@ -65,7 +65,7 @@ const trUnknownDateEvent = (event: UnknownDateEvent) => (
   </>
 );
 
-export const ThingRunResultTable = ({ thing, events }: Props) => {
+export const ProblemResults = ({ thing, events }: Props) => {
   const { reasonForNoResults, reasonForFailureToGenerateName } = thing;
   return (
     <>
@@ -74,7 +74,6 @@ export const ThingRunResultTable = ({ thing, events }: Props) => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          mb: 2,
         }}
       >
         {reasonForNoResults && <>reasonForNoResults: {reasonForNoResults}</>}

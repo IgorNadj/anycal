@@ -16,7 +16,7 @@ export const LoadingPage = () => {
   useEffect(() => {
     const [firstCalendar] = calendars;
     if (firstCalendar) {
-      navigate(`/cal/${firstCalendar.uuid}`);
+      navigate(`/app/cal/${firstCalendar.uuid}`);
     }
   }, [calendars]);
 

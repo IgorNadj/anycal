@@ -6,11 +6,9 @@ import { PrevNext } from "./PrevNext.tsx";
 import { Today } from "./Today.tsx";
 import { ViewModeSelector } from "./ViewModeSelector.tsx";
 
-type Props = {
-  calendarControls?: boolean;
-};
+type Props = {};
 
-export const AppHeader = ({ calendarControls = false }: Props) => {
+export const CalendarHeader = ({}: Props) => {
   const { viewMode, setViewMode, currentDate, setCurrentDate } = useContext(StateContext);
 
   const viewModeHasDate = viewMode !== "agenda";
@@ -23,11 +21,11 @@ export const AppHeader = ({ calendarControls = false }: Props) => {
         alignItems: "center",
         justifyContent: "space-between",
         gap: 1,
-        paddingRight: 2,
+        paddingX: 2,
       }}
     >
       <Box sx={{ flex: 1, display: "flex", alignItems: "center", gap: 1 }}>
-        {calendarControls && viewModeHasDate && (
+        {viewModeHasDate && (
           <>
             <Today setCurrentDate={setCurrentDate} />
             <PrevNext
@@ -40,9 +38,7 @@ export const AppHeader = ({ calendarControls = false }: Props) => {
         )}
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        {calendarControls && (
-          <ViewModeSelector viewMode={viewMode} setViewMode={setViewMode} />
-        )}
+        <ViewModeSelector viewMode={viewMode} setViewMode={setViewMode} />
       </Box>
     </Box>
   );

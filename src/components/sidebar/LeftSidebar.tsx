@@ -1,4 +1,4 @@
-import { Settings } from "@mui/icons-material";
+import { CalendarMonth, Settings } from "@mui/icons-material";
 import {
   Box,
   List,
@@ -8,8 +8,8 @@ import {
   ListItemText,
 } from "@mui/material";
 import { useContext } from "react";
-import { NavLink, useLocation } from "react-router";
-import { HEADER_HEIGHT, SIDEBAR_WIDTH } from "../../constants.ts";
+import { NavLink, useLocation, useParams } from "react-router";
+import { CAL_HEADER_HEIGHT, SIDEBAR_WIDTH } from "../../constants.ts";
 import { useCalendars } from "../../hooks/useCalendars.ts";
 import { useEventsWithSpecificDate } from "../../hooks/useEventsWithSpecificDate.ts";
 import { StateContext } from "../../providers/StateContext.tsx";
@@ -20,12 +20,17 @@ import { CalAndThingsSection } from "./CalAndThingsSection.tsx";
 
 export const LeftSidebar = () => {
   const { data: calendars } = useCalendars();
+  const [firstCalendar] = calendars;
+  const firstCalendarUuid = firstCalendar?.uuid;
 
   const location = useLocation();
 
   const { currentDate } = useContext(StateContext);
 
   const events = useEventsWithSpecificDate();
+
+  let params = useParams();
+  const selectedCalendarUuid = params.calendarUuid;
 
   return (
     <Box
@@ -36,13 +41,14 @@ export const LeftSidebar = () => {
         width: SIDEBAR_WIDTH,
         minWidth: SIDEBAR_WIDTH,
         maxWidth: SIDEBAR_WIDTH,
+        backgroundColor: "#e7f1f8",
       }}
     >
-      <Box sx={{ height: HEADER_HEIGHT }}>
+      <Box sx={{ height: CAL_HEADER_HEIGHT }}>
         <AppLogo />
       </Box>
 
-      <Box sx={{ height: `calc(100vh - ${HEADER_HEIGHT}px)`, overflowY: "auto" }}>
+      <Box sx={{ height: `calc(100vh - ${CAL_HEADER_HEIGHT}px)`, overflowY: "auto" }}>
         <Box
           sx={{
             height: "100%",
@@ -64,8 +70,21 @@ export const LeftSidebar = () => {
 
           <List dense sx={{ paddingTop: 2 }}>
             <ListItem sx={{ paddingX: 0 }}>
-              <MiniCalendar currentDate={currentDate} events={events} />
+              {false && <MiniCalendar currentDate={currentDate} events={events} />}
             </ListItem>
+
+            <ListItemButton
+              component={NavLink}
+              to={`/app/cal/${firstCalendarUuid}`}
+              selected={selectedCalendarUuid === firstCalendarUuid}
+              sx={{ marginBottom: 4 }}
+              disableRipple
+            >
+              <ListItemIcon sx={{ minWidth: 35 }}>
+                <CalendarMonth fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>{"Calendar"}</ListItemText>
+            </ListItemButton>
 
             <ListItemButton
               sx={{ marginTop: 2 }}

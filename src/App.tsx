@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router";
 import { CalendarPage } from "./pages/CalendarPage.tsx";
-import { CalendarLayout } from "./pages/layouts/app/CalendarLayout.tsx";
-import { ContentLayout } from "./pages/layouts/app/ContentLayout.tsx";
+import { AppContentPageLayout } from "./pages/layouts/app/AppContentPageLayout.tsx";
+import { AppDataPageLayout } from "./pages/layouts/app/AppDataPagelLayout.tsx";
 import { AppLayout } from "./pages/layouts/AppLayout.tsx";
 import { SplashLayout } from "./pages/layouts/SplashLayout.tsx";
 import { LoadingPage } from "./pages/LoadingPage.tsx";
@@ -16,26 +16,26 @@ export const App = () => {
   return (
     <AppProviders>
       <Routes>
-        {/* logged out pages */}
-        <Route path="/hi" element={<SplashLayout />}>
-          <Route path=":form?" element={<RegisterOrSignInPage />} />
-        </Route>
+        {/* loading page... TODO: do this differently, in a provider maybe? */}
+        <Route index element={<LoadingPage />} />
 
-        {/* app pages */}
-        <Route path="/" element={<AppLayout />}>
-          {/* loading page... TODO: do this differently, in a provider maybe? */}
-          <Route index element={<LoadingPage />} />
-
-          {/* calendar pages */}
-          <Route path="cal" element={<CalendarLayout />}>
-            <Route path=":calendarUuid" element={<CalendarPage />} />
-          </Route>
-
-          {/* content pages */}
-          <Route path="app" element={<ContentLayout />}>
-            <Route path="settings" element={<SettingsPage />} />
+        {/* App Pages */}
+        <Route path="/app" element={<AppLayout />}>
+          {/* - App Data Pages */}
+          <Route element={<AppDataPageLayout />}>
+            <Route path="cal/:calendarUuid" element={<CalendarPage />} />
             <Route path="things/:thingUuid" element={<ThingPage />} />
           </Route>
+
+          {/* - App Content Pages */}
+          <Route element={<AppContentPageLayout />}>
+            <Route path="settings" element={<SettingsPage />} />
+          </Route>
+        </Route>
+
+        {/* logged out */}
+        <Route path="/hi" element={<SplashLayout />}>
+          <Route path=":form?" element={<RegisterOrSignInPage />} />
         </Route>
 
         {/* sign out */}

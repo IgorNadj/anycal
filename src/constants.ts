@@ -37,7 +37,7 @@ export const MONTH_NAMES_SHORT: Record<number, string> = {
 };
 
 export const SIDEBAR_WIDTH = 250;
-export const HEADER_HEIGHT = 70;
+export const CAL_HEADER_HEIGHT = 70;
 
 export const TODAY_BG_COLOUR = "#eccdff";
 export const TODAY_TEXT_COLOUR = "#171717";
