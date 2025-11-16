@@ -1,6 +1,6 @@
 import { Box, IconButton, lighten, type Theme, Typography } from "@mui/material";
 import { useContext, useMemo, useState } from "react";
-import { TODAY_COLOUR } from "../../constants.ts";
+import { TODAY_BG_COLOUR, TODAY_TEXT_COLOUR } from "../../constants.ts";
 import { useThings } from "../../hooks/useThings.ts";
 import { StateContext } from "../../providers/StateContext.tsx";
 import type { EventsWithSpecificDate } from "../../types.ts";
@@ -94,10 +94,10 @@ export const MiniCalendar = ({ events }: Props) => {
             const getDayCssExtra = (theme: Theme) => {
               if (isToday) {
                 return {
-                  backgroundColor: TODAY_COLOUR,
-                  color: "white",
+                  backgroundColor: TODAY_BG_COLOUR,
+                  color: TODAY_TEXT_COLOUR,
                   "&:hover": {
-                    backgroundColor: lighten(TODAY_COLOUR, 0.2),
+                    backgroundColor: lighten(TODAY_BG_COLOUR, 0.2),
                   },
                 };
               }

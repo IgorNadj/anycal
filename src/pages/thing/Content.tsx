@@ -1,9 +1,10 @@
 import { Box, Button, Grid2 as Grid, TextField, Typography } from "@mui/material";
 import { useState } from "react";
+import { CalendarColourPicker } from "../../components/form/CalendarColourPicker.tsx";
 import { ThingRunResultTable } from "../../components/form/ThingRunResultTable.tsx";
 import { useEvents } from "../../hooks/useEvents.ts";
 import { useUpdateThing } from "../../hooks/useUpdateThing.ts";
-import type { Thing } from "../../types.ts";
+import type { CalendarColour, Thing } from "../../types.ts";
 
 export const Content = ({ thing }: { thing: Thing }) => {
   const [prompt, setPrompt] = useState<string>(thing.prompt || "");
@@ -24,6 +25,13 @@ export const Content = ({ thing }: { thing: Thing }) => {
     });
   };
 
+  const onColourChange = (newColour: CalendarColour) => {
+    updateThing({
+      ...thing,
+      colour: newColour,
+    });
+  };
+
   return (
     <Box>
       <Typography variant="h2">{thing.niceName || thing.name || "New Thing"}</Typography>
@@ -39,9 +47,9 @@ export const Content = ({ thing }: { thing: Thing }) => {
             label="Prompt"
           />
 
-          {/*<Box sx={{ mb: 2 }}>*/}
-          {/*  <CalendarColourPicker colour={colour} onChange={setColour} />*/}
-          {/*</Box>*/}
+          <Box sx={{ mb: 2 }}>
+            <CalendarColourPicker colour={thing.colour} onChange={onColourChange} />
+          </Box>
 
           <Button variant="outlined" onClick={onRun} loading={isRunPending}>
             Run

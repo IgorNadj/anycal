@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { format } from "date-fns";
 import { useMemo } from "react";
-import { TODAY_COLOUR } from "../../constants.ts";
+import { TODAY_BG_COLOUR, TODAY_TEXT_COLOUR } from "../../constants.ts";
 import type { EventsWithSpecificDate } from "../../types.ts";
 import {
   getEventsByDayMapper,
@@ -103,8 +103,8 @@ export const MonthView = ({ events, currentDate }: Props) => {
                     width: "1.4rem",
                     height: "1.4rem",
                     borderRadius: 100,
-                    backgroundColor: isToday ? TODAY_COLOUR : "inherit",
-                    color: isToday ? "white" : "inherit",
+                    backgroundColor: isToday ? TODAY_BG_COLOUR : "inherit",
+                    color: isToday ? TODAY_TEXT_COLOUR : "inherit",
                     display: "flex",
                     alignItems: "center",
                   }}
