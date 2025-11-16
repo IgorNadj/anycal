@@ -59,7 +59,7 @@ export const CalAndThingsSection = ({ calendar, showHeader = false }: Props) => 
                 sx={{ color: CALENDAR_COLOURS[thing.colour] }}
               />
             </ListItemIcon>
-            <ListItemText>{thing.name || "New Thing"}</ListItemText>
+            <ListItemText>{thing.niceName || thing.name || "New Thing"}</ListItemText>
           </ListItemButton>
         ))}
       </List>

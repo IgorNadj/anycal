@@ -21,6 +21,7 @@ export type Calendar = {
 export type Thing = {
   uuid: string;
   name: string;
+  niceName?: string;
   prompt?: string;
   reasonForNoResults?: string;
   reasonForFailureToGenerateName?: string;

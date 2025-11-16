@@ -21,20 +21,32 @@ The response structure must be:
 Keep niceName short, under 5 words,
 
 If you are unable to generate a nice name, return niceName as null and say the reason in reasonForFailure.
+
+The response MUST contain only the JSON, nothing else.
 `;
 
-type Resp = {
-  niceName: string | null;
-  reasonForFailure: string | null;
+type Resp = SuccessResp | FailureResp;
+
+type SuccessResp = {
+  niceName: string;
+  reasonForFailure: null;
+};
+
+type FailureResp = {
+  niceName: null;
+  reasonForFailure: string;
 };
 
 const promptRunner = getPromptRunner<Resp>("generateThingName", SYSTEM_INSTRUCTION);
 
-export const generateThingName = async (thing: Thing): Promise<null | Resp> => {
+export const generateThingName = async (thing: Thing): Promise<Resp> => {
   const { prompt } = thing;
 
   if (!prompt || prompt.length < 3) {
-    return null;
+    return {
+      niceName: null,
+      reasonForFailure: "Prompt is too short",
+    };
   }
 
   return promptRunner.run(prompt);

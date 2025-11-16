@@ -40,7 +40,7 @@ type Resp_VagueDateEvent = {
   reason: string; // reason for vague date
 };
 type Resp = {
-  reasonForNoResults?: string;
+  reasonForNoResults: string | null;
   events: (
     | Resp_NormalEvent
     | Resp_SubjectToChangeEvent
@@ -60,10 +60,10 @@ Don't return any events before ${format(add(new Date(), { days: 1 }), "yyyy-MM-d
 
 The response structure must be:
 
-{ 
+\`\`\`json{ 
   events: (NormalEvent | SubjectToChangeEvent | UnknownDateEvent | VagueDateEvent)[],
-  reasonForNoResults?: string, 
-}
+  reasonForNoResults: string | null, 
+}\`\`\`
 
 Type definitions:
 
@@ -113,6 +113,8 @@ For each event:
     unknown
 
 If no results are found, return an empty array of events, and set the reasonForNoResults field.
+
+The response MUST contain only the JSON, nothing else.
 `;
 
 const promptRunner = getPromptRunner<Resp>("getEvents", SYSTEM_INSTRUCTION);
