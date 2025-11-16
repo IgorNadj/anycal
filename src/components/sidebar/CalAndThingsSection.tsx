@@ -1,4 +1,3 @@
-import { CalendarMonth } from "@mui/icons-material";
 import CircleIcon from "@mui/icons-material/Circle";
 import {
   List,
@@ -7,7 +6,7 @@ import {
   ListItemText,
   ListSubheader,
 } from "@mui/material";
-import { Link, NavLink, useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { CALENDAR_COLOURS } from "../../constants.ts";
 import { useThings } from "../../hooks/useThings.ts";
 import type { Calendar } from "../../types.ts";
