@@ -1,4 +1,4 @@
-import { Box, IconButton, lighten, type Theme, Typography } from "@mui/material";
+import { Box, IconButton, lighten, Typography } from "@mui/material";
 import { useContext, useMemo, useState } from "react";
 import { TODAY_BG_COLOUR, TODAY_TEXT_COLOUR } from "../../constants.ts";
 import { useThings } from "../../hooks/useThings.ts";
@@ -91,7 +91,7 @@ export const MiniCalendar = ({ events }: Props) => {
             const isSelected = isSameDay(day, miniCurrentDate);
             const dayEvents = getEventsByDay(day);
 
-            const getDayCssExtra = (theme: Theme) => {
+            const getDayCssExtra = () => {
               if (isToday) {
                 return {
                   backgroundColor: TODAY_BG_COLOUR,
@@ -130,15 +130,15 @@ export const MiniCalendar = ({ events }: Props) => {
                   {/* Day number */}
                   <IconButton
                     disableTouchRipple={true}
-                    sx={(theme) => ({
+                    sx={{
                       width: "1.4rem",
                       height: "1.4rem",
                       borderRadius: 100,
                       display: "flex",
                       alignItems: "center",
                       color: "#333",
-                      ...getDayCssExtra(theme),
-                    })}
+                      ...getDayCssExtra(),
+                    }}
                     onClick={() => onDayClicked(day)}
                   >
                     <Typography
