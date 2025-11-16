@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, lighten } from "@mui/material";
 import { Outlet } from "react-router";
 import { LeftSidebar } from "../../components/sidebar/LeftSidebar.tsx";
 
@@ -8,7 +8,7 @@ export const AppLayout = () => {
       sx={{
         width: "100vw",
         height: "100vh",
-        backgroundColor: "#f3f8fb",
+        backgroundColor: lighten("#f3f8fb", 0.3),
         display: "flex",
         flexDirection: "row",
       }}

@@ -1,8 +1,19 @@
 import { Settings } from "@mui/icons-material";
-import { Box, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
+import { useContext } from "react";
 import { NavLink, useLocation } from "react-router";
 import { HEADER_HEIGHT, SIDEBAR_WIDTH } from "../../constants.ts";
 import { useCalendars } from "../../hooks/useCalendars.ts";
+import { useEventsWithSpecificDate } from "../../hooks/useEventsWithSpecificDate.ts";
+import { StateContext } from "../../providers/StateContext.tsx";
+import { MiniCalendar } from "../calendar-mini/MiniCalendar.tsx";
 import { AddThing } from "./AddThing.tsx";
 import { AppLogo } from "./AppLogo.tsx";
 import { CalAndThingsSection } from "./CalAndThingsSection.tsx";
@@ -11,6 +22,10 @@ export const LeftSidebar = () => {
   const { data: calendars } = useCalendars();
 
   const location = useLocation();
+
+  const { currentDate } = useContext(StateContext);
+
+  const events = useEventsWithSpecificDate();
 
   return (
     <Box
@@ -46,8 +61,14 @@ export const LeftSidebar = () => {
               <CalAndThingsSection calendar={calendar} key={calendar.uuid} />
             ))}
           </Box>
+
           <List dense sx={{ paddingTop: 2 }}>
+            <ListItem sx={{ paddingX: 0 }}>
+              <MiniCalendar currentDate={currentDate} events={events} />
+            </ListItem>
+
             <ListItemButton
+              sx={{ marginTop: 2 }}
               component={NavLink}
               to={`/app/settings`}
               selected={location.pathname === "/app/settings"}

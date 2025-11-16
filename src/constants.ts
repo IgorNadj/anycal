@@ -1,16 +1,16 @@
 import type { ViewMode } from "./types.ts";
 
 export const CALENDAR_COLOURS = {
-  blue_400: "#42a5f5",
-  green_400: "#66bb6a",
-  orange_400: "#ffa726",
-  red_400: "#ef5350",
   purple_400: "#ab47bc",
+  orange_400: "#ffa726",
+  green_400: "#66bb6a",
+  red_400: "#ef5350",
+  blue_400: "#42a5f5",
   cyan_400: "#26c6da",
-  teal_400: "#26a69a",
   deepOrange_400: "#ff7043",
   brown_400: "#8d6e63",
   blueGrey_400: "#78909c",
+  teal_400: "#26a69a",
   lightGreen_400: "#9ccc65",
   amber_400: "#ffca28",
   lightBlue_400: "#29b6f6",
@@ -38,3 +38,5 @@ export const MONTH_NAMES_SHORT: Record<number, string> = {
 
 export const SIDEBAR_WIDTH = 250;
 export const HEADER_HEIGHT = 70;
+
+export const TODAY_COLOUR = "#a100ff";
