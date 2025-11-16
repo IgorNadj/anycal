@@ -27,7 +27,6 @@ type Props = {
 const trNormalEvent = (event: NormalEvent) => (
   <>
     <TableCell>{event.name}</TableCell>
-    <TableCell>{event.description}</TableCell>
     <TableCell>{format(event.date, "dd MMM yyyy")}</TableCell>
     <TableCell></TableCell>
   </>
@@ -36,7 +35,6 @@ const trNormalEvent = (event: NormalEvent) => (
 const trSubjectToChangeEvent = (event: SubjectToChangeEvent) => (
   <>
     <TableCell>{event.name}</TableCell>
-    <TableCell>{event.description}</TableCell>
     <TableCell>{format(event.date, "dd MMM yyyy")}</TableCell>
     <TableCell>
       <Chip label="Subject to change" />
@@ -48,7 +46,6 @@ const trSubjectToChangeEvent = (event: SubjectToChangeEvent) => (
 const trVagueDateEvent = (event: VagueDateEvent) => (
   <>
     <TableCell>{event.name}</TableCell>
-    <TableCell>{event.description}</TableCell>
     <TableCell>{event.vagueDate}</TableCell>
     <TableCell>
       <Chip label="Vague date" />
@@ -60,7 +57,6 @@ const trVagueDateEvent = (event: VagueDateEvent) => (
 const trUnknownDateEvent = (event: UnknownDateEvent) => (
   <>
     <TableCell>{event.name}</TableCell>
-    <TableCell>{event.description}</TableCell>
     <TableCell></TableCell>
     <TableCell>
       <Chip label="Unknown date" />
@@ -81,8 +77,10 @@ export const ThingRunResultTable = ({ thing, events }: Props) => {
           mb: 2,
         }}
       >
-        <>reasonForNoResults: {reasonForNoResults}</>
-        <>reasonForFailureToGenerateName: {reasonForFailureToGenerateName}</>
+        {reasonForNoResults && <>reasonForNoResults: {reasonForNoResults}</>}
+        {reasonForFailureToGenerateName && (
+          <>reasonForFailureToGenerateName: {reasonForFailureToGenerateName}</>
+        )}
       </Box>
 
       <TableContainer component={Paper}>
@@ -90,9 +88,8 @@ export const ThingRunResultTable = ({ thing, events }: Props) => {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Date</TableCell>
-              <TableCell>Type & Reason</TableCell>
+              <TableCell>When</TableCell>
+              <TableCell>...</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

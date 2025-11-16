@@ -73,7 +73,6 @@ export const Content = ({ thing }: { thing: Thing }) => {
       </Grid>
       <Box>
         <>
-          <Typography variant="h3">Preview</Typography>
           <ThingRunResultTable events={events} thing={thing} />
         </>
       </Box>
