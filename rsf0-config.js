@@ -1,4 +1,5 @@
-/** @type { import('rsf-zero').RsfZeroConfig } */
+/** @type { import("rsf-zero").RsfZeroConfig } */
 export default {
   routes: ["./src/api/calendar-ics.ts"],
+  onStart: "./src/api/onStart.ts",
 };
