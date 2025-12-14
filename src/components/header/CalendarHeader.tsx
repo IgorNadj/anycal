@@ -28,11 +28,25 @@ export const CalendarHeader = ({}: Props) => {
         {viewModeHasDate && (
           <>
             <Today setCurrentDate={setCurrentDate} />
-            <PrevNext
-              viewMode={viewMode}
-              currentDate={currentDate}
-              setCurrentDate={setCurrentDate}
-            />
+
+            {/*Desktop*/}
+            <Box sx={{ display: { xs: "none", sm: "block" } }}>
+              <PrevNext
+                viewMode={viewMode}
+                currentDate={currentDate}
+                setCurrentDate={setCurrentDate}
+              />
+            </Box>
+            {/*Mobile*/}
+            <Box sx={{ display: { xs: "block", sm: "none" } }}>
+              <PrevNext
+                viewMode={viewMode}
+                currentDate={currentDate}
+                setCurrentDate={setCurrentDate}
+                size="small"
+              />
+            </Box>
+
             <CurrentDateDisplay currentDate={currentDate} viewMode={viewMode} />
           </>
         )}

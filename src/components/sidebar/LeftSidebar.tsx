@@ -9,13 +9,12 @@ import {
 } from "@mui/material";
 import { useContext } from "react";
 import { NavLink, useLocation, useParams } from "react-router";
-import { CAL_HEADER_HEIGHT, SIDEBAR_WIDTH } from "../../constants.ts";
+import { CAL_HEADER_HEIGHT } from "../../constants.ts";
 import { useCalendars } from "../../hooks/useCalendars.ts";
 import { useEventsWithSpecificDate } from "../../hooks/useEventsWithSpecificDate.ts";
 import { StateContext } from "../../providers/StateContext.tsx";
 import { MiniCalendar } from "../calendar-mini/MiniCalendar.tsx";
 import { AddThing } from "./AddThing.tsx";
-import { AppLogo } from "./AppLogo.tsx";
 import { CalAndThingsSection } from "./CalAndThingsSection.tsx";
 
 export const LeftSidebar = () => {
@@ -35,19 +34,14 @@ export const LeftSidebar = () => {
   return (
     <Box
       sx={{
-        height: "100vh",
+        height: "100%",
+        width: "100%",
+        minWidth: 250,
         display: "flex",
         flexDirection: "column",
-        width: SIDEBAR_WIDTH,
-        minWidth: SIDEBAR_WIDTH,
-        maxWidth: SIDEBAR_WIDTH,
         backgroundColor: "#e7f1f8",
       }}
     >
-      <Box sx={{ height: CAL_HEADER_HEIGHT }}>
-        <AppLogo />
-      </Box>
-
       <Box sx={{ height: `calc(100vh - ${CAL_HEADER_HEIGHT}px)`, overflowY: "auto" }}>
         <Box
           sx={{

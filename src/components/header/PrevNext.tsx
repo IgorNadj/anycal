@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import type { ViewMode } from "../../types.ts";
 
 type Props = {
@@ -28,13 +28,13 @@ export const PrevNext = ({
   };
 
   return (
-    <>
+    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
       <IconButton size={size}>
         <ChevronLeft onClick={onPrev} fontSize={size} />
       </IconButton>
       <IconButton size={size}>
         <ChevronRight onClick={onNext} fontSize={size} />
       </IconButton>
-    </>
+    </Box>
   );
 };

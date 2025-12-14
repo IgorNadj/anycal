@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Grid2 as Grid, Typography } from "@mui/material";
 import { useParams } from "react-router";
 import { CALENDAR_COLOURS } from "../constants.ts";
 import { useEvents } from "../hooks/useEvents.ts";
@@ -30,9 +30,9 @@ export const ThingPage = () => {
   }
 
   return (
-    <Box sx={{ display: "flex", backgroundColor: "#cae2f8", height: "100%" }}>
+    <Grid container sx={{ backgroundColor: "#cae2f8", height: "100%" }}>
       {/* Middle Col: Thing */}
-      <Box sx={{ flex: 0.5, backgroundColor: "rgba(255,255,255,0.3)" }}>
+      <Grid size={{ xs: 12, md: 4 }} sx={{ backgroundColor: "rgba(255,255,255,0.3)" }}>
         {/* header */}
         <Box
           sx={{
@@ -50,10 +50,10 @@ export const ThingPage = () => {
         <Box sx={{ padding: 3 }}>
           <Content key={thing.uuid} thing={thing} />
         </Box>
-      </Box>
+      </Grid>
 
       {/* Right Col: Results */}
-      <Box sx={{ flex: 1 }}>
+      <Grid size={{ xs: 12, md: 8 }}>
         <Box
           sx={{
             height: "100%",
@@ -70,7 +70,7 @@ export const ThingPage = () => {
           {goodEvents.length > 0 && <GoodResults events={goodEvents} />}
           {!hasEvents && problemEvents.length === 0 && <Examples />}
         </Box>
-      </Box>
-    </Box>
+      </Grid>
+    </Grid>
   );
 };

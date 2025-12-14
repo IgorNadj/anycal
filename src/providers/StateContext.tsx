@@ -2,6 +2,8 @@ import { createContext } from "react";
 import type { Calendar, CalendarEvent, ViewMode } from "../types.ts";
 
 export type AppContextType = {
+  isSidebarOpen: boolean;
+  setSidebarOpen: (open: boolean) => void;
   viewMode: ViewMode;
   setViewMode: (newViewMode: ViewMode) => void;
   currentDate: Date;

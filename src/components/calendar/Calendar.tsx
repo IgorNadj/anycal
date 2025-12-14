@@ -32,7 +32,7 @@ export const Calendar = () => {
       {/* Calendar (non-scrollable) */}
       <Box
         sx={{
-          height: `calc(100vh - ${CAL_HEADER_HEIGHT}px)`,
+          height: `calc(100vh - ${CAL_HEADER_HEIGHT * 2}px)`,
           overflowY: "hidden",
           backgroundColor: "#fff",
         }}

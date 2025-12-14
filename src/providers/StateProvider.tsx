@@ -4,6 +4,8 @@ import type { Calendar, CalendarEvent, ViewMode } from "../types.ts";
 import { type AppContextType, StateContext } from "./StateContext.tsx";
 
 export const StateProvider = ({ children }: { children: ReactNode }) => {
+  const [isSidebarOpen, setSidebarOpen] = useState<boolean>(true);
+
   const [viewMode, setViewMode] = useState<ViewMode>(DEFAULT_VIEW_MODE);
 
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
@@ -17,6 +19,8 @@ export const StateProvider = ({ children }: { children: ReactNode }) => {
   const [isCreatingCalendar, setIsCreatingCalendar] = useState<boolean>(false);
 
   const value: AppContextType = {
+    isSidebarOpen,
+    setSidebarOpen,
     viewMode,
     setViewMode,
     currentDate,

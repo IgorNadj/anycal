@@ -14,7 +14,7 @@ export const AppContentPageLayout = () => {
         }}
       >
         <Box>
-          <Box sx={{ padding: 5, paddingBottom: 7 }}>
+          <Box sx={{ padding: { xs: 2, sm: 5 }, paddingBottom: 7 }}>
             <Container>
               <Outlet />
             </Container>
