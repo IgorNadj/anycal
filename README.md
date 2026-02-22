@@ -16,7 +16,7 @@ https://anycal.dev.igornadj.io/
 
 `yarn dev`
 
-### Deployment 
+### Deployment
 
 With docker-compose:
 
